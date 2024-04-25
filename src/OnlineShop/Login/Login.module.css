@@ -1,0 +1,37 @@
+.normalButton {
+    padding: 1em;
+    place-items: center;
+    border-radius: 0.5em;
+    background-color: blueviolet;
+    color: #fff;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.normalButton:active {
+    background-color: #7424be;
+}
+
+.normalButton:hover {
+    background-color: #b76aff;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 0.5em;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+input {
+    background-color: #eeeeee;
+    padding: 1em;
+    border-radius: 0.5em;
+    outline: none;
+}
