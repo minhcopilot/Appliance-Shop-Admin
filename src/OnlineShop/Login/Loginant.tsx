@@ -28,7 +28,7 @@ export default function Loginant() {
       >
         <Form onFinish={login} form={loginform}>
           <Form.Item
-            name="username"
+            name="email"
             label="Username"
             rules={[
               { required: true, message: "Please input your username" },
@@ -36,7 +36,7 @@ export default function Loginant() {
               { max: 30, message: "Username is too long" },
             ]}
           >
-            <Input name="username" type="email" max={30}></Input>
+            <Input name="email" type="email" max={30}></Input>
           </Form.Item>
           <Form.Item
             name="password"

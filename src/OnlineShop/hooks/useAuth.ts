@@ -13,7 +13,7 @@ interface loggedInUser {
   roles: loggedInUserRoles[];
 }
 interface loginForm {
-  username: string;
+  user: string;
   password: string;
 }
 interface authInterface {
@@ -35,11 +35,11 @@ const useAuth = create<authInterface>()(
         login: async (data: loginForm) => {
           try {
             message.loading({ key: "login", content: "Loading" });
-            const response = await axiosClient.post("/admin/login", data);
+            const response = await axiosClient.post("/admin/auth/login", data);
             if (response.data.loggedInUser) {
-              set((state) => ({ access_token: response.data.access_token }));
-              set((state) => ({ loggedInUser: response.data.loggedInUser }));
-              set((state) => ({ refresh_token: response.data.refresh_token }));
+              set((state) => ({ access_token: response.data.token }));
+              set((state) => ({ loggedInUser: response.data.employee }));
+              set((state) => ({ refresh_token: response.data.refreshToken }));
               message.success({
                 key: "login",
                 content: "Login success",
@@ -66,9 +66,12 @@ const useAuth = create<authInterface>()(
         },
         refresh: async () => {
           try {
-            const response = await axiosClient.post("/auth/refresh-token", {
-              refresh_token: get().refresh_token,
-            });
+            const response = await axiosClient.post(
+              "/admin/auth/refresh-token",
+              {
+                refresh_token: get().refresh_token,
+              }
+            );
             //chú ý bên login là loggedInUser :|
             if (response.data.loggedInuser) {
               set((state) => ({ access_token: response.data.access_token }));

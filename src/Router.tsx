@@ -63,9 +63,12 @@ export default function Router() {
   ]);
   const queryClient = new QueryClient();
   const auth = useAuth();
-  React.useEffect(() => {
-    auth.loggedInUser && auth.refresh();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  //Refresh Token
+  // React.useEffect(() => {
+  //   auth.loggedInUser && auth.refresh();
+  // }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <React.Suspense fallback={<Spin />}>
       <QueryClientProvider client={queryClient}>
