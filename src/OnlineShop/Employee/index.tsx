@@ -11,12 +11,13 @@ import SubjectTemplate from "../Components/SubjectTemplate";
 
 dayjs.extend(customParseFormat);
 dayjs.extend(utc);
-const dateFormat = "DD/MM/YYYY";
+const dateFormat = "YYYY-MM-DD";
 
 interface addschemaInput {
   firstName: string;
   lastName: string;
   email: string;
+  password: string;
   phoneNumber: string;
   address: string;
   birthday?: string;
@@ -75,6 +76,18 @@ const EmployeeForm = ({
         <Input name="email" type="text"></Input>
       </Form.Item>
       <Form.Item
+        name="password"
+        label="Password"
+        rules={[
+          { type: "string", message: "password is not valid" },
+          { required: true, message: "password is required" },
+          { max: 500, message: "password should not be too long" },
+        ]}
+        initialValue={initialValues && initialValues.password}
+      >
+        <Input name="password" type="password"></Input>
+      </Form.Item>
+      <Form.Item
         name="address"
         label="Address"
         rules={[
@@ -105,9 +118,13 @@ const EmployeeForm = ({
           { type: "date", message: "Birthday is not valid" },
           // { required: true, message: "Birthday is required" },
         ]}
-        initialValue={initialValues && dayjs(initialValues.birthday).local()}
+        initialValue={
+          initialValues && initialValues.birthday
+            ? dayjs(initialValues.birthday, "YYYY-MM-DD")
+            : undefined
+        }
       >
-        <DatePicker format={dateFormat} name="birthday" />
+        <DatePicker format={"YYYY-MM-DD"} name="birthday" />
       </Form.Item>
     </Form>
   );

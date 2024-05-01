@@ -6,7 +6,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Button } from "../Login";
 import { Space } from "antd";
-type Props = {};
 
 interface addschemaInput {
   name: string;
@@ -38,15 +37,11 @@ const AddCategory = ({
   } = useForm({ resolver: yupResolver(addschema) });
   const submitAddCategory: SubmitHandler<addschemaInput> = async (data) => {
     try {
-      const response = await axiosClient.post(
-        "/online-shop/categories/",
-        data,
-        {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("access_token"),
-          },
-        }
-      );
+      const response = await axiosClient.post("/categories/", data, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
       alert(
         "Add " + response.data.name + " category with ID: " + response.data.id
       );
@@ -93,15 +88,11 @@ const PatchCategory = ({
   } = useForm({ resolver: yupResolver(addschema) });
   const submitPatchCategory: SubmitHandler<addschemaInput> = async (data) => {
     try {
-      const response = await axiosClient.patch(
-        "/online-shop/categories/" + id,
-        data,
-        {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("access_token"),
-          },
-        }
-      );
+      const response = await axiosClient.patch("/categories/" + id, data, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
 
       setError(null);
       reset();
@@ -155,14 +146,11 @@ const DeleteCategory = ({
   } = useForm({ resolver: yupResolver(addschema) });
   const ConfirmDeleteCategory = async () => {
     try {
-      const response = await axiosClient.delete(
-        "/online-shop/categories/" + id,
-        {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("access_token"),
-          },
-        }
-      );
+      const response = await axiosClient.delete("/categories/" + id, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
 
       setError(null);
       reset();
@@ -212,7 +200,7 @@ const GetAllCategories = ({
   useEffect(() => {
     let getData = async () => {
       try {
-        const response = await axiosClient.get("/online-shop/categories");
+        const response = await axiosClient.get("/categories");
         setData(response.data);
         setData((data) => [...data].reverse());
       } catch (error) {
@@ -336,9 +324,7 @@ const GetCategory = ({
   const submitGetCategory: SubmitHandler<getschemaInput> = async (data) => {
     try {
       setError("Loading");
-      const response = await axiosClient.get(
-        "/online-shop/categories/" + data.categoryid
-      );
+      const response = await axiosClient.get("/categories/" + data.categoryid);
       setData(response.data);
       setError(null);
     } catch (error: any) {
