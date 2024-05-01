@@ -62,6 +62,10 @@ export default function App() {
                 key: "management",
                 label: <Link to="/management">Online Shop</Link>,
               },
+              {
+                key: "article",
+                label: <Link to="/article">Article</Link>,
+              },
             ]}
           />
           <HeaderContent />
