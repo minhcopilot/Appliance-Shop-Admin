@@ -85,35 +85,21 @@ const ProductForm = ({
       <Form.Item
         name="price"
         label="Price"
-        rules={[
-          { type: "string", message: "Price is not valid" },
-          { required: true, message: "Price is required" },
-        ]}
+        rules={[{ required: true, message: "Price is required" }]}
       >
         <InputNumber name="price" addonBefore="$"></InputNumber>
       </Form.Item>
       <Form.Item
         name="discount"
         label="Discount"
-        rules={[
-          { type: "string", message: "Discount is not valid" },
-          { required: true, message: "Discount is required" },
-        ]}
+        rules={[{ required: true, message: "Discount is required" }]}
       >
-        <InputNumber
-          name="discount"
-          addonAfter={"%"}
-          min={0}
-          max={90}
-        ></InputNumber>
+        <InputNumber name="discount" addonAfter="%" min={0} max={90} />
       </Form.Item>
       <Form.Item
         name="stock"
         label="Stock Available"
-        rules={[
-          { type: "string", message: "Stock is not valid" },
-          { required: true, message: "Stock is required" },
-        ]}
+        rules={[{ required: true, message: "Stock is required" }]}
       >
         <InputNumber min={0}></InputNumber>
       </Form.Item>
