@@ -159,7 +159,7 @@ const ProductForm = ({
         name="price"
         label="Price"
         rules={[
-          { type: "number", message: "Price is not valid" },
+          { type: "string", message: "Price is not valid" },
           { required: true, message: "Price is required" },
         ]}
       >
@@ -168,10 +168,7 @@ const ProductForm = ({
       <Form.Item
         name="discount"
         label="Discount"
-        rules={[
-          { type: "number", message: "Discount is not valid" },
-          { required: true, message: "Discount is required" },
-        ]}
+        rules={[{ required: true, message: "Discount is required" }]}
       >
         <InputNumber
           name="discount"

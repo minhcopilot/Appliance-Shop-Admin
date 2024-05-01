@@ -7,14 +7,14 @@ import useAuth from "./useAuth";
 import { useMutation, useQueryClient } from "react-query";
 
 const useDelete = (subject: string, silent?: boolean) => {
-  const access_token = useAuth((state) => state.access_token);
+  const token = useAuth((state) => state.token);
   const queryClient = useQueryClient();
 
   const Delete = async (ids: any) => {
     const url = subject + "/" + ids;
     const response = await axiosClient.delete(url, {
       headers: {
-        Authorization: "Bearer " + access_token,
+        Authorization: "Bearer " + token,
       },
     });
     return response.data;

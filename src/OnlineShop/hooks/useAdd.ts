@@ -8,11 +8,11 @@ import { onlineManager, useMutation, useQueryClient } from "react-query";
 const useAdd = (subject: string, silent?: boolean) => {
   // const [success, setSuccess] = React.useState(false);
   // const setRefresh = useRefresh((state) => state.setRefresh);
-  const access_token = useAuth((state) => state.access_token);
+  const token = useAuth((state) => state.token);
   const add = async (data: any) => {
     const response = await axiosClient.post(subject, data, {
       headers: {
-        Authorization: "Bearer " + access_token,
+        Authorization: "Bearer " + token,
       },
     });
     return response.data;
@@ -91,7 +91,7 @@ const useAdd = (subject: string, silent?: boolean) => {
   //         data,
   //         {
   //           headers: {
-  //             Authorization: "Bearer " + access_token,
+  //             Authorization: "Bearer " + token,
   //           },
   //         }
   //       );

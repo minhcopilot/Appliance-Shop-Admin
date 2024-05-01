@@ -36,9 +36,9 @@ export default function Login({ setIsLoggedIn }: Props) {
   const onSubmit: SubmitHandler<loginFormInput> = async (data) => {
     console.log(data);
     try {
-      const response = await axiosClient.post("/auth/login", data);
+      const response = await axiosClient.post("/admin/auth/login", data);
       if (response.data.loggedInUser) {
-        localStorage.setItem("access_token", response.data.access_token);
+        localStorage.setItem("token", response.data.token);
         localStorage.setItem("email", response.data.loggedInUser.email);
         localStorage.setItem("role", response.data.loggedInUser.roles[0].name);
         setIsLoggedIn(true);

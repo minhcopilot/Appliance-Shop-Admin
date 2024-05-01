@@ -36,7 +36,7 @@ const usePatchSubject = (
   // id: number | null,
   silent?: boolean
 ) => {
-  const access_token = useAuth((state) => state.access_token);
+  const token = useAuth((state) => state.token);
   const setPatchPopup = usePatchPopup((state) => state.setPatchPopup);
   const setCurrentId = useCurrentId((state) => state.setCurrentId);
 
@@ -44,7 +44,7 @@ const usePatchSubject = (
     const url = subject + "/" + id;
     const response = await axiosClient.patch(url, data, {
       headers: {
-        Authorization: "Bearer " + access_token,
+        Authorization: "Bearer " + token,
       },
     });
     return response.data;
@@ -78,7 +78,7 @@ const usePatchSubject = (
 // const usePatchSubject = (subject: string, data: any, id: number | null) => {
 //   const [error, setError] = React.useState<null | string>(null);
 //   const setRefresh = useRefresh((state) => state.setRefresh);
-//   const access_token = useAuth((state) => state.access_token);
+//   const token = useAuth((state) => state.token);
 //   React.useEffect(() => {
 //     const addData = async () => {
 //       try {
@@ -89,7 +89,7 @@ const usePatchSubject = (
 //         const url = "/online-shop/" + subject + "/" + id;
 //         const response = await axiosClient.patch(url, data, {
 //           headers: {
-//             Authorization: "Bearer " + access_token,
+//             Authorization: "Bearer " + token,
 //           },
 //         });
 //         message.success({

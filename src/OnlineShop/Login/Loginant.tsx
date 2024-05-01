@@ -14,6 +14,11 @@ export default function Loginant() {
   const login = useAuth((state) => state.login);
   const [loginPopup, setLoginPopup] = useState(false);
   const [loginform] = Form.useForm();
+  const handleLogin = async (data: any) => {
+    console.log("««««« data »»»»»", data);
+    await login(data);
+    setLoginPopup(false);
+  };
   return (
     <>
       <Button type="primary" onClick={() => setLoginPopup(true)}>
@@ -26,17 +31,17 @@ export default function Loginant() {
         okText="Login"
         title="Login"
       >
-        <Form onFinish={login} form={loginform}>
+        <Form onFinish={handleLogin} form={loginform}>
           <Form.Item
-            name="username"
-            label="Username"
+            name="email"
+            label="email"
             rules={[
-              { required: true, message: "Please input your username" },
+              { required: true, message: "Please input your email" },
               { type: "email" },
               { max: 30, message: "Username is too long" },
             ]}
           >
-            <Input name="username" type="email" max={30}></Input>
+            <Input name="email" type="email" max={30}></Input>
           </Form.Item>
           <Form.Item
             name="password"

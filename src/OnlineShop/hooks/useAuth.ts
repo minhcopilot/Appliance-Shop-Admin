@@ -10,16 +10,16 @@ interface loggedInUserRoles {
 interface loggedInUser {
   id: number;
   email: string;
-  roles: loggedInUserRoles[];
+  roleCode: loggedInUserRoles[];
 }
 interface loginForm {
-  username: string;
+  email: string;
   password: string;
 }
 interface authInterface {
   loggedInUser: loggedInUser | null;
-  access_token: string | null;
-  refresh_token: string | null;
+  token: string | null;
+  refreshToken: string | null;
   login: (data: loginForm) => void;
   logout: () => void;
   refresh: () => void;
@@ -30,16 +30,24 @@ const useAuth = create<authInterface>()(
     persist(
       (set, get) => ({
         loggedInUser: null,
-        access_token: null,
-        refresh_token: null,
+        token: null,
+        refreshToken: null,
         login: async (data: loginForm) => {
           try {
+            console.log('««««« data 1»»»»»', data);
             message.loading({ key: "login", content: "Loading" });
-            const response = await axiosClient.post("/admin/login", data);
-            if (response.data.loggedInUser) {
-              set((state) => ({ access_token: response.data.access_token }));
-              set((state) => ({ loggedInUser: response.data.loggedInUser }));
-              set((state) => ({ refresh_token: response.data.refresh_token }));
+            const response: any = await axiosClient.post(
+              "admin/auth/login",
+              data
+            );
+            if (response.data) {
+              set((state) => ({ token: response.data.payload.data.token }));
+              set((state) => ({
+                loggedInUser: response.data.payload.data.employee,
+              }));
+              set((state) => ({
+                refreshToken: response.data.payload.data.refreshToken,
+              }));
               message.success({
                 key: "login",
                 content: "Login success",
@@ -59,21 +67,28 @@ const useAuth = create<authInterface>()(
         logout: () => {
           set(() => ({
             loggedInUser: null,
-            access_token: null,
-            refresh_token: null,
+            token: null,
+            refreshToken: null,
           }));
           message.success({ content: "Successfully Logged Out" });
         },
         refresh: async () => {
           try {
-            const response = await axiosClient.post("/auth/refresh-token", {
-              refresh_token: get().refresh_token,
-            });
+            const response = await axiosClient.post(
+              "admin/auth/refresh-token",
+              {
+                refreshToken: get().refreshToken,
+              }
+            );
             //chú ý bên login là loggedInUser :|
-            if (response.data.loggedInuser) {
-              set((state) => ({ access_token: response.data.access_token }));
-              set((state) => ({ loggedInUser: response.data.loggedInuser }));
-              set((state) => ({ refresh_token: response.data.refresh_token }));
+            if (response.data) {
+              set((state) => ({ token: response.data.payload.data.token }));
+              set((state) => ({
+                loggedInUser: response.data.payload.data.employee.roleCode,
+              }));
+              set((state) => ({
+                refreshToken: response.data.payload.data.refreshToken,
+              }));
               console.log("Refreshed tokens");
             }
           } catch (error: any) {
@@ -84,7 +99,7 @@ const useAuth = create<authInterface>()(
           }
         },
       }),
-      { name: "auth" }
+      { name: "auth", getStorage: () => localStorage }
     )
   )
 );

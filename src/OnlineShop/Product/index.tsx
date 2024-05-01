@@ -86,7 +86,7 @@ const ProductForm = ({
         name="price"
         label="Price"
         rules={[
-          { type: "number", message: "Price is not valid" },
+          { type: "string", message: "Price is not valid" },
           { required: true, message: "Price is required" },
         ]}
       >
@@ -96,7 +96,7 @@ const ProductForm = ({
         name="discount"
         label="Discount"
         rules={[
-          { type: "number", message: "Discount is not valid" },
+          { type: "string", message: "Discount is not valid" },
           { required: true, message: "Discount is required" },
         ]}
       >
@@ -111,7 +111,7 @@ const ProductForm = ({
         name="stock"
         label="Stock Available"
         rules={[
-          { type: "number", message: "Stock is not valid" },
+          { type: "string", message: "Stock is not valid" },
           { required: true, message: "Stock is required" },
         ]}
       >
