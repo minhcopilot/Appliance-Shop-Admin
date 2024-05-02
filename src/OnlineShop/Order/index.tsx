@@ -762,16 +762,14 @@ const Orderant = () => {
       key: "totalOrder",
       align: "right",
       render: (text: any, record: OrderType, index: number) => {
-        return (
-          <>
-            $
-            {record.orderDetails.reduce((total, value) => {
-              return (
-                total + value.price * (100 - value.discount) * value.quantity
-              );
-            }, 0)}
-          </>
-        );
+        const totalOrder = record.orderDetails.reduce((total, value) => {
+          return total + value.price * (100 - value.discount) * value.quantity;
+        }, 0);
+
+        // Làm tròn số và định dạng lại thành chuỗi với 2 chữ số thập phân
+        const formattedTotalOrder = totalOrder.toFixed(0);
+
+        return <>${formattedTotalOrder}</>;
       },
       responsive: ["md"],
     },
