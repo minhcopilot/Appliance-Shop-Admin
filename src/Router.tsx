@@ -14,6 +14,7 @@ import App, { Welcome } from "./App";
 import useAuth from "./OnlineShop/hooks/useAuth";
 import ArticleCategory from "./Post/Category";
 import Article from "./Post";
+import Post from "./Post/Post";
 
 export default function Router() {
   const router = createBrowserRouter([
@@ -67,6 +68,10 @@ export default function Router() {
             {
               path: "category",
               element: <ArticleCategory />,
+            },
+            {
+              path: "post",
+              element: <Post />,
             },
           ],
         },

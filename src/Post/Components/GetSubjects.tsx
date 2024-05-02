@@ -52,7 +52,7 @@ export default function GetSubjects({ subject, title, subjectColumn }: Props) {
             rowSelection={rowSelection}
             columns={subjectColumn}
             dataSource={query.data}
-            style={{ overflow: "hidden" }}
+            style={{ overflow: "scroll" }}
           />
         </Space>
       )}

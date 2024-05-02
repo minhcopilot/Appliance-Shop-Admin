@@ -58,7 +58,7 @@ export default function GetSubject({ subject, title, subjectColumn }: Props) {
           dataSource={[query.data]}
           pagination={false}
           rowKey="id"
-          style={{ overflow: "hidden" }}
+          style={{ overflow: "scroll" }}
         />
       )}
     </Flex>

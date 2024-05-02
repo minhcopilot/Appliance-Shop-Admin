@@ -5,15 +5,16 @@ import TextArea from "antd/es/input/TextArea";
 import SubjectTemplate from "../Components/SubjectTemplate";
 import useGetSubjects from "../hooks/useGet";
 import { UploadOutlined } from "@ant-design/icons";
+import { checkUnique } from "../hooks/usefulHooks";
 // type Props = {};
 
-interface addschemaInput {
+export interface categorySchemaInput {
   title: string;
   description?: string;
   parentId?: string;
   url?: string;
   isDeleted?: boolean;
-  parentCategory?: addschemaInput;
+  parentCategory?: categorySchemaInput;
 }
 
 const CategoryForm = ({
@@ -23,7 +24,7 @@ const CategoryForm = ({
 }: {
   form?: any;
   onFinish?: (data: any) => void;
-  initialValues?: addschemaInput;
+  initialValues?: categorySchemaInput;
 }) => {
   const postCategory = useGetSubjects("categories");
   const normFile = (e: any) => {
@@ -44,10 +45,15 @@ const CategoryForm = ({
       <Form.Item
         name="title"
         label="Category Name"
+        validateDebounce={500}
         rules={[
           { type: "string" },
           { required: true, message: "Category Name is required" },
           { max: 50, message: "Category Name should not be too long" },
+          {
+            validator: async (_, title) => checkUnique("categories", { title }),
+            message: "Category Name is already used",
+          },
         ]}
       >
         <Input name="title" type="text"></Input>
@@ -69,8 +75,7 @@ const CategoryForm = ({
         label="Category URL"
         rules={[
           { type: "string" },
-          { required: true, message: "Category Name is required" },
-          { max: 500, message: "Category Name should not be too long" },
+          { max: 500, message: "Category URL should not be too long" },
         ]}
       >
         <Input name="url" type="text"></Input>
@@ -100,7 +105,7 @@ const CategoryForm = ({
   );
 };
 
-interface CategoryType extends addschemaInput {
+interface CategoryType extends categorySchemaInput {
   key: React.Key;
   id: number;
 }
@@ -128,29 +133,11 @@ const ArticleCategory = () => {
       },
     },
     {
-      title: "Category URL",
-      dataIndex: "url",
-      key: "url",
-    },
-    {
       title: "Parent Category Name",
       dataIndex: "parentId",
       key: "parentId",
       render: (text: any, record: CategoryType, index: number) => {
         return <>{record.parentCategory?.title}</>;
-      },
-    },
-    {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
-      responsive: ["sm"],
-      render: (value, record, index) => {
-        return record.description
-          ? `${record.description.slice(0, 100)}${
-              record.description.length > 100 ? "..." : ""
-            } `
-          : null;
       },
     },
     {

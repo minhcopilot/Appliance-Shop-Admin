@@ -7,7 +7,7 @@ import { Alert, Layout, Menu, theme } from "antd";
 
 import { Link, Outlet } from "react-router-dom";
 import Sider from "antd/es/layout/Sider";
-import { MdOutlineCategory } from "react-icons/md";
+import { MdOutlineCategory, MdOutlinePostAdd } from "react-icons/md";
 import { Content } from "antd/es/layout/layout";
 
 export const Notice = () => {
@@ -65,6 +65,11 @@ export default function Article() {
               key: "category",
               label: <Link to="category">Category</Link>,
               icon: <MdOutlineCategory />,
+            },
+            {
+              key: "post",
+              label: <Link to="post">Post</Link>,
+              icon: <MdOutlinePostAdd />,
             },
           ]}
         />
