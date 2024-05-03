@@ -2,7 +2,7 @@
     line-height: initial;
     color: #fff;
 
-    @media (max-width: 400px) {
+    @media (max-width: 620px) {
         display: none;
     }
 }

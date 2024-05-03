@@ -44,7 +44,6 @@ const CategoryForm = ({
         label="Description"
         rules={[
           { type: "string" },
-          { required: true, message: "Description is required" },
           { max: 500, message: "Description should not be too long" },
         ]}
       >

@@ -43,7 +43,7 @@ export default function GetSubjects({ subject, title, subjectColumn }: Props) {
           <DeleteSubject
             deleteId={selectedRowKeys}
             subject={subject}
-            title="Bạn có muốn xoá những mục đã chọn không?"
+            title="Delete Selected Items?"
             disabled={!hasSelected}
             type="primary"
           />

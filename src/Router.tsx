@@ -12,6 +12,9 @@ import Productant from "./OnlineShop/Product";
 import Orderant from "./OnlineShop/Order";
 import App, { Welcome } from "./App";
 import useAuth from "./OnlineShop/hooks/useAuth";
+import ArticleCategory from "./Post/Category";
+import Article from "./Post";
+import Post from "./Post/Post";
 
 export default function Router() {
   const router = createBrowserRouter([
@@ -55,6 +58,20 @@ export default function Router() {
             {
               path: "order",
               element: <Orderant />,
+            },
+          ],
+        },
+        {
+          path: "article",
+          element: <Article />,
+          children: [
+            {
+              path: "category",
+              element: <ArticleCategory />,
+            },
+            {
+              path: "post",
+              element: <Post />,
             },
           ],
         },

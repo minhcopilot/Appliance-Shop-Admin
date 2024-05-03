@@ -90,6 +90,13 @@ const ProductForm = ({
         <InputNumber name="price" addonBefore="$"></InputNumber>
       </Form.Item>
       <Form.Item
+        name="price"
+        label="Price"
+        rules={[{ required: true, message: "Price is required" }]}
+      >
+        <InputNumber name="price" addonBefore="$"></InputNumber>
+      </Form.Item>
+      <Form.Item
         name="discount"
         label="Giảm giá"
         rules={[{ required: true, message: "Giảm giá không được bỏ trống" }]}
