@@ -8,6 +8,7 @@ import Loginant from "./OnlineShop/Login/Loginant";
 import useAuth from "./OnlineShop/hooks/useAuth";
 import Logout from "./OnlineShop/Login/Logout";
 import { GiDoctorFace } from "react-icons/gi";
+import { url } from "inspector";
 
 const HeaderContent = () => {
   const loggedInUser = useAuth((state) => state.loggedInUser);
@@ -18,10 +19,10 @@ export const Welcome = () => {
   return (
     <Result
       icon={<GiDoctorFace style={{ fontSize: 50 }} />}
-      title="Hi! Welcome to Le Minh Vuong's ReactJS Homework!"
+      title="Chào mừng các bạn đến với đồ án nhóm 2 "
       extra={
         <Button type="primary">
-          <Link to="/management">Go to Online Shop</Link>
+          <Link to="/management">Đi đến trang quản lý</Link>
         </Button>
       }
     />
@@ -38,7 +39,7 @@ export default function App() {
   };
   return (
     <ConfigProvider locale={locale}>
-      <Layout>
+      <Layout style={{backgroundImage: "url('https://png.pngtree.com/thumb_back/fw800/back_our/20190625/ourmid/pngtree-window-kitchen-small-fresh-home-appliance-poster-image_254040.jpg')" }}>
         <Header
           style={{
             display: "flex",

@@ -33,11 +33,11 @@ const SupplierForm = ({
     >
       <Form.Item
         name="name"
-        label="Supplier Name"
+        label="Tên nhà cung cấp"
         rules={[
           { type: "string" },
-          { required: true, message: "Supplier Name is required" },
-          { max: 100, message: "Supplier Name should not be too long" },
+          { required: true, message: "Tên nhà cung cấp không được bỏ trống" },
+          { max: 100, message: "Tên nhà cung cấp không được quá dài" },
         ]}
       >
         <Input name="name" type="text"></Input>
@@ -46,31 +46,31 @@ const SupplierForm = ({
         name="email"
         label="Email"
         rules={[
-          { type: "email", message: "Email is not valid" },
-          { required: true, message: "Email is required" },
-          { max: 300, message: "Email should not be too long" },
+          { type: "email", message: "Email không hợp lệ" },
+          { required: true, message: "Email không được bỏ trống" },
+          { max: 300, message: "Email không được quá dài" },
         ]}
       >
         <Input name="email" type="text"></Input>
       </Form.Item>
       <Form.Item
         name="address"
-        label="Address"
+        label="Địa chỉ"
         rules={[
           { type: "string" },
-          { required: true, message: "Address is required" },
-          { max: 300, message: "Address should not be too long" },
+          { required: true, message: "Địa chỉ không được bỏ trống" },
+          { max: 300, message: "Địa chỉ không được quá dài" },
         ]}
       >
         <TextArea name="email" autoSize></TextArea>
       </Form.Item>
       <Form.Item
         name="phoneNumber"
-        label="Phone Number"
+        label="Số điện thoại"
         rules={[
-          { type: "string", message: "Phone Number is not valid" },
-          { required: true, message: "Phone Number is required" },
-          { max: 12, message: "Phone Number is not valid" },
+          { type: "string", message: "Số điện thoại không hợp lệ" },
+          { required: true, message: "Số điện thoại không được bỏ trống" },
+          { max: 12, message: "Số điện thoại không hợp lệ" },
         ]}
       >
         <Input addonBefore="+84" name="phoneNumber" type="number"></Input>
@@ -89,7 +89,7 @@ const Supplierant = () => {
   // const [patchPopup, setPatchPopup] = useState(false);
   const defaultColumns: ColumnsType<SupplierType> = [
     {
-      title: "Supplier Name",
+      title: "Tên nhà cung cấp",
       dataIndex: "name",
       key: "name",
     },
@@ -100,13 +100,13 @@ const Supplierant = () => {
       responsive: ["lg"],
     },
     {
-      title: "Phone Number",
+      title: "Số điện thoại",
       dataIndex: "phoneNumber",
       key: "phoneNumber",
       responsive: ["sm"],
     },
     {
-      title: "Address",
+      title: "Địa chỉ",
       dataIndex: "address",
       key: "address",
       responsive: ["md"],

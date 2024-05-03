@@ -30,9 +30,9 @@ export default function AddSubject({ subject, currentform, title }: Props) {
       <Form.Item wrapperCol={{ sm: { offset: 6 } }}>
         <Space>
           <Button type="primary" onClick={() => addSubject.submit()}>
-            Add
+            Thêm
           </Button>
-          <Button onClick={() => addSubject.resetFields()}>Reset</Button>
+          <Button onClick={() => addSubject.resetFields()}>Làm mới</Button>
         </Space>
       </Form.Item>
     </Flex>

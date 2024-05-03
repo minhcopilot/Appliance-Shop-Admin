@@ -35,9 +35,9 @@ export default function GetSubject({ subject, title, subjectColumn }: Props) {
         <Form.Item
           name="subjectid"
           rules={[
-            { required: true, message: "ID must be required" },
-            { type: "number", message: "ID must be a number" },
-            { type: "integer", message: "ID must be interger" },
+            { required: true, message: "Bạn phải nhập ID" },
+            { type: "number", message: "ID phải là một số" },
+            { type: "integer", message: "ID phải là số nguyên" },
           ]}
         >
           <InputNumber
@@ -48,7 +48,7 @@ export default function GetSubject({ subject, title, subjectColumn }: Props) {
           ></InputNumber>
         </Form.Item>
         <Button onClick={() => getsubject.submit()}>
-          Get this Category ID
+         Xác nhận
         </Button>
       </Form>
       <Divider plain />

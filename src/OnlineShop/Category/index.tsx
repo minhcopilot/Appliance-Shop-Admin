@@ -16,7 +16,7 @@ const addschema = yup
   .object({
     name: yup
       .string()
-      .max(100, "Category Name should not be too long")
+      .max(100, "Tên của Category không được quá 100 ký tự")
       .required(),
     description: yup.string(),
   })
@@ -43,7 +43,7 @@ const AddCategory = ({
         },
       });
       alert(
-        "Add " + response.data.name + " category with ID: " + response.data.id
+        "Thêm " + response.data.name + " danh mục với ID: " + response.data.id
       );
       setRefresh(!refresh);
       reset();
@@ -54,13 +54,13 @@ const AddCategory = ({
   return (
     <Space direction="vertical" size={15}>
       <form onSubmit={handleSubmit(submitAddCategory)}>
-        <label htmlFor="addname">Category Name</label>
+        <label htmlFor="addname">Tên Category</label>
         <input type="text" {...register("name")} id="addname" />
         <span>{errors.name?.message}</span>
         <label htmlFor="adddescription">Description</label>
         <input type="text" {...register("description")} id="adddescription" />
         <span>{errors.description?.message}</span>
-        <Button type="submit">Add this Category</Button>
+        <Button type="submit">Thêm mới Category</Button>
       </form>
     </Space>
   );
@@ -110,14 +110,14 @@ const PatchCategory = ({
       className={styles.popup}
     >
       <form onSubmit={handleSubmit(submitPatchCategory)}>
-        <label htmlFor="patchname">Category Name</label>
+        <label htmlFor="patchname">Tên Category</label>
         <input type="text" {...register("name")} id="patchname" />
         <span>{errors.name?.message}</span>
         <label htmlFor="patchdescription">Description</label>
         <input type="text" {...register("description")} id="patchdescription" />
         <span>{errors.description?.message}</span>
-        <Button type="submit">Change this Category</Button>
-        <Button onClick={() => setPatchPopup(false)}>Close</Button>
+        <Button type="submit">Thay đổi Category</Button>
+        <Button onClick={() => setPatchPopup(false)}>Đóng</Button>
         <span>{error}</span>
       </form>
     </Space>
@@ -167,15 +167,15 @@ const DeleteCategory = ({
       style={!deletePopup ? { display: "none" } : {}}
       className={styles.popup}
     >
-      <h3>Are you sure to delete this category</h3>
+      <h3>Bạn có chắc muốn xoá category này?</h3>
       <div style={{ display: "flex", gap: 5 }}>
         <Button
           onClick={ConfirmDeleteCategory}
           style={{ backgroundColor: "red" }}
         >
-          Yes
+          Đồng ý
         </Button>
-        <Button onClick={() => setDeletePopup(false)}>Cancel</Button>
+        <Button onClick={() => setDeletePopup(false)}>Huỷ bỏ</Button>
       </div>
 
       <span>{error}</span>
@@ -242,7 +242,7 @@ const GetAllCategories = ({
                           setPatchPopup(true);
                         }}
                       >
-                        Edit
+                        Sửa
                       </Button>
                       <Button
                         onClick={() => {
@@ -251,7 +251,7 @@ const GetAllCategories = ({
                         }}
                         style={{ backgroundColor: "red" }}
                       >
-                        Delete
+                        Xoá
                       </Button>
                     </td>
                   )}
@@ -291,10 +291,10 @@ const getschema = yup
   .object({
     categoryid: yup
       .number()
-      .typeError("ID is required to get")
-      .integer("ID must be a interger")
-      .positive("ID must be > 0")
-      .required("ID is required to get"),
+      .typeError("ID là bắt buộc để có được")
+      .integer("ID phải là số nguyênr")
+      .positive("ID phải lớn hơn 0")
+      .required("ID là bắt buộc để có được"),
   })
   .required();
 const GetCategory = ({
@@ -339,7 +339,7 @@ const GetCategory = ({
         <label htmlFor="categoryid">Category ID</label>
         <input type="number" {...register("categoryid")} id="categoryid" />
         <span>{errors.categoryid?.message}</span>
-        <Button type="submit">Get this Category ID</Button>
+        <Button type="submit">Lấy theo ID của Category</Button>
       </form>
       <span>{error}</span>
       {data && (
@@ -372,7 +372,7 @@ const GetCategory = ({
                         setPatchPopup(true);
                       }}
                     >
-                      Edit
+                      Sửa
                     </Button>
                     <Button
                       onClick={() => {
@@ -381,7 +381,7 @@ const GetCategory = ({
                       }}
                       style={{ backgroundColor: "red" }}
                     >
-                      Delete
+                      Xoá
                     </Button>
                   </td>
                 )}

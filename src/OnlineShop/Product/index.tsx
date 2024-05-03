@@ -45,21 +45,21 @@ const ProductForm = ({
     >
       <Form.Item
         name="name"
-        label="Product Name"
+        label="Tên sản phẩm"
         rules={[
           { type: "string" },
-          { required: true, message: "Product Name is required" },
-          { max: 100, message: "Product Name should not be too long" },
+          { required: true, message: "Tên sản phẩm không được bỏ trống" },
+          { max: 100, message: "Tên sản phẩm không được quá dài" },
         ]}
       >
         <Input name="name" type="text"></Input>
       </Form.Item>
       <Form.Item
         name="categoryId"
-        label="Category"
+        label="Danh mục"
         rules={[
           { type: "number" },
-          { required: true, message: "Category is required" },
+          { required: true, message: "Danh mục không được bỏ trống" },
         ]}
       >
         <Select
@@ -70,10 +70,10 @@ const ProductForm = ({
       </Form.Item>
       <Form.Item
         name="supplierId"
-        label="Supplier"
+        label="Nhà cung cấp"
         rules={[
           { type: "number" },
-          { required: true, message: "Supplier is required" },
+          { required: true, message: "Nhà cung cấp không được bỏ trống" },
         ]}
       >
         <Select
@@ -84,32 +84,32 @@ const ProductForm = ({
       </Form.Item>
       <Form.Item
         name="price"
-        label="Price"
-        rules={[{ required: true, message: "Price is required" }]}
+        label="Giá"
+        rules={[{ required: true, message: "Giá không được bỏ trống" }]}
       >
         <InputNumber name="price" addonBefore="$"></InputNumber>
       </Form.Item>
       <Form.Item
         name="discount"
-        label="Discount"
-        rules={[{ required: true, message: "Discount is required" }]}
+        label="Giảm giá"
+        rules={[{ required: true, message: "Giảm giá không được bỏ trống" }]}
       >
         <InputNumber name="discount" addonAfter="%" min={0} max={90} />
       </Form.Item>
       <Form.Item
         name="stock"
-        label="Stock Available"
-        rules={[{ required: true, message: "Stock is required" }]}
+        label="Tồn kho"
+        rules={[{ required: true, message: "Tồn kho không được bỏ trống" }]}
       >
         <InputNumber min={0}></InputNumber>
       </Form.Item>
       <Form.Item
         name="description"
-        label="Description"
+        label="Ghi chú"
         rules={[
           { type: "string" },
-          { required: true, message: "Description is required" },
-          { max: 300, message: "Description should not be too long" },
+          { required: true, message: "Ghi chú không được bỏ trống" },
+          { max: 300, message: "Ghi chú không được quá dài" },
         ]}
       >
         <TextArea name="description" autoSize></TextArea>
@@ -142,12 +142,12 @@ const Productant = () => {
 
   const defaultColumns: ColumnsType<ProductType> = [
     {
-      title: "Product Name",
+      title: "Tên sản phẩm",
       dataIndex: "name",
       key: "name",
     },
     {
-      title: "Price",
+      title: "Giá",
       dataIndex: "price",
       key: "price",
       align: "right",
@@ -164,7 +164,7 @@ const Productant = () => {
       responsive: ["md"],
     },
     {
-      title: "Discount",
+      title: "Giảm giá",
       dataIndex: "discount",
       key: "discount",
       align: "right",
@@ -175,7 +175,7 @@ const Productant = () => {
       responsive: ["lg"],
     },
     {
-      title: "Stock",
+      title: "Tồn kho",
       dataIndex: "stock",
       key: "stock",
       align: "right",
@@ -183,7 +183,7 @@ const Productant = () => {
       responsive: ["sm"],
     },
     {
-      title: "Category",
+      title: "Danh mục",
       dataIndex: "category",
       key: "category",
       filterSearch: true,
@@ -195,7 +195,7 @@ const Productant = () => {
       responsive: ["xl"],
     },
     {
-      title: "Supplier",
+      title: "Nhà cung cấp",
       dataIndex: "supplier",
       key: "supplier",
       filterSearch: true,

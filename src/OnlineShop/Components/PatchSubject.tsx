@@ -66,7 +66,7 @@ export default function PatchSubject({ subject, currentform, title }: Props) {
         <Spin />
       )}
 
-      {query.isLoading && <Alert message="Submitting" type="info" />}
+      {query.isLoading && <Alert message="Đang xử lí" type="info" />}
       {query.isError &&
         (query.error.response ? (
           <Alert
@@ -76,7 +76,7 @@ export default function PatchSubject({ subject, currentform, title }: Props) {
             closable
           />
         ) : (
-          <Alert message="Lost Connection" type="error" showIcon />
+          <Alert message="Mất kết nối" type="error" showIcon />
         ))}
     </Modal>
   );

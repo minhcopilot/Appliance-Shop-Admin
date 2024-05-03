@@ -31,19 +31,19 @@ export default function SubjectTemplate({
       <GetSubject
         subject={subjects}
         subjectColumn={subjectColumn}
-        title={"Get " + subject + " by ID"}
+        title={"Lấy " + subject + " theo ID"}
       />
       {loggedInUser && (
         <AddSubject
           currentform={currentform}
           subject={subjects}
-          title={"Add " + subject}
+          title={"Thêm mới " + subject}
         />
       )}
       <GetSubjects
         subject={subjects}
         subjectColumn={subjectColumn}
-        title={"All " + subjects}
+        title={"Thêm mới " + subjects}
       />
       {loggedInUser && (
         <>
@@ -51,7 +51,7 @@ export default function SubjectTemplate({
             <PatchSubject
               currentform={currentform}
               subject={subjects}
-              title={"Patch " + subject}
+              title={"Chỉnh sửa " + subject}
             />
           )}
         </>

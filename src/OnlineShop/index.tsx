@@ -23,11 +23,9 @@ export const Notice = () => {
       message="Informational Notes"
       description={
         <p>
-          You can't delete custormers, employees those are currently having
-          orders, or categories with products.
+          Bạn không thể xóa khách hàng, nhân viên hiện đang có đơn đặt hàng hoặc danh mục có sản phẩm.
           <br />
-          Try to delete existing relative orders / products by using "Filter"
-          and "Delete selected items" function first
+          Cố gắng xóa các đơn đặt hàng / sản phẩm tương đối hiện có bằng cách sử dụng chức năng "Bộ lọc" và "Xóa các mặt hàng đã chọn" trước
         </p>
       }
       type="info"

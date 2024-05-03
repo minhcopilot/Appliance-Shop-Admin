@@ -131,10 +131,10 @@ const ProductForm = ({
     >
       <Form.Item
         name="productId"
-        label="Product"
+        label="Sản phẩm"
         rules={[
           { type: "number" },
-          { required: true, message: "Product is required" },
+          { required: true, message: "Sản phẩm không được bỏ trống" },
         ]}
       >
         <Select
@@ -146,26 +146,26 @@ const ProductForm = ({
       </Form.Item>
       <Form.Item
         name="quantity"
-        label="Quantity"
+        label="Số lượng"
         rules={[
-          { type: "number", message: "Quantity is not valid" },
-          { type: "integer", message: "Quantity is not valid" },
-          { required: true, message: "Quantity is required" },
+          { type: "number", message: "Số lượng không hợp lệ" },
+          { type: "integer", message: "Số lượng phải là số nguyên" },
+          { required: true, message: "Số lượng không được bỏ trống" },
         ]}
       >
         <InputNumber name="quantity" min={1} step={1}></InputNumber>
       </Form.Item>
       <Form.Item
         name="price"
-        label="Price"
-        rules={[{ required: true, message: "Price is required" }]}
+        label="Giá"
+        rules={[{ required: true, message: "Giá không được bỏ trống" }]}
       >
         <InputNumber name="price" addonBefore="$" min={0.05}></InputNumber>
       </Form.Item>
       <Form.Item
         name="discount"
-        label="Discount"
-        rules={[{ required: true, message: "discount is required" }]}
+        label="Giảm giá"
+        rules={[{ required: true, message: "Giảm giá không được bỏ trống" }]}
       >
         <InputNumber
           name="discount"
@@ -280,7 +280,7 @@ const OrderForm = ({
           rules={[
             {
               required: true,
-              message: `${title} is required.`,
+              message: `${title} không được bỏ trống.`,
             },
           ]}
         >
@@ -307,7 +307,7 @@ const OrderForm = ({
     dataIndex?: string;
   })[] = [
     {
-      title: "Quantity",
+      title: "Số lượng",
       dataIndex: "quantity",
       key: "quantity",
       align: "right",
@@ -315,7 +315,7 @@ const OrderForm = ({
       editable: true,
     },
     {
-      title: "Product Name",
+      title: "Tên sản phẩm",
       dataIndex: "product.name",
       key: "product.name",
       render: (_: any, record: any) => {
@@ -323,7 +323,7 @@ const OrderForm = ({
       },
     },
     {
-      title: "Price",
+      title: "Giá cả",
       dataIndex: "price",
       key: "price",
       align: "right",
@@ -333,7 +333,7 @@ const OrderForm = ({
       responsive: ["lg"],
     },
     {
-      title: "Discount",
+      title: "Giảm giá",
       dataIndex: "discount",
       key: "discount",
       align: "right",
@@ -343,7 +343,7 @@ const OrderForm = ({
       responsive: ["lg"],
     },
     {
-      title: "Total Price",
+      title: "Tổng tiền",
       key: "total",
       align: "right",
       render: (_: any, record: any) => {
@@ -361,13 +361,13 @@ const OrderForm = ({
         return (
           <Popconfirm
             placement="topRight"
-            title="Delete Product"
-            description="Are you sure to delete this product?"
+            title="Xoá sản phẩm này?"
+            description="Bạn có chắc chắn muốn xoá sản phẩm này?"
             onConfirm={() => {
               deleteProduct(index);
             }}
-            okText="Yes"
-            cancelText="No"
+            okText="Đồng ý"
+            cancelText="Không"
           >
             <Button icon={<AiOutlineDelete />} danger />
           </Popconfirm>
@@ -427,9 +427,9 @@ const OrderForm = ({
       >
         <Form.Item
           name="createdDate"
-          label="Created Date"
+          label="Ngày tạo"
           rules={[
-            { type: "date", message: "Created Date is not valid" },
+            { type: "date", message: "Ngày tạo không hợp lệ" },
             // { required: true, message: "Created Date is required" },
           ]}
         >
@@ -441,9 +441,9 @@ const OrderForm = ({
         </Form.Item>
         <Form.Item
           name="shippedDate"
-          label="Shipped Date"
+          label="Ngày giao hàng"
           rules={[
-            { type: "date", message: "Shipped Date is not valid" },
+            { type: "date", message: "Ngày giao hàng không hợp lệ" },
             // { required: true, message: "Shipped Date is required" },
           ]}
         >
@@ -455,7 +455,7 @@ const OrderForm = ({
         </Form.Item>
         <Form.Item
           name="shippingAddress"
-          label="Shipping Address"
+          label="Địa chỉ giao hàng"
           rules={[
             { type: "string" },
             // { required: true, message: "Shipping Address is required" },
@@ -465,7 +465,7 @@ const OrderForm = ({
         </Form.Item>
         <Form.Item
           name="shippingCity"
-          label="Shipping City"
+          label="Thành phố giao hàng"
           rules={[
             { type: "string" },
             // { required: true, message: "Shipping City is required" },
@@ -475,12 +475,12 @@ const OrderForm = ({
         </Form.Item>
         <Form.Item
           name="paymentType"
-          label="Payment Type"
+          label="Phương thức thanh toán"
           rules={[
             {
               type: "enum",
               enum: ["CASH", "CREDIT CARD"],
-              message: "Payment type is not valid",
+              message: "Phương thức thanh toán không hợp lệ",
             },
             // { required: true, message: "Payment Type is required" },
           ]}
@@ -495,7 +495,7 @@ const OrderForm = ({
         </Form.Item>
         <Form.Item
           name="status"
-          label="Status"
+          label="Trạng thái"
           rules={[
             {
               type: "enum",
@@ -517,7 +517,7 @@ const OrderForm = ({
         </Form.Item>
         <Form.Item
           name="customerId"
-          label="Customer"
+          label="Khách hàng"
           rules={[
             { type: "number" },
             { required: true, message: "Customer is required" },
@@ -534,7 +534,7 @@ const OrderForm = ({
         </Form.Item>
         <Form.Item
           name="employeeId"
-          label="Employee"
+          label="Nhân viên"
           rules={[
             { type: "number" },
             { required: true, message: "Employee is required" },
@@ -551,11 +551,11 @@ const OrderForm = ({
         </Form.Item>
         <Form.Item
           name="description"
-          label="Description"
+          label="Ghi chú"
           rules={[
             { type: "string" },
             // { required: true, message: "Description is required" },
-            { max: 300, message: "Description should not be too long" },
+            { max: 300, message: "Ghi chú không được quá dài" },
           ]}
         >
           <TextArea name="description" autoSize></TextArea>
@@ -650,7 +650,7 @@ const Orderant = () => {
   ];
   const defaultColumns: ColumnsType<OrderType> = [
     {
-      title: "Created Date",
+      title: "Ngày tạo",
       dataIndex: "createdDate",
       key: "createdDate",
       render: (text: any, record: OrderType, index: number) => {
@@ -662,7 +662,7 @@ const Orderant = () => {
       },
     },
     {
-      title: "Shipped Date",
+      title: "Ngày giao hàng",
       dataIndex: "shippedDate",
       key: "shippedDate",
       render: (text: any, record: OrderType, index: number) => {
@@ -675,7 +675,7 @@ const Orderant = () => {
       responsive: ["xxl"],
     },
     {
-      title: "Shipping Address",
+      title: "Địa chỉ giao hàng",
       dataIndex: "shippingAddress",
       key: "shippingAddress",
       responsive: ["lg"],
@@ -688,7 +688,7 @@ const Orderant = () => {
       },
     },
     {
-      title: "Shipping City",
+      title: "Thành phố giao hàng",
       dataIndex: "shippingCity",
       key: "shippingCity",
       filterSearch: true,
@@ -697,7 +697,7 @@ const Orderant = () => {
       responsive: ["lg"],
     },
     {
-      title: "Payment Type",
+      title: "Phương thức thanh toán",
       dataIndex: "paymentType",
       key: "paymentType",
       filters: paymentTypeFilter,
@@ -705,7 +705,7 @@ const Orderant = () => {
       responsive: ["xl"],
     },
     {
-      title: "Status",
+      title: "Trạng thái",
       dataIndex: "status",
       key: "status",
       filters: statusFilter,
@@ -713,7 +713,7 @@ const Orderant = () => {
       responsive: ["sm"],
     },
     {
-      title: "Customer",
+      title: "Khách hàng",
       dataIndex: "customer",
       key: "customer",
       filterSearch: true,
@@ -727,7 +727,7 @@ const Orderant = () => {
       responsive: ["xl"],
     },
     {
-      title: "Employee",
+      title: "Nhân viên",
       dataIndex: "employee",
       key: "employee",
       filterSearch: true,
@@ -741,7 +741,7 @@ const Orderant = () => {
       responsive: ["xl"],
     },
     {
-      title: "Order",
+      title: "Đơn hàng chi tiết",
       dataIndex: "orderDetails",
       key: "orderDetails",
       render: (text: any, record: OrderType, index: number) => {
@@ -758,7 +758,7 @@ const Orderant = () => {
       responsive: ["md"],
     },
     {
-      title: "Total Order",
+      title: "Tổng tiền",
       key: "totalOrder",
       align: "right",
       render: (text: any, record: OrderType, index: number) => {

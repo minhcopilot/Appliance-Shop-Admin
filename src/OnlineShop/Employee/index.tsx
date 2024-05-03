@@ -41,11 +41,11 @@ const EmployeeForm = ({
     >
       <Form.Item
         name="firstName"
-        label="First Name"
+        label="Họ và tên đệm"
         rules={[
           { type: "string" },
-          { required: true, message: "Customer First Name is required" },
-          { max: 100, message: "Customer Name should not be too long" },
+          { required: true, message: "Họ và tên đệm của nhân viên không được bỏ trống" },
+          { max: 100, message: "Họ và tên đệm của nhân viên quá dài" },
         ]}
         initialValue={initialValues && initialValues.firstName}
       >
@@ -53,11 +53,11 @@ const EmployeeForm = ({
       </Form.Item>
       <Form.Item
         name="lastName"
-        label="Last Name"
+        label="Tên"
         rules={[
           { type: "string" },
-          { required: true, message: "Customer Last Name is required" },
-          { max: 100, message: "Customer Name should not be too long" },
+          { required: true, message: "Tên của nhân viên không được bỏ trống" },
+          { max: 100, message: "Tên của nhân viên không được quá dài" },
         ]}
         initialValue={initialValues && initialValues.lastName}
       >
@@ -67,9 +67,9 @@ const EmployeeForm = ({
         name="email"
         label="Email"
         rules={[
-          { type: "email", message: "Email is not valid" },
-          { required: true, message: "Email is required" },
-          { max: 300, message: "Email should not be too long" },
+          { type: "email", message: "Email không hợp lệ" },
+          { required: true, message: "Email không được bỏ trống" },
+          { max: 300, message: "Email không được quá dài" },
         ]}
         initialValue={initialValues && initialValues.email}
       >
@@ -77,11 +77,11 @@ const EmployeeForm = ({
       </Form.Item>
       <Form.Item
         name="password"
-        label="Password"
+        label="Mật khẩu"
         rules={[
-          { type: "string", message: "password is not valid" },
-          { required: true, message: "password is required" },
-          { max: 500, message: "password should not be too long" },
+          { type: "string", message: "Mật khẩu không hợp lệ" },
+          { required: true, message: "Mật khẩu không được bỏ trống" },
+          { max: 500, message: "Mật khẩu không được quá dài" },
         ]}
         initialValue={initialValues && initialValues.password}
       >
@@ -89,11 +89,11 @@ const EmployeeForm = ({
       </Form.Item>
       <Form.Item
         name="address"
-        label="Address"
+        label="Địa chỉ"
         rules={[
           { type: "string" },
-          { required: true, message: "Address is required" },
-          { max: 300, message: "Address should not be too long" },
+          { required: true, message: "Địa chỉ không được bỏ trống" },
+          { max: 300, message: "Địa chỉ không được quá dài" },
         ]}
         initialValue={initialValues && initialValues.address}
       >
@@ -101,11 +101,11 @@ const EmployeeForm = ({
       </Form.Item>
       <Form.Item
         name="phoneNumber"
-        label="Phone Number"
+        label="Số điện thoại"
         rules={[
-          { type: "string", message: "Phone Number is not valid" },
-          { required: true, message: "Phone Number is required" },
-          { max: 12, message: "Phone Number is not valid" },
+          { type: "string", message: "Số điện thoại không hợp lệ" },
+          { required: true, message: "Số điện thoại không được bỏ trống" },
+          { max: 12, message: "Số điện thoại không hợp lệ" },
         ]}
         initialValue={initialValues && initialValues.phoneNumber}
       >
@@ -113,9 +113,9 @@ const EmployeeForm = ({
       </Form.Item>
       <Form.Item
         name="birthday"
-        label="Birthday"
+        label="Ngày sinh"
         rules={[
-          { type: "date", message: "Birthday is not valid" },
+          { type: "date", message: "Ngày sinh không hợp lệ" },
           // { required: true, message: "Birthday is required" },
         ]}
         initialValue={
@@ -137,7 +137,7 @@ interface EmployeeType extends addschemaInput {
 const Employeeant = () => {
   const defaultColumns: ColumnsType<EmployeeType> = [
     {
-      title: "Employee Name",
+      title: "Tên nhân viên",
       // dataIndex: "firstName",
       key: "Name",
       render: (value, record, index) => {
@@ -151,13 +151,13 @@ const Employeeant = () => {
       responsive: ["lg"],
     },
     {
-      title: "Phone Number",
+      title: "Số điện thoại",
       dataIndex: "phoneNumber",
       key: "phoneNumber",
       responsive: ["sm"],
     },
     {
-      title: "Address",
+      title: "Địa chỉ",
       dataIndex: "address",
       key: "address",
       responsive: ["md"],
@@ -170,7 +170,7 @@ const Employeeant = () => {
       },
     },
     {
-      title: "Birthday",
+      title: "Ngày sinh",
       dataIndex: "birthday",
       key: "birthday",
       render: (text: any, record: EmployeeType, index: number) => {

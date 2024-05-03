@@ -74,15 +74,15 @@ export default function DeleteSubject({
       description={
         deleteId.length <= 1
           ? subject === "orders"
-            ? "Are you sure to delete this? This will empty order detail first"
-            : "Are you sure to delete this?"
+            ? "Bạn có chắc chắn muốn xóa đơn hàng này? Hành động này sẽ làm trống chi tiết đơn hàng trước"
+            : "Bạn có chắc chắn muốn xóa mục này?"
           : subject === "orders"
-          ? "Are you sure to delete those? This will empty order detail first"
-          : "Are you sure to delete those?"
+          ? "Bạn có chắc chắn muốn xóa những đơn hàng này? Hành động này sẽ làm trống chi tiết đơn hàng trước"
+          : "Bạn có chắc chắn muốn xóa những mục này?"
       }
       onConfirm={DeleteHandle}
-      okText="Yes"
-      cancelText="No"
+      okText="Đồng ý"
+      cancelText="Không"
     >
       <Button
         loading={confirmDelete.isLoading}
@@ -93,8 +93,8 @@ export default function DeleteSubject({
         {collapsed
           ? null
           : deleteId.length === 1
-          ? "Delete"
-          : "Delete selected items"}
+          ? "Xoá"
+          : "Xoá các mục đã chọn"}
       </Button>
     </Popconfirm>
   );
