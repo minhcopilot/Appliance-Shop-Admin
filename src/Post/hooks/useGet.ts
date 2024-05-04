@@ -63,12 +63,12 @@ export const useRefresh = create<refreshInterface>()(
 
 export const useGetSubject = (
   subject: string,
-  id: number | null,
+  id: string | null,
   silent?: boolean
 ) => {
   const queryClient = useQueryClient();
   const url = subject + "/" + id;
-  const getSubject = async (subject: string, id: number | null) => {
+  const getSubject = async (subject: string, id: string | null) => {
     const response = await axiosClient.get(url);
     return response.data;
   };

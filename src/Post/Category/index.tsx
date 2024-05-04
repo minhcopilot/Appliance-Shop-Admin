@@ -6,6 +6,7 @@ import SubjectTemplate from "../Components/SubjectTemplate";
 import useGetSubjects from "../hooks/useGet";
 import { UploadOutlined } from "@ant-design/icons";
 import { checkUnique } from "../hooks/usefulHooks";
+import { useCurrentId } from "../hooks/usePatch";
 // type Props = {};
 
 export interface categorySchemaInput {
@@ -27,6 +28,7 @@ const CategoryForm = ({
   initialValues?: categorySchemaInput;
 }) => {
   const postCategory = useGetSubjects("categories");
+  const currentId = useCurrentId((state) => state.currentId);
   const normFile = (e: any) => {
     console.log("Upload event:", e);
     if (Array.isArray(e)) {
@@ -45,13 +47,17 @@ const CategoryForm = ({
       <Form.Item
         name="title"
         label="Category Name"
-        validateDebounce={500}
+        validateDebounce={1000}
         rules={[
           { type: "string" },
           { required: true, message: "Category Name is required" },
           { max: 50, message: "Category Name should not be too long" },
           {
-            validator: async (_, title) => checkUnique("categories", { title }),
+            validator: async (_, title) => {
+              return currentId
+                ? checkUnique("categories", { title }, currentId)
+                : checkUnique("categories", { title });
+            },
             message: "Category Name is already used",
           },
         ]}
@@ -76,6 +82,14 @@ const CategoryForm = ({
         rules={[
           { type: "string" },
           { max: 500, message: "Category URL should not be too long" },
+          {
+            validator: async (_, url) => {
+              return currentId
+                ? checkUnique("categories", { url }, currentId)
+                : checkUnique("categories", { url });
+            },
+            message: "Category URL is already used",
+          },
         ]}
       >
         <Input name="url" type="text"></Input>

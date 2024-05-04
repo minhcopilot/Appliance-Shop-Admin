@@ -3,7 +3,7 @@ import "./App.css";
 import { Button, ConfigProvider, Layout, Menu, MenuProps, Result } from "antd";
 import { Content, Header } from "antd/es/layout/layout";
 import locale from "antd/locale/vi_VN";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useLocation } from "react-router-dom";
 import Loginant from "./OnlineShop/Login/Loginant";
 import useAuth from "./OnlineShop/hooks/useAuth";
 import Logout from "./OnlineShop/Login/Logout";
@@ -33,39 +33,41 @@ export default function App() {
   // const {
   //   token: { colorBgContainer },
   // } = theme.useToken();
-  const [current, setCurrent] = React.useState("home");
-  const onClick: MenuProps["onClick"] = (e) => {
-    setCurrent(e.key);
-  };
+  const location = useLocation();
   return (
     <ConfigProvider locale={locale}>
-      <Layout style={{backgroundImage: "url('https://png.pngtree.com/thumb_back/fw800/back_our/20190625/ourmid/pngtree-window-kitchen-small-fresh-home-appliance-poster-image_254040.jpg')" }}>
+      <Layout
+        style={{
+          backgroundImage:
+            "url('https://png.pngtree.com/thumb_back/fw800/back_our/20190625/ourmid/pngtree-window-kitchen-small-fresh-home-appliance-poster-image_254040.jpg')",
+        }}
+      >
         <Header
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
             gap: 10,
+            zIndex: 1,
           }}
         >
           <Menu
             theme="dark"
             style={{ width: "90%" }}
-            onClick={onClick}
-            selectedKeys={[current]}
+            selectedKeys={[location.pathname.split("/")[1]]}
             mode="horizontal"
             items={[
               {
-                key: "home",
-                label: <Link to="/">Home</Link>,
+                key: "",
+                label: <Link to="">Home</Link>,
               },
               {
                 key: "management",
-                label: <Link to="/management">Online Shop</Link>,
+                label: <Link to="management">Online Shop</Link>,
               },
               {
                 key: "article",
-                label: <Link to="/article">Article</Link>,
+                label: <Link to="article">Article</Link>,
               },
             ]}
           />

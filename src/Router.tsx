@@ -11,7 +11,7 @@ import Customerant from "./OnlineShop/Customer";
 import Productant from "./OnlineShop/Product";
 import Orderant from "./OnlineShop/Order";
 import App, { Welcome } from "./App";
-import useAuth from "./OnlineShop/hooks/useAuth";
+// import useAuth from "./OnlineShop/hooks/useAuth";
 import ArticleCategory from "./Post/Category";
 import Article from "./Post";
 import Post from "./Post/Post";
@@ -79,7 +79,7 @@ export default function Router() {
     },
   ]);
   const queryClient = new QueryClient();
-  const auth = useAuth();
+  // const auth = useAuth();
 
   // React.useEffect(() => {
   //   auth.loggedInUser && auth.refresh();

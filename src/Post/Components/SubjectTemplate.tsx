@@ -1,5 +1,4 @@
 import React from "react";
-import useAuth from "../hooks/useAuth";
 import { useCurrentId } from "../hooks/usePatch";
 import { ColumnsType } from "antd/es/table";
 import useTableColumn from "../hooks/useTableColumns";
@@ -7,6 +6,7 @@ import { Flex } from "antd";
 import AddSubject from "./AddSubject";
 import GetSubjects from "./GetSubjects";
 import PatchSubject from "./PatchSubject";
+import useAuth from "../../OnlineShop/hooks/useAuth";
 
 type Props = {
   subjects: string;
@@ -27,29 +27,29 @@ export default function SubjectTemplate({
 
   return (
     <Flex vertical gap={15}>
-      {/* {loggedInUser && ( */}
-      <AddSubject
-        currentform={currentform}
-        subject={subjects}
-        title={"Add " + subject}
-      />
-      {/* )} */}
+      {loggedInUser && (
+        <AddSubject
+          currentform={currentform}
+          subject={subjects}
+          title={"Add " + subject}
+        />
+      )}
       <GetSubjects
         subject={subjects}
         subjectColumn={subjectColumn}
         title={"All " + subjects}
       />
-      {/* {loggedInUser && ( */}
-      <>
-        {currentId && (
-          <PatchSubject
-            currentform={currentform}
-            subject={subjects}
-            title={"Patch " + subject}
-          />
-        )}
-      </>
-      {/* )} */}
+      {loggedInUser && (
+        <>
+          {currentId && (
+            <PatchSubject
+              currentform={currentform}
+              subject={subjects}
+              title={"Patch " + subject}
+            />
+          )}
+        </>
+      )}
     </Flex>
   );
 }

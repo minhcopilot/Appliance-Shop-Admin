@@ -3,14 +3,14 @@ import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import axiosClient from "../config/axiosClient";
 // import React from "react";
-import useAuth from "./useAuth";
 import { useMutation, useQueryClient } from "react-query";
 import { Error } from "./useGet";
 import axios from "axios";
+import useAuth from "../../OnlineShop/hooks/useAuth";
 
 interface currentIdInterface {
-  currentId: number | null;
-  setCurrentId: (id: number | null) => void;
+  currentId: string | null;
+  setCurrentId: (id: string | null) => void;
 }
 
 export const useCurrentId = create<currentIdInterface>()(
@@ -37,7 +37,7 @@ const usePatchSubject = (
   // id: number | null,
   silent?: boolean
 ) => {
-  const access_token = useAuth((state) => state.access_token);
+  const access_token = useAuth((state) => state.token);
   const setPatchPopup = usePatchPopup((state) => state.setPatchPopup);
   const setCurrentId = useCurrentId((state) => state.setCurrentId);
 

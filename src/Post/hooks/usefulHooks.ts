@@ -7,9 +7,10 @@ export const uniqBy = (array: any[]) => {
     return seen.has(k) ? false : seen.add(k);
   });
 };
-export const checkUnique = async (subject: string, data: any) => {
+export const checkUnique = async (subject: string, data: any, id?: string) => {
   try {
-    const response = await axiosClient.post(subject + "/check-unique", data);
+    let url = subject + "/check-unique" + (id ? "/" + id : "");
+    const response = await axiosClient.post(url, data);
     if (response.data.length > 0) {
       return Promise.reject(new Error("This " + subject + " is already exist"));
     } else {

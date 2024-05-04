@@ -99,7 +99,7 @@ const useAuth = create<authInterface>()(
           }
         },
       }),
-      { name: "auth", getStorage: () => localStorage }
+      { name: "auth" } //remove getStorage() by deprecated and default to localStorage
     )
   )
 );

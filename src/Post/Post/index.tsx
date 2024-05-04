@@ -67,14 +67,18 @@ const PostForm = ({
       <Form.Item
         name="title"
         label="Post Title"
-        validateDebounce={500}
+        validateDebounce={1000}
         rules={[
           { type: "string" },
           { required: true, message: "Category Name is required" },
           { max: 100, message: "Category Name should not be too long" },
           {
-            validator: async (_, title) => checkUnique("posts", { title }),
-            message: "Category Name is already used",
+            validator: async (_, title) => {
+              return currentId
+                ? checkUnique("posts", { title }, currentId)
+                : checkUnique("posts", { title });
+            },
+            message: "Post Title is already used",
           },
         ]}
       >
@@ -88,7 +92,11 @@ const PostForm = ({
           { type: "string" },
           { max: 500, message: "Category Name should not be too long" },
           {
-            validator: async (_, url) => checkUnique("posts", { url }),
+            validator: async (_, url) => {
+              return currentId
+                ? checkUnique("posts", { url }, currentId)
+                : checkUnique("posts", { url });
+            },
             message: "URL is already used",
           },
         ]}

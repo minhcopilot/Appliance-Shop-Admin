@@ -2,13 +2,13 @@ import { message } from "antd";
 import axiosClient from "../config/axiosClient";
 import React from "react";
 import { Error } from "./useGet";
-import useAuth from "./useAuth";
 import { onlineManager, useMutation, useQueryClient } from "react-query";
+import useAuth from "../../OnlineShop/hooks/useAuth";
 
 const useAdd = (subject: string, silent?: boolean) => {
   // const [success, setSuccess] = React.useState(false);
   // const setRefresh = useRefresh((state) => state.setRefresh);
-  const access_token = useAuth((state) => state.access_token);
+  const access_token = useAuth((state) => state.token);
   const add = async (data: any) => {
     const response = await axiosClient.post(subject, data, {
       headers: {

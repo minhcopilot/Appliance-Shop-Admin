@@ -2,12 +2,12 @@ import { message } from "antd";
 import axiosClient from "../config/axiosClient";
 // import React from "react";
 import { Error } from "./useGet";
-import useAuth from "./useAuth";
 // import { useCurrentId } from "./usePatch";
 import { useMutation, useQueryClient } from "react-query";
+import useAuth from "../../OnlineShop/hooks/useAuth";
 
 const useDelete = (subject: string, silent?: boolean) => {
-  const access_token = useAuth((state) => state.access_token);
+  const access_token = useAuth((state) => state.token);
   const queryClient = useQueryClient();
 
   const Delete = async (ids: any) => {

@@ -4,7 +4,7 @@ import { ColumnType, ColumnsType } from "antd/es/table";
 import { AiOutlineEdit } from "react-icons/ai";
 import { useCurrentId, usePatchPopup } from "./usePatch";
 import DeleteSubject from "../Components/DeleteSubject";
-import useAuth from "./useAuth";
+import useAuth from "../../OnlineShop/hooks/useAuth";
 
 const useTableColumn = (subject: string, column: ColumnsType<any>) => {
   const loggedInUser = useAuth((state) => state.loggedInUser);
@@ -40,9 +40,9 @@ const useTableColumn = (subject: string, column: ColumnsType<any>) => {
   const [categoryColumn, setCategoryColumn] =
     React.useState<ColumnsType<any>>(column);
   React.useEffect(() => {
-    // loggedInUser
-    setCategoryColumn([...column, actionColumn]);
-    // : setCategoryColumn(column); // eslint-disable-next-line
+    loggedInUser
+      ? setCategoryColumn([...column, actionColumn])
+      : setCategoryColumn(column); // eslint-disable-next-line
   }, [loggedInUser]);
   return [categoryColumn];
 };

@@ -5,7 +5,7 @@ import styles from "./OnlineShop.module.css";
 // import ButtonTabs from "../Session3/Tabs/ButtonTabs";
 import { Alert, Layout, Menu, theme } from "antd";
 
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import Sider from "antd/es/layout/Sider";
 import {
   MdOutlineCategory,
@@ -23,9 +23,11 @@ export const Notice = () => {
       message="Informational Notes"
       description={
         <p>
-          Bạn không thể xóa khách hàng, nhân viên hiện đang có đơn đặt hàng hoặc danh mục có sản phẩm.
+          Bạn không thể xóa khách hàng, nhân viên hiện đang có đơn đặt hàng hoặc
+          danh mục có sản phẩm.
           <br />
-          Cố gắng xóa các đơn đặt hàng / sản phẩm tương đối hiện có bằng cách sử dụng chức năng "Bộ lọc" và "Xóa các mặt hàng đã chọn" trước
+          Cố gắng xóa các đơn đặt hàng / sản phẩm tương đối hiện có bằng cách sử
+          dụng chức năng "Bộ lọc" và "Xóa các mặt hàng đã chọn" trước
         </p>
       }
       type="info"
@@ -39,6 +41,7 @@ export default function OnlineShop() {
     token: { colorBgContainer },
   } = theme.useToken();
   const [sideCollapsed, setSideCollapsed] = React.useState(false);
+  const location = useLocation();
 
   return (
     <Layout style={{ background: colorBgContainer }}>
@@ -65,6 +68,7 @@ export default function OnlineShop() {
           style={{ marginTop: 64 }}
           // theme="dark"
           mode="inline"
+          selectedKeys={[location.pathname.split("/")[2]]}
           items={[
             {
               key: "category",

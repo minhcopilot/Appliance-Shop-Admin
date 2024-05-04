@@ -5,7 +5,7 @@ import styles from "./Article.module.css";
 // import ButtonTabs from "../Session3/Tabs/ButtonTabs";
 import { Alert, Layout, Menu, theme } from "antd";
 
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import Sider from "antd/es/layout/Sider";
 import { MdOutlineCategory, MdOutlinePostAdd } from "react-icons/md";
 import { Content } from "antd/es/layout/layout";
@@ -34,7 +34,7 @@ export default function Article() {
     token: { colorBgContainer },
   } = theme.useToken();
   const [sideCollapsed, setSideCollapsed] = React.useState(false);
-
+  const location = useLocation();
   return (
     <Layout style={{ background: colorBgContainer }}>
       <Sider
@@ -60,6 +60,7 @@ export default function Article() {
           style={{ marginTop: 64 }}
           // theme="dark"
           mode="inline"
+          selectedKeys={[location.pathname.split("/")[2]]}
           items={[
             {
               key: "category",
