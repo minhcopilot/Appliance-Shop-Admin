@@ -15,6 +15,7 @@ import App, { Welcome } from "./App";
 import ArticleCategory from "./Post/Category";
 import Article from "./Post";
 import Post from "./Post/Post";
+import Comment from "./Post/Comment";
 
 export default function Router() {
   const router = createBrowserRouter([
@@ -70,8 +71,20 @@ export default function Router() {
               element: <ArticleCategory />,
             },
             {
+              path: "category/:postCategoryId",
+              element: <Post />,
+            },
+            {
               path: "post",
               element: <Post />,
+            },
+            {
+              path: "post/:postId",
+              element: <Comment />,
+            },
+            {
+              path: "comment",
+              element: <Comment />,
             },
           ],
         },

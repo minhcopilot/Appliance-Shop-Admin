@@ -9,6 +9,7 @@ import { checkUnique } from "../hooks/usefulHooks";
 import { Editor } from "@tinymce/tinymce-react";
 import { useCurrentId } from "../hooks/usePatch";
 import { categorySchemaInput } from "../Category";
+import { useParams } from "react-router-dom";
 // type Props = {};
 
 interface addschemaInput {
@@ -25,7 +26,7 @@ interface addschemaInput {
   commentStatus?: string;
 }
 
-const PostForm = ({
+export const PostForm = ({
   form,
   onFinish,
   initialValues,
@@ -221,107 +222,114 @@ interface PostType extends addschemaInput {
   id: number;
 }
 
+const typeFilter = [
+  {
+    text: "Post",
+    value: "post",
+  },
+  {
+    text: "Page",
+    value: "page",
+  },
+];
+const statusFilter = [
+  {
+    text: "Draft",
+    value: "draft",
+  },
+  {
+    text: "Published",
+    value: "published",
+  },
+  {
+    text: "Deleted",
+    value: "deleted",
+  },
+];
+const commentStatusFilter = [
+  {
+    text: "Open",
+    value: "open",
+  },
+  {
+    text: "Closed",
+    value: "closed",
+  },
+];
+export const postColumns: ColumnsType<PostType> = [
+  {
+    title: "Type",
+    dataIndex: "type",
+    key: "type",
+    filters: typeFilter,
+    onFilter: (value, record) => record.type === value,
+  },
+  {
+    title: "Post Name",
+    dataIndex: "title",
+    key: "title",
+  },
+  {
+    title: "Category",
+    dataIndex: "category",
+    key: "category",
+    render: (text: any, record: PostType, index: number) => {
+      return <>{record.category?.title}</>;
+    },
+  },
+  {
+    title: "Image",
+    key: "imageUrl",
+    dataIndex: "imageUrl",
+    width: "1%",
+    render: (value: string, record: any, index: number) => {
+      return (
+        <img
+          src={"http://localhost:9000" + value}
+          style={{ height: 60 }}
+          alt=""
+        />
+      );
+    },
+  },
+  {
+    title: "Author",
+    dataIndex: "authorName",
+    key: "authorName",
+  },
+  {
+    title: "Status",
+    dataIndex: "status",
+    key: "status",
+    filters: statusFilter,
+    onFilter: (value, record) => record.type === value,
+  },
+  {
+    title: "Comment Status",
+    dataIndex: "commentStatus",
+    key: "commentStatus",
+    filters: commentStatusFilter,
+    onFilter: (value, record) => record.type === value,
+  },
+  {
+    title: "Like",
+    dataIndex: "like",
+    key: "like",
+  },
+];
+
 const Post = () => {
-  const typeFilter = [
-    {
-      text: "Post",
-      value: "post",
-    },
-    {
-      text: "Page",
-      value: "page",
-    },
-  ];
-  const statusFilter = [
-    {
-      text: "Draft",
-      value: "draft",
-    },
-    {
-      text: "Published",
-      value: "published",
-    },
-    {
-      text: "Deleted",
-      value: "deleted",
-    },
-  ];
-  const commentStatusFilter = [
-    {
-      text: "Open",
-      value: "open",
-    },
-    {
-      text: "Closed",
-      value: "closed",
-    },
-  ];
-  const defaultColumns: ColumnsType<PostType> = [
-    {
-      title: "Type",
-      dataIndex: "type",
-      key: "type",
-      filters: typeFilter,
-      onFilter: (value, record) => record.type === value,
-    },
-    {
-      title: "Post Name",
-      dataIndex: "title",
-      key: "title",
-    },
-    {
-      title: "Category",
-      dataIndex: "category",
-      key: "category",
-      render: (text: any, record: PostType, index: number) => {
-        return <>{record.category?.title}</>;
-      },
-    },
-    {
-      title: "Image",
-      key: "imageUrl",
-      dataIndex: "imageUrl",
-      width: "1%",
-      render: (value: string, record: any, index: number) => {
-        return (
-          <img
-            src={"http://localhost:9000" + value}
-            style={{ height: 60 }}
-            alt=""
-          />
-        );
-      },
-    },
-    {
-      title: "Author",
-      dataIndex: "authorName",
-      key: "authorName",
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      filters: statusFilter,
-      onFilter: (value, record) => record.type === value,
-    },
-    {
-      title: "Comment Status",
-      dataIndex: "commentStatus",
-      key: "commentStatus",
-      filters: commentStatusFilter,
-      onFilter: (value, record) => record.type === value,
-    },
-    {
-      title: "Like",
-      dataIndex: "like",
-      key: "like",
-    },
-  ];
+  let params = useParams();
+  console.log(params);
   return (
     <SubjectTemplate
       subject="post"
-      subjects="posts/all"
-      defaultColumns={defaultColumns}
+      subjects={
+        params.postCategoryId
+          ? "posts/all/search/query?postCategoryId=" + params.postCategoryId
+          : "posts/all"
+      }
+      defaultColumns={postColumns}
       currentform={<PostForm />}
     />
   );

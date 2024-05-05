@@ -7,6 +7,7 @@ import useGetSubjects from "../hooks/useGet";
 import { UploadOutlined } from "@ant-design/icons";
 import { checkUnique } from "../hooks/usefulHooks";
 import { useCurrentId } from "../hooks/usePatch";
+import { Link } from "react-router-dom";
 // type Props = {};
 
 export interface categorySchemaInput {
@@ -124,55 +125,59 @@ interface CategoryType extends categorySchemaInput {
   id: number;
 }
 
+export const postCategoryColumns: ColumnsType<CategoryType> = [
+  {
+    title: "Category Name",
+    dataIndex: "title",
+    key: "title",
+    render: (value: string, record: any, index: number) => {
+      return <Link to={record._id}>{value}</Link>;
+    },
+  },
+  {
+    title: "Image",
+    key: "imageUrl",
+    dataIndex: "imageUrl",
+    width: "1%",
+    render: (value: string, record: any, index: number) => {
+      return (
+        <img
+          src={"http://localhost:9000" + value}
+          style={{ height: 60 }}
+          alt=""
+        />
+      );
+    },
+  },
+  {
+    title: "Parent Category Name",
+    dataIndex: "parentId",
+    key: "parentId",
+    render: (text: any, record: CategoryType, index: number) => {
+      return <>{record.parentCategory?.title}</>;
+    },
+  },
+  {
+    title: "Description",
+    dataIndex: "description",
+    key: "description",
+    responsive: ["sm"],
+    render: (value, record, index) => {
+      return record.description
+        ? `${record.description.slice(0, 100)}${
+            record.description.length > 100 ? "..." : ""
+          } `
+        : null;
+    },
+  },
+];
+
 const ArticleCategory = () => {
-  const defaultColumns: ColumnsType<CategoryType> = [
-    {
-      title: "Category Name",
-      dataIndex: "title",
-      key: "title",
-    },
-    {
-      title: "Image",
-      key: "imageUrl",
-      dataIndex: "imageUrl",
-      width: "1%",
-      render: (value: string, record: any, index: number) => {
-        return (
-          <img
-            src={"http://localhost:9000" + value}
-            style={{ height: 60 }}
-            alt=""
-          />
-        );
-      },
-    },
-    {
-      title: "Parent Category Name",
-      dataIndex: "parentId",
-      key: "parentId",
-      render: (text: any, record: CategoryType, index: number) => {
-        return <>{record.parentCategory?.title}</>;
-      },
-    },
-    {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
-      responsive: ["sm"],
-      render: (value, record, index) => {
-        return record.description
-          ? `${record.description.slice(0, 100)}${
-              record.description.length > 100 ? "..." : ""
-            } `
-          : null;
-      },
-    },
-  ];
   return (
     <SubjectTemplate
       subject="category"
-      subjects="categories"
-      defaultColumns={defaultColumns}
+      subjects="categories/all"
+      defaultColumns={postCategoryColumns}
       currentform={<CategoryForm />}
     />
   );

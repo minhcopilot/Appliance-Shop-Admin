@@ -9,6 +9,8 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 import Sider from "antd/es/layout/Sider";
 import { MdOutlineCategory, MdOutlinePostAdd } from "react-icons/md";
 import { Content } from "antd/es/layout/layout";
+import { CommentOutlined } from "@ant-design/icons";
+import useAuth from "../OnlineShop/hooks/useAuth";
 
 export const Notice = () => {
   return (
@@ -35,6 +37,7 @@ export default function Article() {
   } = theme.useToken();
   const [sideCollapsed, setSideCollapsed] = React.useState(false);
   const location = useLocation();
+  const loggedInUser = useAuth().loggedInUser;
   return (
     <Layout style={{ background: colorBgContainer }}>
       <Sider
@@ -72,6 +75,11 @@ export default function Article() {
               label: <Link to="post">Post</Link>,
               icon: <MdOutlinePostAdd />,
             },
+            {
+              key: "comment",
+              label: <Link to="comment">Comment</Link>,
+              icon: <CommentOutlined />,
+            },
           ]}
         />
       </Sider>
@@ -80,7 +88,7 @@ export default function Article() {
         style={sideCollapsed ? { marginLeft: 50 } : { marginLeft: 170 }}
       >
         <div style={{ padding: 10 }}>
-          <Outlet />
+          {loggedInUser ? <Outlet /> : <h1>Log in to see the content</h1>}
         </div>
       </Content>
     </Layout>

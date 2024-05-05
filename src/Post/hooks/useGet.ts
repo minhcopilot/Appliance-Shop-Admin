@@ -5,6 +5,7 @@ import axiosClient from "../config/axiosClient";
 import React from "react";
 import { useQuery, useQueryClient } from "react-query";
 import { AxiosError, AxiosResponse } from "axios";
+import useAuth from "../../OnlineShop/hooks/useAuth";
 
 interface ErrorResponse extends AxiosResponse {
   data: { message: string[]; statusCode: number };
@@ -68,8 +69,13 @@ export const useGetSubject = (
 ) => {
   const queryClient = useQueryClient();
   const url = subject + "/" + id;
+  const access_token = useAuth((state) => state.token);
   const getSubject = async (subject: string, id: string | null) => {
-    const response = await axiosClient.get(url);
+    const response = await axiosClient.get(url, {
+      headers: {
+        Authorization: "Bearer " + access_token,
+      },
+    });
     return response.data;
   };
   const result = useQuery<any, Error>(
@@ -138,8 +144,13 @@ export const useGetSubject = (
 // };
 
 const useGetSubjects = (subject: string) => {
+  const access_token = useAuth((state) => state.token);
   const getSubjects = async (subject: string) => {
-    const response = await axiosClient.get(subject);
+    const response = await axiosClient.get(subject, {
+      headers: {
+        Authorization: "Bearer " + access_token,
+      },
+    });
     return response.data;
   };
   return useQuery<any[], Error>([subject], () => getSubjects(subject));

@@ -33,7 +33,6 @@ export default function GetSubjects({ subject, title, subjectColumn }: Props) {
   const hasSelected = selectedRowKeys.length > 0;
   return (
     <Flex vertical>
-      <Title level={3}>{title}</Title>
       {query.isLoading ? (
         <Spin />
       ) : query.isError ? (
