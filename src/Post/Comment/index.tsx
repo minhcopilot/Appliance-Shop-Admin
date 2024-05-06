@@ -1,13 +1,9 @@
 import React from "react";
-import { Button, Form, Input, InputNumber, Radio, Select, Upload } from "antd";
+import { Form, Input, Radio } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import SubjectTemplate from "../Components/SubjectTemplate";
 import useGetSubjects, { useGetSubject } from "../hooks/useGet";
-import { UploadOutlined } from "@ant-design/icons";
-import { checkUnique } from "../hooks/usefulHooks";
-import { Editor } from "@tinymce/tinymce-react";
 import { useCurrentId } from "../hooks/usePatch";
-import { categorySchemaInput } from "../Category";
 import { useParams } from "react-router-dom";
 import GetSubjects from "../Components/GetSubjects";
 import useAuth from "../../OnlineShop/hooks/useAuth";
