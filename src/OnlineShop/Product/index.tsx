@@ -1,11 +1,21 @@
 import React from "react";
 // import styles from "./Product.module.css";
-import { Form, Input, InputNumber, Select, Spin, Statistic } from "antd";
+import {
+  Button,
+  Form,
+  Input,
+  InputNumber,
+  Select,
+  Spin,
+  Statistic,
+  Upload,
+} from "antd";
 import type { ColumnsType } from "antd/es/table";
 import TextArea from "antd/es/input/TextArea";
 import SubjectTemplate from "../Components/SubjectTemplate";
 import useGetSubjects from "../hooks/useGet";
 import { uniqBy } from "../hooks/usefulHooks";
+import { UploadOutlined } from "@ant-design/icons";
 // type Props = {};
 
 interface getoption {
@@ -27,13 +37,45 @@ const ProductForm = ({
   form,
   onFinish,
   initialValues,
+  fileList1,
+  beforeUpload1,
+  onRemove1,
+  handleFileChange1,
 }: {
   form?: any;
   onFinish?: (data: any) => void;
   initialValues?: addschemaInput;
+  fileList1?: any;
+  beforeUpload1?: (file: any) => boolean;
+  onRemove1?: (file: any) => void;
+  handleFileChange1?: (info: any) => void;
 }) => {
   const categories = useGetSubjects("categories");
   const suppliers = useGetSubjects("suppliers");
+  const [fileList, setFileList] = React.useState<any[]>([]);
+  const [isEditMode, setIsEditMode] = React.useState(false);
+
+  React.useEffect(() => {
+    if (initialValues) {
+      setIsEditMode(true);
+    } else {
+      setIsEditMode(false);
+    }
+  }, [initialValues]);
+  const beforeUpload = (file: any) => {
+    form.setFieldsValue({ fileList: file });
+    return false;
+  };
+
+  const onRemove = (file: any) => {
+    // Logic to handle file removal
+    setFileList(fileList.filter((item: any) => item.uid !== file.uid));
+  };
+  const handleFileChange = (info: any) => {
+    let fileList = [...info.fileList];
+    fileList = fileList.slice(-5); // Chỉ cho phép tải lên tối đa 5 tệp
+    setFileList(fileList);
+  };
 
   return (
     <Form
@@ -89,13 +131,7 @@ const ProductForm = ({
       >
         <InputNumber name="price" addonBefore="$"></InputNumber>
       </Form.Item>
-      <Form.Item
-        name="price"
-        label="Price"
-        rules={[{ required: true, message: "Price is required" }]}
-      >
-        <InputNumber name="price" addonBefore="$"></InputNumber>
-      </Form.Item>
+
       <Form.Item
         name="discount"
         label="Giảm giá"
@@ -120,6 +156,18 @@ const ProductForm = ({
         ]}
       >
         <TextArea name="description" autoSize></TextArea>
+      </Form.Item>
+      <Form.Item name="files" label="Hình ảnh">
+        <Upload
+          name="files"
+          fileList={isEditMode ? fileList1 : fileList}
+          listType="picture"
+          beforeUpload={beforeUpload}
+          onRemove={onRemove}
+          onChange={handleFileChange}
+        >
+          <Button icon={<UploadOutlined />}>Chọn hình ảnh</Button>
+        </Upload>
       </Form.Item>
     </Form>
   );
@@ -152,6 +200,31 @@ const Productant = () => {
       title: "Tên sản phẩm",
       dataIndex: "name",
       key: "name",
+    },
+    {
+      title: "Hình ảnh",
+      dataIndex: "images",
+      key: "images",
+      render: (text: any, record: any, index: number) => {
+        if (record.imageUrls && record.imageUrls.length > 0) {
+          return (
+            <div>
+              {record.imageUrls.map((image: any, index: number) => (
+                <img
+                  key={index}
+                  src={`${image.url}`}
+                  alt={`product-${index}`}
+                  width="50px"
+                  height={"50px"}
+                  style={{ marginRight: "10px", marginBottom: "10px" }}
+                />
+              ))}
+            </div>
+          );
+        } else {
+          return <p>Không có hình ảnh</p>;
+        }
+      },
     },
     {
       title: "Giá",

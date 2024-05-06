@@ -20,10 +20,23 @@ export default function PatchSubject({ subject, currentform, title }: Props) {
   const setCurrentId = useCurrentId((state) => state.setCurrentId);
   const query = usePatchSubject(subject);
   const getSubjects = useGetSubjects(subject);
+
   const submitPatchSubject = (data: any) => {
     const passdata: any = { data: data, id: currentId };
     query.mutate(passdata);
   };
+
+  const initialFileList = getSubjects.data
+    ?.find((subject: any) => {
+      return subject.id === currentId;
+    })
+    ?.imageUrls.map((image: any, index: number) => ({
+      uid: `${index}`,
+      name: image.name,
+      status: "done",
+      url: image.url,
+    }));
+
   return (
     <Modal
       title={title}
@@ -34,38 +47,42 @@ export default function PatchSubject({ subject, currentform, title }: Props) {
         setCurrentId(null);
       }}
       width={window.innerWidth <= 426 ? "90vw" : "70vw"}
-      footer=<Row>
-        <Col span={6} />
-        <Col>
-          <Space>
-            <Button type="primary" onClick={() => patchSubject.submit()}>
-              Change this {subject}
-            </Button>
-            <Button
-              onClick={() => {
-                setPatchPopup(false);
-                patchSubject.resetFields();
-                setCurrentId(null);
-              }}
-            >
-              Cancel
-            </Button>
-          </Space>
-        </Col>
-      </Row>
+      footer={
+        <Row>
+          <Col span={6} />
+          <Col>
+            <Space>
+              <Button type="primary" onClick={() => patchSubject.submit()}>
+                Change this {subject}
+              </Button>
+              <Button
+                onClick={() => {
+                  setPatchPopup(false);
+                  patchSubject.resetFields();
+                  setCurrentId(null);
+                }}
+              >
+                Cancel
+              </Button>
+            </Space>
+          </Col>
+        </Row>
+      }
     >
       {getSubjects.isSuccess ? (
         React.cloneElement(currentform, {
           form: patchSubject,
           onFinish: submitPatchSubject,
-          initialValues: getSubjects.data?.find((subject: any) => {
-            return subject.id === currentId;
-          }),
+          initialValues: {
+            ...getSubjects.data?.find((subject: any) => {
+              return subject.id === currentId;
+            }),
+          },
+          fileList1: initialFileList,
         })
       ) : (
         <Spin />
       )}
-
       {query.isLoading && <Alert message="Đang xử lí" type="info" />}
       {query.isError &&
         (query.error.response ? (
