@@ -20,23 +20,21 @@ export default function PatchSubject({ subject, currentform, title }: Props) {
   const setCurrentId = useCurrentId((state) => state.setCurrentId);
   const query = usePatchSubject(subject);
   const getSubjects = useGetSubjects(subject);
-
+  let initialFileList = getSubjects.data;
   const submitPatchSubject = (data: any) => {
     const passdata: any = { data: data, id: currentId };
     query.mutate(passdata);
   };
-
-  const initialFileList = getSubjects.data
-    ?.find((subject: any) => {
-      return subject.id === currentId;
-    })
-    ?.imageUrls.map((image: any, index: number) => ({
-      uid: `${index}`,
-      name: image.name,
-      status: "done",
-      url: image.url,
-    }));
-
+  if (subject === "products") {
+    initialFileList = getSubjects.data
+      ?.find((subject: any) => subject.id === currentId)
+      ?.imageUrls.map((image: any, index: number) => ({
+        uid: `${currentId}_${index}`, // Sử dụng uid duy nhất gồm id và index
+        name: image.name,
+        status: "done",
+        url: image.url,
+      }));
+  }
   return (
     <Modal
       title={title}

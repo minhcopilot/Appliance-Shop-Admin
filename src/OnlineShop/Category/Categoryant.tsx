@@ -70,13 +70,6 @@ const Categoryant = () => {
       dataIndex: "description",
       key: "description",
       responsive: ["sm"],
-      render: (value, record, index) => {
-        return record.description
-          ? `${record.description.slice(0, 100)}${
-              record.description.length > 100 ? "..." : ""
-            } `
-          : null;
-      },
     },
   ];
   // const [categoryColumn] = useTableColumn("categories", defaultColumns);
