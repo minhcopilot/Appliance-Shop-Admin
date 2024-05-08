@@ -9,9 +9,25 @@ import useAuth from "./OnlineShop/hooks/useAuth";
 import Logout from "./OnlineShop/Login/Logout";
 import { GiDoctorFace } from "react-icons/gi";
 import { url } from "inspector";
+import { useSocket } from "./socket";
+import { serverMessageHandler } from "./Chat/chatHandler";
 
 const HeaderContent = () => {
   const loggedInUser = useAuth((state) => state.loggedInUser);
+  const socket = useSocket();
+  const socketHandler = () => {
+    socket.connect();
+    socket.emit("employee-message", loggedInUser);
+    socket.on("server-message", serverMessageHandler);
+    return () => {
+      socket.off("server-message");
+    };
+  };
+  React.useEffect(() => {
+    loggedInUser
+      ? !socket.connected && socketHandler()
+      : !socket.disconnected && socket.disconnect();
+  }, [loggedInUser]);
   return !loggedInUser ? <Loginant /> : <Logout />;
 };
 
@@ -68,6 +84,10 @@ export default function App() {
               {
                 key: "article",
                 label: <Link to="article">Article</Link>,
+              },
+              {
+                key: "chat",
+                label: <Link to="chat">Chat</Link>,
               },
             ]}
           />
