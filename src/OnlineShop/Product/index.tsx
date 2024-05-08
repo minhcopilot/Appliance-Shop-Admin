@@ -236,12 +236,11 @@ const Productant = () => {
         return (
           <Statistic
             valueStyle={{ fontSize: "1em" }}
-            value={record.price}
-            prefix="$"
+            value={`${record.price} đ`}
           />
         );
       },
-      responsive: ["md"],
+      responsive: ["lg"],
     },
     {
       title: "Giảm giá",
