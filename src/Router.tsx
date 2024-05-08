@@ -17,7 +17,7 @@ import Article from "./Post";
 import Post from "./Post/Post";
 import Comment from "./Post/Comment";
 import Chat from "./Chat";
-import ChatContent from "./Chat/components/ChatContent";
+import ChatOutlet from "./Chat/components/ChatOutlet";
 
 export default function Router() {
   const router = createBrowserRouter([
@@ -96,7 +96,7 @@ export default function Router() {
           children: [
             {
               path: ":chatId",
-              element: <ChatContent />,
+              element: <ChatOutlet />,
             },
           ],
         },

@@ -22,16 +22,16 @@ export default function Message({ message }: { message: MessageProps }) {
   return (
     <>
       {message.replyTo && <ReplyTo id={message.replyTo} />}
-      <Badge.Ribbon text={message.sender} placement={placement}>
-        <Card
-          size="small"
-          actions={[
-            <Modal title="Edit History">
-              <List children={message.editHistory} />
-            </Modal>,
-          ]}
-        >
-          <div style={{ marginLeft: 80 }}>
+      <Badge.Ribbon
+        text={message.sender}
+        placement={placement}
+        style={{ margin: 10 }}
+      >
+        <Card size="small">
+          <div
+            style={{ marginLeft: 80, marginRight: 80 }}
+            dir={message.sender === "employee" ? "rtl" : ""}
+          >
             {message.type === "text" && message.content}
             {message.type === "image" && (
               <img src={message.content} alt="image" />

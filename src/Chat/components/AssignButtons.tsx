@@ -3,18 +3,18 @@ import { useSocket } from "../../socket";
 import { Button, Space, notification } from "antd";
 
 type Props = {
-  key: string;
-  customerName: string;
+  key?: string;
   id: number;
 };
 
-export const AssignButtons = ({ key, customerName, id }: Props) => {
+export const AssignButtons = ({ key, id }: Props) => {
   const socket = useSocket();
   const acceptAssign = (id: number) => {
     socket.connect();
     socket.emit("employee-message", { type: "chat-accepted", message: { id } });
-    notification.destroy(key);
+    key && notification.destroy(key);
   };
+
   return (
     <Space>
       <Button type="link" onClick={() => notification.destroy()}>
