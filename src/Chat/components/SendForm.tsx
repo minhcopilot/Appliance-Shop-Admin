@@ -1,37 +1,54 @@
-import { Button, Input, Space } from "antd";
+import { Button, Card, Form, Input, Space } from "antd";
 import React from "react";
 import { useSocket } from "../../socket";
-import { set } from "react-hook-form";
+import { useGetAssignedChat } from "../hooks/useGet";
 
 type Props = { chatId: number };
 
 export default function SendForm({ chatId }: Props) {
-  const [message, setMessage] = React.useState("");
+  const [chatForm] = Form.useForm();
   const socket = useSocket();
-  const sendMessage = () => {
+  const assignedChat = useGetAssignedChat();
+  const currentChat = assignedChat.data?.find(
+    (chat: any) => chat.id === chatId
+  );
+  const sendMessage = (data: any) => {
     socket.connect();
     socket.emit("employee-message", {
       type: "new-message",
       message: {
         chatId,
         type: "text",
-        content: message,
+        content: data.message,
       },
     });
-    setMessage("");
+    console.log("message sent to " + chatId + ": " + data.message);
+    chatForm.resetFields();
   };
   return (
-    <Space.Compact style={{ width: "100%" }}>
-      <Input
-        value={message}
-        onChange={(e) => {
-          setMessage(e.currentTarget.value);
-        }}
-        placeholder="Type a message"
-      />
-      <Button type="primary" onClick={sendMessage}>
-        Send
-      </Button>
-    </Space.Compact>
+    <>
+      {assignedChat.isSuccess && currentChat.isFinished ? (
+        <Card size="small" style={{ backgroundColor: "#d1d1d1" }}>
+          This chat has finished
+        </Card>
+      ) : (
+        <Form form={chatForm} onFinish={sendMessage} style={{ width: "100%" }}>
+          <Space.Compact block>
+            <Form.Item
+              name="message"
+              rules={[
+                { required: true, message: "Please input your message!" },
+              ]}
+              style={{ width: "100%" }}
+            >
+              <Input autoFocus name="message" placeholder="Type a message" />
+            </Form.Item>
+            <Button type="primary" htmlType="submit">
+              Send
+            </Button>
+          </Space.Compact>
+        </Form>
+      )}
+    </>
   );
 }

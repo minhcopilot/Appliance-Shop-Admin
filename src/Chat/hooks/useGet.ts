@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import axiosClient from "../../OnlineShop/config/axiosClient";
 import useAuth from "../../OnlineShop/hooks/useAuth";
 import { useSocket } from "../../socket";
@@ -21,17 +21,6 @@ export const useGetAssignedChat = () => {
     }
   };
   const result = useQuery<any, Error>("assigned", getAssignedChat);
-  React.useEffect(() => {
-    if (socket) {
-      socket.on("assigned", (data: any) => {
-        result.refetch();
-        console.log("Assigned chat", data);
-      });
-    }
-    return () => {
-      socket?.off("assigned");
-    };
-  }, [socket]);
   return result;
 };
 
@@ -52,19 +41,10 @@ export const useGetUnassignedChat = () => {
     }
   };
   const result = useQuery<any, Error>("unassigned", getUnassignedChat);
-  React.useEffect(() => {
-    if (socket) {
-      socket.on("assigned", (data: any) => {
-        result.refetch();
-      });
-    }
-    return () => {
-      socket?.off("unassigned");
-    };
-  }, [socket]);
   return result;
 };
-export const useGetContent = (id: number) => {
+export const useGetContent = (id: number | null) => {
+  const queryClient = useQueryClient();
   const token = useAuth((state) => state.token);
   const socket = useSocket();
   const getMessage = async () => {
@@ -81,16 +61,6 @@ export const useGetContent = (id: number) => {
     }
   };
   const result = useQuery<any, Error>(["chatContent", id], getMessage);
-  React.useEffect(() => {
-    if (socket) {
-      socket.on("new-message", (data: any) => {
-        result.refetch();
-      });
-    }
-    return () => {
-      socket?.off("new-message");
-    };
-  }, [socket]);
   return result;
 };
 
@@ -111,15 +81,5 @@ export const useGetMessage = (id: string) => {
     }
   };
   const result = useQuery<any, Error>(["chatMessages", id], getMessages);
-  React.useEffect(() => {
-    if (socket) {
-      socket.on("new-message", (data: any) => {
-        result.refetch();
-      });
-    }
-    return () => {
-      socket?.off("new-message");
-    };
-  }, [socket]);
   return result;
 };

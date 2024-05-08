@@ -8,26 +8,11 @@ import Loginant from "./OnlineShop/Login/Loginant";
 import useAuth from "./OnlineShop/hooks/useAuth";
 import Logout from "./OnlineShop/Login/Logout";
 import { GiDoctorFace } from "react-icons/gi";
-import { url } from "inspector";
+import { useSocketHandler } from "./Chat/chatHandler";
 import { useSocket } from "./socket";
-import { serverMessageHandler } from "./Chat/chatHandler";
 
 const HeaderContent = () => {
   const loggedInUser = useAuth((state) => state.loggedInUser);
-  const socket = useSocket();
-  const socketHandler = () => {
-    socket.connect();
-    socket.emit("employee-message", loggedInUser);
-    socket.on("server-message", serverMessageHandler);
-    return () => {
-      socket.off("server-message");
-    };
-  };
-  React.useEffect(() => {
-    loggedInUser
-      ? !socket.connected && socketHandler()
-      : !socket.disconnected && socket.disconnect();
-  }, [loggedInUser]);
   return !loggedInUser ? <Loginant /> : <Logout />;
 };
 
@@ -50,6 +35,15 @@ export default function App() {
   //   token: { colorBgContainer },
   // } = theme.useToken();
   const location = useLocation();
+  const loggedInUser = useAuth((state) => state.loggedInUser);
+  const socket = useSocket();
+  const socketHandler = useSocketHandler();
+  React.useEffect(() => {
+    socketHandler();
+  }, []);
+  React.useEffect(() => {
+    !loggedInUser && socket.disconnect();
+  }, [loggedInUser]);
   return (
     <ConfigProvider locale={locale}>
       <Layout
