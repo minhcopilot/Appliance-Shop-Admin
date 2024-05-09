@@ -1,6 +1,14 @@
 import React from "react";
 import "./App.css";
-import { Button, ConfigProvider, Layout, Menu, MenuProps, Result } from "antd";
+import {
+  Badge,
+  Button,
+  ConfigProvider,
+  Layout,
+  Menu,
+  MenuProps,
+  Result,
+} from "antd";
 import { Content, Header } from "antd/es/layout/layout";
 import locale from "antd/locale/vi_VN";
 import { Outlet, Link, useLocation } from "react-router-dom";
@@ -10,6 +18,7 @@ import Logout from "./OnlineShop/Login/Logout";
 import { GiDoctorFace } from "react-icons/gi";
 import { useSocketHandler } from "./Chat/chatHandler";
 import { useSocket } from "./socket";
+import { useGetUnassignedChat } from "./Chat/hooks/useGet";
 
 const HeaderContent = () => {
   const loggedInUser = useAuth((state) => state.loggedInUser);
@@ -44,6 +53,12 @@ export default function App() {
   React.useEffect(() => {
     !loggedInUser && socket.disconnect();
   }, [loggedInUser]);
+  const unassignedChats = useGetUnassignedChat();
+  const [unassignedChatsCount, setUnassignedChatsCount] = React.useState(0);
+  React.useEffect(() => {
+    unassignedChats.data &&
+      setUnassignedChatsCount(unassignedChats.data.length);
+  }, [unassignedChats.data]);
   return (
     <ConfigProvider locale={locale}>
       <Layout
@@ -81,7 +96,17 @@ export default function App() {
               },
               {
                 key: "chat",
-                label: <Link to="chat">Chat</Link>,
+                label: (
+                  <Link to="chat">
+                    <Badge
+                      count={unassignedChatsCount}
+                      overflowCount={10}
+                      size="small"
+                    >
+                      <p style={{ color: "white" }}>Chat</p>
+                    </Badge>
+                  </Link>
+                ),
               },
             ]}
           />

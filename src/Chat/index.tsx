@@ -57,16 +57,17 @@ export default function Chat() {
                 mode="inline"
                 selectedKeys={[location.pathname.split("/")[2]]}
                 items={[
-                  ...assignedChats.data?.map((chat: any) => ({
+                  ...unassignedChats.data?.map((chat: any) => ({
                     key: chat.id,
-                    icon: <UserOutlined />,
+                    icon: <UserAddOutlined />,
+                    danger: true,
                     label: (
                       <Link to={chat.id.toString()}>{chat.customerName}</Link>
                     ),
                   })),
-                  ...unassignedChats.data?.map((chat: any) => ({
+                  ...assignedChats.data?.map((chat: any) => ({
                     key: chat.id,
-                    icon: <UserAddOutlined />,
+                    icon: <UserOutlined />,
                     label: (
                       <Link to={chat.id.toString()}>{chat.customerName}</Link>
                     ),
