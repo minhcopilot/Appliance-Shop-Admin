@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 
 export interface categorySchemaInput {
   title: string;
+  imageUrl?: any;
   description?: string;
   parentId?: string;
   url?: string;
@@ -30,13 +31,6 @@ const CategoryForm = ({
 }) => {
   const postCategory = useGetSubjects("categories");
   const currentId = useCurrentId((state) => state.currentId);
-  const normFile = (e: any) => {
-    console.log("Upload event:", e);
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e?.fileList;
-  };
   return (
     <Form
       form={form}
@@ -65,16 +59,13 @@ const CategoryForm = ({
       >
         <Input name="title" type="text"></Input>
       </Form.Item>
-      <Form.Item name="file" label="Image">
+      <Form.Item name="file" label="Hình ảnh">
         <Upload
-          name="file"
           listType="picture"
-          beforeUpload={(f: any) => {
-            form.setFieldsValue({ file: f });
-            return false;
-          }}
+          maxCount={1}
+          defaultFileList={currentId ? [initialValues?.imageUrl] : []}
         >
-          <Button icon={<UploadOutlined />}>Click to upload</Button>
+          <Button icon={<UploadOutlined />}>Chọn hình ảnh</Button>
         </Upload>
       </Form.Item>
       <Form.Item
@@ -139,14 +130,8 @@ export const postCategoryColumns: ColumnsType<CategoryType> = [
     key: "imageUrl",
     dataIndex: "imageUrl",
     width: "1%",
-    render: (value: string, record: any, index: number) => {
-      return (
-        <img
-          src={"http://localhost:9000" + value}
-          style={{ height: 60 }}
-          alt=""
-        />
-      );
+    render: (value: any, record: any, index: number) => {
+      return <img src={value.url} style={{ height: 60 }} alt="" />;
     },
   },
   {

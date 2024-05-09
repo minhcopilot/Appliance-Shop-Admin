@@ -15,7 +15,17 @@ export default function AddSubject({ subject, currentform, title }: Props) {
   // const [data, setData] = React.useState(null);
   const query = useAdd(subject);
   const submitAddSubject = (data: any) => {
-    query.mutate(data);
+    const formData = new FormData();
+    Object.keys(data).forEach((key) => {
+      if (key === "file") {
+        formData.append(key, data[key].fileList[0].originFileObj);
+      } else {
+        data[key] !== undefined && formData.append(key, data[key]);
+      }
+    });
+    const dataF: any = formData;
+    query.mutate(dataF);
+    query.isSuccess && addSubject.resetFields();
   };
   React.useEffect(() => {
     query.isSuccess && addSubject.resetFields(); // eslint-disable-next-line

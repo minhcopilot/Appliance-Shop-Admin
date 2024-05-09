@@ -10,6 +10,9 @@ import { Editor } from "@tinymce/tinymce-react";
 import { useCurrentId } from "../hooks/usePatch";
 import { categorySchemaInput } from "../Category";
 import { useParams } from "react-router-dom";
+import axiosClient from "../config/axiosClient";
+import useAuth from "../../OnlineShop/hooks/useAuth";
+import { resolve } from "path";
 // type Props = {};
 
 interface addschemaInput {
@@ -21,7 +24,7 @@ interface addschemaInput {
   authorId: number;
   authorName: string;
   url: string;
-  imageUrl?: string;
+  imageUrl?: any;
   status?: string;
   commentStatus?: string;
 }
@@ -38,6 +41,33 @@ export const PostForm = ({
   const postCategory = useGetSubjects("categories");
   const currentId = useCurrentId((state) => state.currentId);
   const getPost = useGetSubject("posts/all", currentId, true);
+  const access_token = useAuth((state) => state.token);
+  const tinymceUpload = (blobInfo: any, progress: any) =>
+    new Promise<string>(async (resolve, reject) => {
+      // Create a FormData object to send the file to the server
+      const formData = new FormData();
+      formData.append("file", blobInfo.blob(), blobInfo.filename());
+      currentId && formData.append("postId", currentId);
+
+      const result = await axiosClient.post("/posts/all/upload", formData, {
+        onUploadProgress: (progressEvent) => {
+          progress && progress(progress);
+        },
+        headers: {
+          Authorization: "Bearer " + access_token,
+        },
+      });
+      if (result.status === 403) {
+        reject({ message: "HTTP Error: " + result.status, remove: true });
+        return;
+      }
+
+      if (result.status < 200 || result.status >= 300) {
+        reject("HTTP Error: " + result.status);
+        return;
+      }
+      return resolve(result.data.url);
+    });
   return (
     <Form
       form={form}
@@ -164,16 +194,13 @@ export const PostForm = ({
       >
         <InputNumber name="like" min={0} step={1}></InputNumber>
       </Form.Item>
-      <Form.Item name="file" label="Image">
+      <Form.Item name="file" label="Hình ảnh">
         <Upload
-          name="file"
           listType="picture"
-          beforeUpload={(f: any) => {
-            form.setFieldsValue({ file: f });
-            return false;
-          }}
+          maxCount={1}
+          defaultFileList={currentId ? [initialValues?.imageUrl] : []}
         >
-          <Button icon={<UploadOutlined />}>Click to upload</Button>
+          <Button icon={<UploadOutlined />}>Chọn hình ảnh</Button>
         </Upload>
       </Form.Item>
       <Editor
@@ -205,9 +232,11 @@ export const PostForm = ({
             "undo redo | blocks | " +
             "bold italic forecolor | alignleft aligncenter " +
             "alignright alignjustify | bullist numlist outdent indent | " +
-            "removeformat | help",
+            "removeformat | help" +
+            "link | image",
           content_style:
             "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+          images_upload_handler: tinymceUpload,
         }}
         initialValue={getPost.data?.content}
         onEditorChange={(content) => form.setFieldsValue({ content })}
@@ -282,14 +311,8 @@ export const postColumns: ColumnsType<PostType> = [
     key: "imageUrl",
     dataIndex: "imageUrl",
     width: "1%",
-    render: (value: string, record: any, index: number) => {
-      return (
-        <img
-          src={"http://localhost:9000" + value}
-          style={{ height: 60 }}
-          alt=""
-        />
-      );
+    render: (value: any, record: any, index: number) => {
+      return <img src={value.url} style={{ height: 60 }} alt="" />;
     },
   },
   {

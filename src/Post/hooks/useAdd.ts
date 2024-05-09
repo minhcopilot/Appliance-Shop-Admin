@@ -79,40 +79,6 @@ const useAdd = (subject: string, silent?: boolean) => {
             duration: 0,
           })); // eslint-disable-next-line
   }, [result]);
-  // React.useEffect(() => {
-  //   const addData = async (data: any) => {
-  //     try {
-  //       message.loading({
-  //         key: "addsubject",
-  //         content: "Loading",
-  //       });
-  //       const response = await axiosClient.post(
-  //         "/online-shop/" + subject,
-  //         data,
-  //         {
-  //           headers: {
-  //             Authorization: "Bearer " + access_token,
-  //           },
-  //         }
-  //       );
-  //       setSuccess(true);
-  //       message.success({
-  //         key: "addsubject",
-  //         content:
-  //           "Added " + response.data.name + " with ID: " + response.data.id,
-  //         duration: 2,
-  //       });
-  //       setRefresh();
-  //     } catch (error: any) {
-  //       message.error({
-  //         key: "addsubject",
-  //         content: error.response.data.message,
-  //         duration: 2,
-  //       });
-  //     }
-  //   };
-  //   data && addData(data);
-  // }, [data]);
   return result;
 };
 

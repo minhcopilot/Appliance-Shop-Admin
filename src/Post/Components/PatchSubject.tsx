@@ -22,14 +22,33 @@ export default function PatchSubject({ subject, currentform, title }: Props) {
   const query = usePatchSubject(subject);
   const getSubjects = useGetSubjects(subject);
   const submitPatchSubject = async (data: any) => {
-    const passdata: any = { data: data, id: currentId };
-    await query.mutate(passdata);
-    if (query.isSuccess && data.file) {
-      const formData = new FormData();
-      formData.append("file", data.file);
-      await axiosClient.post(subject + "/" + currentId + "/upload", formData);
-    }
+    const formData = new FormData();
+    Object.keys(data).forEach((key) => {
+      if (key === "file") {
+        formData.append(key, data[key].fileList[0].originFileObj);
+      } else {
+        data[key] !== undefined && formData.append(key, data[key]);
+      }
+    });
+    const dataF: any = formData;
+    query.mutate(dataF);
+    query.isSuccess && patchSubject.resetFields();
   };
+  const currentValues =
+    getSubjects.isSuccess &&
+    currentId &&
+    getSubjects.data?.find((subject: any) => {
+      return subject.id === currentId;
+    });
+  const initialValues = currentValues && {
+    ...currentValues,
+    imageUrl: {
+      name: currentValues.imageUrl.name,
+      status: "done",
+      url: currentValues.imageUrl.url,
+    },
+  };
+
   return (
     <Modal
       title={title}
@@ -64,9 +83,7 @@ export default function PatchSubject({ subject, currentform, title }: Props) {
         React.cloneElement(currentform, {
           form: patchSubject,
           onFinish: submitPatchSubject,
-          initialValues: getSubjects.data?.find((subject: any) => {
-            return subject.id === currentId;
-          }),
+          initialValues: initialValues,
         })
       ) : (
         <Spin />
