@@ -27,7 +27,7 @@ export default function SendForm({ chatId }: Props) {
   };
   return (
     <>
-      {assignedChat.isSuccess && currentChat.isFinished ? (
+      {assignedChat.isSuccess && currentChat && currentChat.isFinished ? (
         <Card size="small" style={{ backgroundColor: "#d1d1d1" }}>
           This chat has finished
         </Card>

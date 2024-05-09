@@ -2,11 +2,9 @@ import { useQuery, useQueryClient } from "react-query";
 import axiosClient from "../../OnlineShop/config/axiosClient";
 import useAuth from "../../OnlineShop/hooks/useAuth";
 import { useSocket } from "../../socket";
-import React from "react";
 
 export const useGetAssignedChat = () => {
   const token = useAuth((state) => state.token);
-  const socket = useSocket();
   const getAssignedChat = async () => {
     try {
       const response = await axiosClient.get("/chat/assigned", {
@@ -44,9 +42,7 @@ export const useGetUnassignedChat = () => {
   return result;
 };
 export const useGetContent = (id: number | null) => {
-  const queryClient = useQueryClient();
   const token = useAuth((state) => state.token);
-  const socket = useSocket();
   const getMessage = async () => {
     try {
       const response = await axiosClient.get(`/chat/content/${id}`, {
@@ -66,7 +62,6 @@ export const useGetContent = (id: number | null) => {
 
 export const useGetMessage = (id: string) => {
   const token = useAuth((state) => state.token);
-  const socket = useSocket();
   const getMessages = async () => {
     try {
       const response = await axiosClient.get(`/chat/messages/${id}`, {
