@@ -68,6 +68,7 @@ export const PostForm = ({
       }
       return resolve(result.data.url);
     });
+
   return (
     <Form
       form={form}
@@ -198,7 +199,9 @@ export const PostForm = ({
         <Upload
           listType="picture"
           maxCount={1}
-          defaultFileList={currentId ? [initialValues?.imageUrl] : []}
+          defaultFileList={
+            initialValues?.imageUrl ? [initialValues.imageUrl] : []
+          }
         >
           <Button icon={<UploadOutlined />}>Chọn hình ảnh</Button>
         </Upload>
@@ -312,7 +315,7 @@ export const postColumns: ColumnsType<PostType> = [
     dataIndex: "imageUrl",
     width: "1%",
     render: (value: any, record: any, index: number) => {
-      return <img src={value.url} style={{ height: 60 }} alt="" />;
+      return value && <img src={value.url} style={{ height: 60 }} alt="" />;
     },
   },
   {

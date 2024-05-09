@@ -17,10 +17,13 @@ export default function AddSubject({ subject, currentform, title }: Props) {
   const submitAddSubject = (data: any) => {
     const formData = new FormData();
     Object.keys(data).forEach((key) => {
+      if (data[key] == undefined) {
+        return;
+      }
       if (key === "file") {
         formData.append(key, data[key].fileList[0].originFileObj);
       } else {
-        data[key] !== undefined && formData.append(key, data[key]);
+        formData.append(key, data[key]);
       }
     });
     const dataF: any = formData;

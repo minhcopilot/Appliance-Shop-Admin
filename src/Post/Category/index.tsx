@@ -131,7 +131,7 @@ export const postCategoryColumns: ColumnsType<CategoryType> = [
     dataIndex: "imageUrl",
     width: "1%",
     render: (value: any, record: any, index: number) => {
-      return <img src={value.url} style={{ height: 60 }} alt="" />;
+      return value && <img src={value.url} style={{ height: 60 }} alt="" />;
     },
   },
   {

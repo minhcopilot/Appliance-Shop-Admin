@@ -3,7 +3,7 @@ import styles from "./Chat.module.css";
 // import Login, { Button } from "./Login";
 // import Category from "./Category";
 // import ButtonTabs from "../Session3/Tabs/ButtonTabs";
-import { Layout, Menu, Spin, theme } from "antd";
+import { Layout, Menu, Skeleton, Spin, theme } from "antd";
 
 import { Link, Outlet, useLocation } from "react-router-dom";
 import Sider from "antd/es/layout/Sider";
@@ -25,6 +25,7 @@ export default function Chat() {
   const loggedInUser = useAuth().loggedInUser;
   const assignedChats = useGetAssignedChat();
   const unassignedChats = useGetUnassignedChat();
+  const loading = !(assignedChats.isSuccess && unassignedChats.isSuccess);
   return (
     <>
       {loggedInUser ? (
@@ -48,33 +49,33 @@ export default function Chat() {
             // defaultCollapsed
             breakpoint="lg"
           >
-            {assignedChats.isLoading || unassignedChats.isLoading ? (
-              <Spin indicator={<LoadingOutlined spin />} />
-            ) : (
-              <Menu
-                style={{ marginTop: 64 }}
-                // theme="dark"
-                mode="inline"
-                selectedKeys={[location.pathname.split("/")[2]]}
-                items={[
-                  ...unassignedChats.data?.map((chat: any) => ({
-                    key: chat.id,
-                    icon: <UserAddOutlined />,
-                    danger: true,
-                    label: (
-                      <Link to={chat.id.toString()}>{chat.customerName}</Link>
-                    ),
-                  })),
-                  ...assignedChats.data?.map((chat: any) => ({
-                    key: chat.id,
-                    icon: <UserOutlined />,
-                    label: (
-                      <Link to={chat.id.toString()}>{chat.customerName}</Link>
-                    ),
-                  })),
-                ]}
-              />
-            )}
+            <Skeleton loading={loading}>
+              {!loading && (
+                <Menu
+                  style={{ marginTop: 64 }}
+                  // theme="dark"
+                  mode="inline"
+                  selectedKeys={[location.pathname.split("/")[2]]}
+                  items={[
+                    ...unassignedChats.data?.map((chat: any) => ({
+                      key: chat.id,
+                      icon: <UserAddOutlined />,
+                      danger: true,
+                      label: (
+                        <Link to={chat.id.toString()}>{chat.customerName}</Link>
+                      ),
+                    })),
+                    ...assignedChats.data?.map((chat: any) => ({
+                      key: chat.id,
+                      icon: <UserOutlined />,
+                      label: (
+                        <Link to={chat.id.toString()}>{chat.customerName}</Link>
+                      ),
+                    })),
+                  ]}
+                />
+              )}
+            </Skeleton>
           </Sider>
           <Content
             className={styles.content}

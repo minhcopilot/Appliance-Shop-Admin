@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import GetSubjects from "../Components/GetSubjects";
 import useAuth from "../../OnlineShop/hooks/useAuth";
 import PatchSubject from "../Components/PatchSubject";
+import useTableColumn from "../hooks/useTableColumns";
 // type Props = {};
 
 interface addschemaInput {
@@ -138,12 +139,12 @@ const Comment = () => {
   let subjects = params.postId
     ? "comments/all/search/query?postId=" + params.postId
     : "comments/all";
-
+  const [subjectColumn] = useTableColumn(subjects, commentColumns);
   return (
     <>
       <GetSubjects
         subject={subjects}
-        subjectColumn={commentColumns}
+        subjectColumn={subjectColumn}
         title="All Comment"
       />
       {loggedInUser && (
