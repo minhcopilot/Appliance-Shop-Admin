@@ -15,19 +15,21 @@ export default function AddSubject({ subject, currentform, title }: Props) {
   // const [data, setData] = React.useState(null);
   const query = useAdd(subject);
   const submitAddSubject = (data: any) => {
-    const formData = new FormData();
-    Object.keys(data).forEach((key) => {
-      if (data[key] == undefined) {
-        return;
-      }
-      if (key === "file") {
-        formData.append(key, data[key].fileList[0].originFileObj);
-      } else {
-        formData.append(key, data[key]);
-      }
-    });
-    const dataF: any = formData;
-    query.mutate(dataF);
+    if (data.file) {
+      const formData = new FormData();
+      Object.keys(data).forEach((key) => {
+        if (data[key] == undefined) {
+          return;
+        }
+        if (key === "file") {
+          formData.append(key, data[key].fileList[0].originFileObj);
+        } else {
+          formData.append(key, data[key]);
+        }
+      });
+      data = formData;
+    }
+    query.mutate(data);
     query.isSuccess && addSubject.resetFields();
   };
   React.useEffect(() => {

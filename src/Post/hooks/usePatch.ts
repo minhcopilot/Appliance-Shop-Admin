@@ -5,7 +5,6 @@ import axiosClient from "../config/axiosClient";
 // import React from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { Error } from "./useGet";
-import axios from "axios";
 import useAuth from "../../OnlineShop/hooks/useAuth";
 
 interface currentIdInterface {
@@ -43,6 +42,7 @@ const usePatchSubject = (
 
   const patch = async ({ data, id }: any) => {
     const url = subject + "/" + id;
+    console.log(data);
     const response = await axiosClient.patch(url, data, {
       headers: {
         Authorization: "Bearer " + access_token,
@@ -59,13 +59,6 @@ const usePatchSubject = (
           type: "success",
           content: "Modified successfully",
         });
-      // queryClient.setQueryData([subject], (olddata: any) =>
-      //   olddata
-      //     ? olddata.map((item: any) => {
-      //         return item.id === data.id ? data : item;
-      //       })
-      //     : olddata
-      // );
       queryClient.invalidateQueries([subject]);
       queryClient.invalidateQueries([subject, variables.id]);
       // queryClient.setQueryData([subject, variables.id], data);
@@ -75,39 +68,5 @@ const usePatchSubject = (
   });
   return result;
 };
-
-// const usePatchSubject = (subject: string, data: any, id: number | null) => {
-//   const [error, setError] = React.useState<null | string>(null);
-//   const setRefresh = useRefresh((state) => state.setRefresh);
-//   const access_token = useAuth((state) => state.access_token);
-//   React.useEffect(() => {
-//     const addData = async () => {
-//       try {
-//         message.loading({
-//           key: "patchsubject",
-//           content: "Loading",
-//         });
-//         const url = "/online-shop/" + subject + "/" + id;
-//         const response = await axiosClient.patch(url, data, {
-//           headers: {
-//             Authorization: "Bearer " + access_token,
-//           },
-//         });
-//         message.success({
-//           key: "patchsubject",
-//           type: "success",
-//           content: "Modified successfully",
-//         });
-//         setError(null);
-//         setRefresh();
-//       } catch (error: any) {
-//         setError(error.response.data.message);
-//         message.destroy("patchsubject");
-//       }
-//     };
-//     data && id && addData();
-//   }, [data]);
-//   return [error];
-// };
 
 export default usePatchSubject;

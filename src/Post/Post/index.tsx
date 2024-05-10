@@ -342,6 +342,11 @@ export const postColumns: ColumnsType<PostType> = [
     dataIndex: "like",
     key: "like",
   },
+  {
+    title: "View",
+    dataIndex: "view",
+    key: "view",
+  },
 ];
 
 const Post = () => {

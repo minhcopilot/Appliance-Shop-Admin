@@ -22,20 +22,23 @@ export default function PatchSubject({ subject, currentform, title }: Props) {
   const query = usePatchSubject(subject);
   const getSubjects = useGetSubjects(subject);
   const submitPatchSubject = async (data: any) => {
-    const formData = new FormData();
-    Object.keys(data).forEach((key) => {
-      if (data[key] == undefined) {
-        return;
-      }
-      if (key === "file") {
-        console.log(data[key]);
-        formData.append(key, data[key].fileList[0].originFileObj);
-      } else {
-        formData.append(key, data[key]);
-      }
-    });
-    const dataF: any = { data: formData, id: currentId };
-    query.mutate(dataF);
+    if (data.file) {
+      const formData = new FormData();
+      Object.keys(data).forEach((key) => {
+        if (data[key] == undefined) {
+          return;
+        }
+        if (key === "file") {
+          console.log(data[key]);
+          formData.append(key, data[key].fileList[0].originFileObj);
+        } else {
+          formData.append(key, data[key]);
+        }
+      });
+      data = formData;
+    }
+    const patchData: any = { data: data, id: currentId };
+    query.mutate(patchData);
     query.isSuccess && patchSubject.resetFields();
   };
   const currentValues =
