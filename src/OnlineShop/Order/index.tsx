@@ -38,7 +38,7 @@ interface getoption {
 interface getpeople {
   id: number;
   firstName: string;
-  lastName: string;
+  lastName?: string;
 }
 interface product {
   id: number;
@@ -527,7 +527,7 @@ const OrderForm = ({
             options={customers.data?.map((item) => {
               return {
                 value: item.id,
-                label: item.firstName + " " + item.lastName,
+                label: item?.firstName + " " + item?.lastName,
               };
             })}
           ></Select>
@@ -594,36 +594,39 @@ interface OrderType extends addschemaInput {
 
 const Orderant = () => {
   const data = useGetSubjects("orders");
-  const custormersFilter = data.isSuccess
-    ? uniqBy(
-        data.data.map((value: any) => {
-          return {
-            text: value.customer.firstName + " " + value.customer.lastName,
-            value: value.customer.id,
-          };
-        })
-      )
-    : undefined;
-  const employeesFilter = data.isSuccess
-    ? uniqBy(
-        data.data.map((value: any) => {
-          return {
-            text: value.employee.firstName + " " + value.employee.lastName,
-            value: value.employee.id,
-          };
-        })
-      )
-    : undefined;
-  const shippingCityFilter = data.isSuccess
-    ? uniqBy(
-        data.data.map((value: any) => {
-          return {
-            text: value.shippingCity,
-            value: value.shippingCity,
-          };
-        })
-      )
-    : undefined;
+  const custormersFilter =
+    data.isSuccess && data.data
+      ? uniqBy(
+          data.data.map((value: any) => {
+            return {
+              text: value.customer?.firstName + " " + value.customer?.lastName,
+              value: value.customer.id,
+            };
+          })
+        )
+      : undefined;
+  const employeesFilter =
+    data.isSuccess && data.data
+      ? uniqBy(
+          data.data.map((value: any) => {
+            return {
+              text: value.employee?.firstName + " " + value.employee?.lastName,
+              value: value.employee?.id,
+            };
+          })
+        )
+      : undefined;
+  const shippingCityFilter =
+    data.isSuccess && data.data
+      ? uniqBy(
+          data.data.map((value: any) => {
+            return {
+              text: value.shippingCity,
+              value: value.shippingCity,
+            };
+          })
+        )
+      : undefined;
   const paymentTypeFilter = [
     {
       text: "Cash",
@@ -721,7 +724,11 @@ const Orderant = () => {
       onFilter: (value, record) => record.customer.id === value,
       render: (text: any, record: OrderType, index: number) => {
         return (
-          <>{record.customer.firstName + " " + record.customer.lastName}</>
+          <>
+            {record.customer?.firstName +
+              " " +
+              (record.customer?.lastName || "")}
+          </>
         );
       },
       responsive: ["xl"],
@@ -735,7 +742,10 @@ const Orderant = () => {
       onFilter: (value, record) => record.employee.id === value,
       render: (text: any, record: OrderType, index: number) => {
         return (
-          <>{record.employee.firstName + " " + record.employee.lastName}</>
+          <>
+            {record.employee &&
+              record.employee?.firstName + " " + record.employee?.lastName}
+          </>
         );
       },
       responsive: ["xl"],
