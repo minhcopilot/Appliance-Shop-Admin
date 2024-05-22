@@ -17,9 +17,11 @@ export const AssignButtons = ({ key, id }: Props) => {
 
   return (
     <Space>
-      <Button type="link" onClick={() => notification.destroy()}>
-        Reject All
-      </Button>
+      {key && (
+        <Button type="link" onClick={() => notification.destroy()}>
+          Reject All
+        </Button>
+      )}
       <Button
         type="primary"
         onClick={() => {

@@ -7,20 +7,18 @@ export type socketData = {
 };
 
 export const socketEstablished = (socket: any) => {
-  if (!socket.connected) {
-    socket.connect();
-    socket.emit("employee-message", { type: "employee-connected" });
-  }
+  socket.connect();
+  socket.emit("employee-message", { type: "employee-connected" });
   console.log("socket connected");
 };
 
 const openNotification = (customerName: string, id: number) => {
-  const key = `open${Date.now()}`;
+  const key = `newchat-${id}`;
   notification.open({
     message: `New chat from ${customerName}`,
     description: "Do you want to accept this chat?",
     btn: <AssignButtons id={id} key={key} />,
-    duration: 10,
+    duration: 5,
     key,
   });
   console.log("new chat id: " + id);

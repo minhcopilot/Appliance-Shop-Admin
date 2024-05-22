@@ -59,10 +59,10 @@ export default function App() {
       console.log("new message received: " + data.content);
     });
     socket.on("assigned", (data: any) => {
-      queryClient.setQueriesData("assigned", (old: any) =>
+      queryClient.setQueriesData("unassigned", (old: any) =>
         old.filter((chat: any) => chat.id !== data.message.id)
       );
-      queryClient.setQueriesData("unassigned", (old: any) => [
+      queryClient.setQueriesData("assigned", (old: any) => [
         ...old,
         data.message,
       ]);
