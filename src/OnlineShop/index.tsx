@@ -9,6 +9,7 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 import Sider from "antd/es/layout/Sider";
 import {
   MdOutlineCategory,
+  MdOutlineDiscount,
   MdOutlineInbox,
   MdOutlineLocalShipping,
   MdOutlinePeopleOutline,
@@ -99,6 +100,11 @@ export default function OnlineShop() {
               key: "order",
               label: <Link to={"order"}>Order</Link>,
               icon: <MdOutlineShoppingCart />,
+            },
+            {
+              key: "voucher",
+              label: <Link to={"voucher"}>Voucher</Link>,
+              icon: <MdOutlineDiscount  />,
             },
           ]}
         />

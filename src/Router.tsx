@@ -18,6 +18,7 @@ import Post from "./Post/Post";
 import Comment from "./Post/Comment";
 import Chat from "./Chat";
 import ChatOutlet from "./Chat/components/ChatOutlet";
+import Voucherant from "./OnlineShop/Voucher";
 
 export default function Router() {
   const router = createBrowserRouter([
@@ -61,6 +62,10 @@ export default function Router() {
             {
               path: "order",
               element: <Orderant />,
+            },
+            {
+              path: "voucher",
+              element: <Voucherant />,
             },
           ],
         },
