@@ -22,19 +22,62 @@ export default function PatchSubject({ subject, currentform, title }: Props) {
   const getSubjects = useGetSubjects(subject);
   let initialFileList = getSubjects.data;
   const submitPatchSubject = (data: any) => {
-    const passdata: any = { data: data, id: currentId };
-    query.mutate(passdata);
+    console.log(data);
+    const formData = new FormData();
+    Object.keys(data).forEach((key) => {
+      const value = data[key];
+      if (value == undefined) {
+        return;
+      }
+      switch (key) {
+        case "files":
+          value.fileList.forEach((file: any) => {
+            formData.append("files", file.originFileObj);
+          });
+          break;
+        case "removeFiles":
+          value.forEach((file: any) => {
+            formData.append("removeFiles[]", file);
+          });
+          break;
+        default:
+          formData.append(key, value);
+          break;
+      }
+    });
+    data = formData;
+    console.log(data);
+    const patchData: any = { data: data, id: currentId };
+    query.mutate(patchData);
   };
-  if (subject === "products") {
-    initialFileList = getSubjects.data
-      ?.find((subject: any) => subject.id === currentId)
-      ?.imageUrls.map((image: any, index: number) => ({
-        uid: `${currentId}_${index}`, // Sử dụng uid duy nhất gồm id và index
-        name: image.name,
-        status: "done",
-        url: image.url,
-      }));
-  }
+  // if (subject === "products") {
+  //   initialFileList = getSubjects.data
+  //     ?.find((subject: any) => subject.id === currentId)
+  //     ?.imageUrls.map((image: any, index: number) => ({
+  //       uid: `${currentId}_${index}`, // Sử dụng uid duy nhất gồm id và index
+  //       name: image.name,
+  //       status: "done",
+  //       url: image.url,
+  //     }));
+  // }
+
+  const currentValues =
+    getSubjects.isSuccess &&
+    currentId &&
+    getSubjects.data?.find((subject: any) => {
+      return subject.id === currentId;
+    });
+  const initialValues = currentValues.imageUrls
+    ? {
+        ...currentValues,
+        imageUrls: currentValues.imageUrls.map((image: any, index: number) => ({
+          uid: image.publicId,
+          name: image.name,
+          status: "done",
+          url: image.url,
+        })),
+      }
+    : currentValues;
   return (
     <Modal
       title={title}
@@ -71,12 +114,7 @@ export default function PatchSubject({ subject, currentform, title }: Props) {
         React.cloneElement(currentform, {
           form: patchSubject,
           onFinish: submitPatchSubject,
-          initialValues: {
-            ...getSubjects.data?.find((subject: any) => {
-              return subject.id === currentId;
-            }),
-          },
-          fileList1: initialFileList,
+          initialValues: initialValues,
         })
       ) : (
         <Spin />

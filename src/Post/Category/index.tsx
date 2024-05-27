@@ -66,6 +66,7 @@ const CategoryForm = ({
           defaultFileList={
             currentId && initialValues?.imageUrl ? [initialValues.imageUrl] : []
           }
+          beforeUpload={() => false}
         >
           <Button icon={<UploadOutlined />}>Chọn hình ảnh</Button>
         </Upload>

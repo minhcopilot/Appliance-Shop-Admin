@@ -202,6 +202,7 @@ export const PostForm = ({
           defaultFileList={
             initialValues?.imageUrl ? [initialValues.imageUrl] : []
           }
+          beforeUpload={() => false}
         >
           <Button icon={<UploadOutlined />}>Chọn hình ảnh</Button>
         </Upload>
