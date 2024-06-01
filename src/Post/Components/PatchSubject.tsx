@@ -29,7 +29,6 @@ export default function PatchSubject({ subject, currentform, title }: Props) {
           return;
         }
         if (key === "file") {
-          console.log(data[key]);
           formData.append(key, data[key].fileList[0].originFileObj);
         } else {
           formData.append(key, data[key]);

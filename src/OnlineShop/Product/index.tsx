@@ -29,6 +29,7 @@ interface addschemaInput {
   price: number;
   discount: number;
   stock: number;
+  imageUrls?: any;
   category: getoption;
   supplier: getoption;
 }
@@ -37,45 +38,41 @@ const ProductForm = ({
   form,
   onFinish,
   initialValues,
-  fileList1,
-  beforeUpload1,
-  onRemove1,
-  handleFileChange1,
 }: {
   form?: any;
   onFinish?: (data: any) => void;
   initialValues?: addschemaInput;
-  fileList1?: any;
-  beforeUpload1?: (file: any) => boolean;
-  onRemove1?: (file: any) => void;
-  handleFileChange1?: (info: any) => void;
 }) => {
   const categories = useGetSubjects("categories");
   const suppliers = useGetSubjects("suppliers");
-  const [fileList, setFileList] = React.useState<any[]>([]);
-  const [isEditMode, setIsEditMode] = React.useState(false);
+  // const [fileList, setFileList] = React.useState<any[]>([]);
+  // const [isEditMode, setIsEditMode] = React.useState(false);
 
-  React.useEffect(() => {
-    if (initialValues) {
-      setIsEditMode(true);
-    } else {
-      setIsEditMode(false);
-    }
-  }, [initialValues]);
-  const beforeUpload = (file: any) => {
-    form.setFieldsValue({ fileList: file });
-    return false;
-  };
+  // React.useEffect(() => {
+  //   if (initialValues) {
+  //     setIsEditMode(true);
+  //   } else {
+  //     setIsEditMode(false);
+  //   }
+  // }, [initialValues]);
+  // const beforeUpload = (file: any) => {
+  //   form.setFieldsValue({ fileList: file });
+  //   return false;
+  // };
 
+  // const onRemove = (file: any) => {
+  //   // Logic to handle file removal
+  //   setFileList(fileList.filter((item: any) => item.uid !== file.uid));
+  // };
   const onRemove = (file: any) => {
-    // Logic to handle file removal
-    setFileList(fileList.filter((item: any) => item.uid !== file.uid));
+    let removeFiles = form.getFieldValue("removeFiles") || [];
+    form.setFieldValue("removeFiles", [...removeFiles, file.uid]);
   };
-  const handleFileChange = (info: any) => {
-    let fileList = [...info.fileList];
-    fileList = fileList.slice(-5); // Chỉ cho phép tải lên tối đa 5 tệp
-    setFileList(fileList);
-  };
+  // const handleFileChange = (info: any) => {
+  //   let fileList = [...info.fileList];
+  //   fileList = fileList.slice(-5); // Chỉ cho phép tải lên tối đa 5 tệp
+  //   setFileList(fileList);
+  // };
 
   return (
     <Form
@@ -160,15 +157,19 @@ const ProductForm = ({
       <Form.Item name="files" label="Hình ảnh">
         <Upload
           name="files"
-          fileList={isEditMode ? fileList1 : fileList}
+          // fileList={isEditMode ? fileList1 : fileList}
           listType="picture"
-          beforeUpload={beforeUpload}
+          beforeUpload={() => false}
+          // onRemove={onRemove}
+          // onChange={handleFileChange}
+          defaultFileList={initialValues?.imageUrls || []}
+          maxCount={5}
           onRemove={onRemove}
-          onChange={handleFileChange}
         >
           <Button icon={<UploadOutlined />}>Chọn hình ảnh</Button>
         </Upload>
       </Form.Item>
+      <Form.Item name="removeFiles" />
     </Form>
   );
 };
