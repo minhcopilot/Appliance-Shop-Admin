@@ -1,11 +1,11 @@
 import React from "react";
 // import styles from "./Customer.module.css";
-import { DatePicker, Form, Input } from "antd";
+import { Button, DatePicker, Form, Input, Modal } from "antd";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import type { ColumnsType } from "antd/es/table";
-
+import AddVoucherForCustomerForm from "./AddVoucherForCustomerForm";
 import TextArea from "antd/es/input/TextArea";
 import SubjectTemplate from "../Components/SubjectTemplate";
 // type Props = {};
@@ -183,14 +183,35 @@ const Customerant = () => {
       responsive: ["xl"],
     },
   ];
-
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const handleAddVoucherForCustomer = (values: any) => {
+    // Gọi API để tạo voucher với giá trị từ form
+    console.log(values);
+    setIsModalOpen(false);
+  };
   return (
-    <SubjectTemplate
-      subject="customer"
-      subjects="customers"
-      currentform={<CustomerForm />}
-      defaultColumns={defaultColumns}
-    />
+    <>
+      {/* <Button onClick={() => setIsModalOpen(true)}>
+        Thêm voucher cho khách hàng
+      </Button>
+      <Modal
+        title="Thêm voucher cho khách hàng"
+        open={isModalOpen}
+        onCancel={() => setIsModalOpen(false)}
+        footer={null}
+      >
+        <AddVoucherForCustomerForm
+          customerId={1}
+          onSubmit={handleAddVoucherForCustomer}
+        />
+      </Modal> */}
+      <SubjectTemplate
+        subject="customer"
+        subjects="customers"
+        currentform={<CustomerForm />}
+        defaultColumns={defaultColumns}
+      />
+    </>
   );
 };
 export default Customerant;

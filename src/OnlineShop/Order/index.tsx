@@ -24,6 +24,8 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import SubjectTemplate from "../Components/SubjectTemplate";
 import useGetSubjects from "../hooks/useGet";
 import { uniqBy } from "../hooks/usefulHooks";
+import useGetVoucherDiscount from "../hooks/useGetVoucher";
+import TotalOrderCell from "./TotalOrderCell";
 // type Props = {};
 
 dayjs.extend(customParseFormat);
@@ -61,6 +63,7 @@ interface addschemaInput {
   shippingAddress: string;
   shippingCity: string;
   paymentType: string;
+  voucherId: number;
   customer: getpeople;
   employee: getpeople;
   orderDetails: any[];
@@ -307,14 +310,6 @@ const OrderForm = ({
     dataIndex?: string;
   })[] = [
     {
-      title: "Số lượng",
-      dataIndex: "quantity",
-      key: "quantity",
-      align: "right",
-      width: 20,
-      editable: true,
-    },
-    {
       title: "Tên sản phẩm",
       dataIndex: "product.name",
       key: "product.name",
@@ -328,9 +323,17 @@ const OrderForm = ({
       key: "price",
       align: "right",
       render: (_: any, record: any) => {
-        return <>${record.price}</>;
+        return <>${record.product.price}</>;
       },
       responsive: ["lg"],
+    },
+    {
+      title: "Số lượng",
+      dataIndex: "quantity",
+      key: "quantity",
+      align: "right",
+      width: 20,
+      editable: true,
     },
     {
       title: "Giảm giá",
@@ -343,11 +346,17 @@ const OrderForm = ({
       responsive: ["lg"],
     },
     {
-      title: "Tổng tiền",
+      title: "Thành tiền",
       key: "total",
       align: "right",
       render: (_: any, record: any) => {
-        return <>${record.price * (100 - record.discount) * record.quantity}</>;
+        return (
+          <>
+            $
+            {((record.product.price * (100 - record.discount)) / 100) *
+              record.quantity}
+          </>
+        );
       },
       responsive: ["md"],
     },
@@ -768,19 +777,23 @@ const Orderant = () => {
       responsive: ["md"],
     },
     {
+      title: "Mã giảm giá",
+      dataIndex: "voucherId",
+      key: "voucherId",
+      filterSearch: true,
+      onFilter: (value, record) => record.voucherId === value,
+      responsive: ["lg"],
+    },
+    {
       title: "Tổng tiền",
       key: "totalOrder",
       align: "right",
-      render: (text: any, record: OrderType, index: number) => {
-        const totalOrder = record.orderDetails.reduce((total, value) => {
-          return total + value.price * (100 - value.discount) * value.quantity;
-        }, 0);
-
-        // Làm tròn số và định dạng lại thành chuỗi với 2 chữ số thập phân
-        const formattedTotalOrder = totalOrder.toFixed(0);
-
-        return <>${formattedTotalOrder}</>;
-      },
+      render: (text: any, record: OrderType) => (
+        <TotalOrderCell
+          orderDetails={record.orderDetails}
+          voucherId={record.voucherId}
+        />
+      ),
       responsive: ["md"],
     },
   ];

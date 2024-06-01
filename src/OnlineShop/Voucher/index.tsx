@@ -34,7 +34,15 @@ const VoucherForm = ({
       onFinish={onFinish}
       labelCol={{ span: 6 }}
       wrapperCol={{ span: 8 }}
-      initialValues={initialValues}
+      initialValues={
+        initialValues && {
+          ...initialValues,
+          startDate:
+            initialValues.startDate && dayjs(initialValues.startDate).local(),
+          expiryDate:
+            initialValues.expiryDate && dayjs(initialValues.expiryDate).local(),
+        }
+      }
     >
       <Form.Item
         name="voucherCode"
@@ -51,7 +59,7 @@ const VoucherForm = ({
         name="discountPercentage"
         label="% giảm giá"
         rules={[
-          { type: "string", message: "discountPercentage không hợp lệ" },
+          // { type: "number", message: "discountPercentage không hợp lệ" },
           { required: true, message: "discountPercentage không được bỏ trống" },
         ]}
       >
@@ -86,7 +94,7 @@ const VoucherForm = ({
         name="maxUsageCount"
         label="Số lần sử dụng"
         rules={[
-          { type: "string", message: "Số lần sử dụng không hợp lệ" },
+          // { type: "string", message: "Số lần sử dụng không hợp lệ" },
           { required: true, message: "Số lần sử dụng không được bỏ trống" },
         ]}
       >
@@ -101,9 +109,6 @@ interface VoucherType extends addschemaInput {
 }
 
 const Voucherant = () => {
-  // const [refresh, setRefresh] = useState(false);
-  // const [currentId, setCurrentId] = useState<number | null>(null);
-  // const [patchPopup, setPatchPopup] = useState(false);
   const defaultColumns: ColumnsType<VoucherType> = [
     {
       title: "Tên mã giảm giá",
