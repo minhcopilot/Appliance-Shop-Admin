@@ -93,7 +93,6 @@ const CustomerForm = ({
         label="Địa chỉ"
         rules={[
           { type: "string" },
-          { required: true, message: "Địa chỉ không được bỏ trống" },
           { max: 300, message: "Địa chỉ không được quá dài" },
         ]}
         initialValue={initialValues && initialValues.address}
@@ -105,7 +104,6 @@ const CustomerForm = ({
         label="Số điện thoại"
         rules={[
           { type: "string", message: "Số điện thoại không hợp lệ" },
-          { required: true, message: "Số điện thoại không được bỏ trống" },
           { max: 12, message: "Số điện thoại không hợp lệ" },
         ]}
         initialValue={initialValues && initialValues.phoneNumber}

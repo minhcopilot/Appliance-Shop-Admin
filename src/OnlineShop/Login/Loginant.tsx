@@ -22,19 +22,19 @@ export default function Loginant() {
   return (
     <>
       <Button type="primary" onClick={() => setLoginPopup(true)}>
-        Login
+        Đăng nhập
       </Button>
       <Modal
         open={loginPopup}
         onCancel={() => setLoginPopup(false)}
         onOk={() => loginform.submit()}
-        okText="Login"
-        title="Login"
+        okText="Đăng nhập"
+        title="Đăng nhập"
       >
         <Form onFinish={handleLogin} form={loginform}>
           <Form.Item
             name="email"
-            label="email"
+            label="Email"
             rules={[
               { required: true, message: "Please input your email" },
               { type: "email" },
@@ -45,7 +45,7 @@ export default function Loginant() {
           </Form.Item>
           <Form.Item
             name="password"
-            label="Password"
+            label="Mật khẩu"
             rules={[
               { required: true, message: "Please input your password" },
               { type: "string" },

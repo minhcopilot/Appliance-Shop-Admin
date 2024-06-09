@@ -20,46 +20,44 @@ export default function PatchSubject({ subject, currentform, title }: Props) {
   const setCurrentId = useCurrentId((state) => state.setCurrentId);
   const query = usePatchSubject(subject);
   const getSubjects = useGetSubjects(subject);
-  let initialFileList = getSubjects.data;
   const submitPatchSubject = (data: any) => {
-    console.log(data);
-    const formData = new FormData();
-    Object.keys(data).forEach((key) => {
-      const value = data[key];
-      if (value == undefined) {
-        return;
-      }
-      switch (key) {
-        case "files":
-          value.fileList.forEach((file: any) => {
-            formData.append("files", file.originFileObj);
-          });
-          break;
-        case "removeFiles":
-          value.forEach((file: any) => {
-            formData.append("removeFiles[]", file);
-          });
-          break;
-        default:
-          formData.append(key, value);
-          break;
-      }
-    });
-    data = formData;
-    console.log(data);
-    const patchData: any = { data: data, id: currentId };
-    query.mutate(patchData);
+    console.log("Original data:", data);
+
+    const hasFiles =
+      data.files && data.files.fileList && data.files.fileList.length > 0;
+    const hasRemoveFiles = data.removeFiles && data.removeFiles.length > 0;
+
+    if (hasFiles || hasRemoveFiles) {
+      const formData = new FormData();
+      Object.keys(data).forEach((key) => {
+        const value = data[key];
+        if (value === undefined) return;
+
+        switch (key) {
+          case "files":
+            value.fileList.forEach((file: any) => {
+              formData.append("files", file.originFileObj);
+            });
+            break;
+          case "removeFiles":
+            value.forEach((file: any) => {
+              formData.append("removeFiles[]", file);
+            });
+            break;
+          default:
+            formData.append(key, value);
+            break;
+        }
+      });
+
+      const patchData: any = { data: formData, id: currentId };
+      query.mutate(patchData);
+    } else {
+      // Nếu không có file, gửi data như một JSON object
+      const patchData: any = { data: data, id: currentId };
+      query.mutate(patchData);
+    }
   };
-  // if (subject === "products") {
-  //   initialFileList = getSubjects.data
-  //     ?.find((subject: any) => subject.id === currentId)
-  //     ?.imageUrls.map((image: any, index: number) => ({
-  //       uid: `${currentId}_${index}`, // Sử dụng uid duy nhất gồm id và index
-  //       name: image.name,
-  //       status: "done",
-  //       url: image.url,
-  //     }));
-  // }
 
   const currentValues =
     getSubjects.isSuccess &&

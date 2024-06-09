@@ -107,6 +107,7 @@ export default function App() {
         }}
       >
         <Header
+          className="fixedHeader"
           style={{
             display: "flex",
             alignItems: "center",
@@ -151,7 +152,7 @@ export default function App() {
           />
           <HeaderContent />
         </Header>
-        <Content>
+        <Content style={{ marginTop: "64px" }}>
           <Outlet />
         </Content>
       </Layout>

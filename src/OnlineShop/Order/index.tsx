@@ -323,7 +323,7 @@ const OrderForm = ({
       key: "price",
       align: "right",
       render: (_: any, record: any) => {
-        return <>${record.product.price}</>;
+        return <>${record.price}</>;
       },
       responsive: ["lg"],
     },
@@ -353,8 +353,7 @@ const OrderForm = ({
         return (
           <>
             $
-            {((record.product.price * (100 - record.discount)) / 100) *
-              record.quantity}
+            {((record.price * (100 - record.discount)) / 100) * record.quantity}
           </>
         );
       },
@@ -508,7 +507,7 @@ const OrderForm = ({
           rules={[
             {
               type: "enum",
-              enum: ["WAITING", "COMPLETED", "CANCELED"],
+              enum: ["WAITING", "COMPLETED", "CANCELED", "DELIVERING"],
               message: "Status is not valid",
             },
 
@@ -520,6 +519,7 @@ const OrderForm = ({
             options={[
               { value: "WAITING", label: "Waiting" },
               { value: "COMPLETED", label: "Completed" },
+              { value: "DELIVERING", label: "Delivering" },
               { value: "CANCELED", label: "Canceled", style: { color: "red" } },
             ]}
           />
@@ -658,6 +658,10 @@ const Orderant = () => {
     {
       text: "Canceled",
       value: "CANCELED ",
+    },
+    {
+      text: "Delivering",
+      value: "DELIVERING",
     },
   ];
   const defaultColumns: ColumnsType<OrderType> = [
