@@ -44,7 +44,10 @@ const EmployeeForm = ({
         label="Họ và tên đệm"
         rules={[
           { type: "string" },
-          { required: true, message: "Họ và tên đệm của nhân viên không được bỏ trống" },
+          {
+            required: true,
+            message: "Họ và tên đệm của nhân viên không được bỏ trống",
+          },
           { max: 100, message: "Họ và tên đệm của nhân viên quá dài" },
         ]}
         initialValue={initialValues && initialValues.firstName}

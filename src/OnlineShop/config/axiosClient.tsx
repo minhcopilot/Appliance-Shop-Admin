@@ -1,9 +1,13 @@
 import axios from "axios";
 const axiosClient = axios.create({
-  // baseURL: "http://localhost:9000",
-  baseURL: "https://appliance-shop-api-o3m0.onrender.com",
+  // baseURL: "http://localhost:9000/article/",
+  baseURL:
+    process.env.DEVELOPMENT_STAGE === "production"
+      ? process.env.PUBLIC_baseURL
+      : "http://localhost:9000",
   timeout: 30000,
 });
+
 axiosClient.interceptors.request.use(
   (config) => {
     // Lấy token từ localStorage

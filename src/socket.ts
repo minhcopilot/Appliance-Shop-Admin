@@ -4,7 +4,12 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 // "undefined" means the URL will be computed from the `window.location` object
-const URL = "https://appliance-shop-api-o3m0.onrender.com";
+
+const URL =
+  process.env.DEVELOPMENT_STAGE === "production"
+    ? process.env.PUBLIC_baseURL || "http://localhost:9000"
+    : "http://localhost:9000";
+
 export const useSocket = () => {
   const token = useAuth((state) => state.token);
   return io(URL, {
