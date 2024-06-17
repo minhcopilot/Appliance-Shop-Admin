@@ -5,11 +5,7 @@ import { persist } from "zustand/middleware";
 
 // "undefined" means the URL will be computed from the `window.location` object
 
-const URL =
-  process.env.DEVELOPMENT_STAGE === "production"
-    ? process.env.PUBLIC_baseURL || "http://localhost:9000"
-    : "http://localhost:9000";
-
+const URL = `${process.env.REACT_APP_BASE_URL}`;
 export const useSocket = () => {
   const token = useAuth((state) => state.token);
   return io(URL, {
