@@ -108,7 +108,10 @@ const EmployeeForm = ({
         rules={[
           { type: "string", message: "Số điện thoại không hợp lệ" },
           { required: true, message: "Số điện thoại không được bỏ trống" },
-          { max: 12, message: "Số điện thoại không hợp lệ" },
+          {
+            pattern: /^((\+84|0)[2|3|5|7|8|9])+([0-9]{8})\b/,
+            message: "Số điện thoại không hợp lệ",
+          },
         ]}
         initialValue={initialValues && initialValues.phoneNumber}
       >

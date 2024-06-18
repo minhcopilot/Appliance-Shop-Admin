@@ -34,7 +34,6 @@ const useAuth = create<authInterface>()(
         refreshToken: null,
         login: async (data: loginForm) => {
           try {
-            console.log("««««« data 1»»»»»", data);
             message.loading({ key: "login", content: "Loading" });
             const response: any = await axiosClient.post(
               "admin/auth/login",

@@ -16,6 +16,7 @@ import {
   MdOutlinePerson3,
   MdOutlineShoppingCart,
 } from "react-icons/md";
+import { SiMicrosoftaccess } from "react-icons/si";
 import { Content } from "antd/es/layout/layout";
 
 export const Notice = () => {
@@ -104,7 +105,12 @@ export default function OnlineShop() {
             {
               key: "voucher",
               label: <Link to={"voucher"}>Voucher</Link>,
-              icon: <MdOutlineDiscount  />,
+              icon: <MdOutlineDiscount />,
+            },
+            {
+              key: "role",
+              label: <Link to={"role"}>Role</Link>,
+              icon: <SiMicrosoftaccess />,
             },
           ]}
         />

@@ -19,8 +19,13 @@ import Comment from "./Post/Comment";
 import Chat from "./Chat";
 import ChatOutlet from "./Chat/components/ChatOutlet";
 import Voucherant from "./OnlineShop/Voucher";
+import RoleAnt from "./OnlineShop/Role";
+import useAuth from "./OnlineShop/hooks/useAuth";
+import ForbiddenPage from "./OnlineShop/Role/Forbidden";
+import ProtectedRoute from "./OnlineShop/Role/PrivateRoute";
 
 export default function Router() {
+  const role: any = useAuth((state) => state.loggedInUser?.roleCode);
   const router = createBrowserRouter([
     {
       path: "/",
@@ -47,9 +52,14 @@ export default function Router() {
               path: "supplier",
               element: <Supplierant />,
             },
+
             {
               path: "employee",
-              element: <Employeeant />,
+              element: (
+                <ProtectedRoute requiredRole="R1">
+                  <Employeeant />
+                </ProtectedRoute>
+              ),
             },
             {
               path: "customer",
@@ -66,6 +76,15 @@ export default function Router() {
             {
               path: "voucher",
               element: <Voucherant />,
+            },
+
+            {
+              path: "role",
+              element: (
+                <ProtectedRoute requiredRole="R1">
+                  <RoleAnt />
+                </ProtectedRoute>
+              ),
             },
           ],
         },
@@ -104,6 +123,10 @@ export default function Router() {
               element: <ChatOutlet />,
             },
           ],
+        },
+        {
+          path: "forbidden",
+          element: <ForbiddenPage />,
         },
       ],
     },
