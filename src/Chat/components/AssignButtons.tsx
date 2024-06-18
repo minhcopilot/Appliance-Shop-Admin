@@ -1,23 +1,26 @@
 import React from "react";
 import { useSocket } from "../../socket";
 import { Button, Space, notification } from "antd";
+import { useLoading } from "../hooks/useLoading";
 
 type Props = {
-  key?: string;
+  notifKey?: string;
   id: number;
 };
 
-export const AssignButtons = ({ key, id }: Props) => {
+export const AssignButtons = ({ notifKey, id }: Props) => {
   const socket = useSocket();
+  const { acceptLoading, setAcceptLoading } = useLoading((state) => state);
   const acceptAssign = (id: number) => {
     socket.connect();
     socket.emit("employee-message", { type: "chat-accepted", message: { id } });
-    key && notification.destroy(key);
+    console.log("accepting chat id: " + id);
+    setAcceptLoading(id);
   };
 
   return (
     <Space>
-      {key && (
+      {notifKey && (
         <Button type="link" onClick={() => notification.destroy()}>
           Reject All
         </Button>
@@ -27,6 +30,7 @@ export const AssignButtons = ({ key, id }: Props) => {
         onClick={() => {
           acceptAssign(id);
         }}
+        loading={acceptLoading ? true : false}
       >
         Accept
       </Button>
