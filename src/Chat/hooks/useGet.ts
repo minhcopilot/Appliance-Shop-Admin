@@ -7,12 +7,14 @@ export const useGetAssignedChat = () => {
   const token = useAuth((state) => state.token);
   const getAssignedChat = async () => {
     try {
-      const response = await axiosClient.get("/chat/assigned", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
-      return response.data;
+      const response = token
+        ? await axiosClient.get("/chat/assigned", {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          })
+        : null;
+      return response?.data || [];
     } catch (error) {
       console.error(error);
       return [];
@@ -27,12 +29,14 @@ export const useGetUnassignedChat = () => {
   const socket = useSocket();
   const getUnassignedChat = async () => {
     try {
-      const response = await axiosClient.get("/chat/unassigned", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
-      return response.data;
+      const response = token
+        ? await axiosClient.get("/chat/unassigned", {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          })
+        : null;
+      return response?.data || [];
     } catch (error) {
       console.error(error);
       return [];

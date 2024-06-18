@@ -8,10 +8,11 @@ import {
   Menu,
   MenuProps,
   Result,
+  notification,
 } from "antd";
 import { Content, Header } from "antd/es/layout/layout";
 import locale from "antd/locale/vi_VN";
-import { Outlet, Link, useLocation } from "react-router-dom";
+import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import Loginant from "./OnlineShop/Login/Loginant";
 import useAuth from "./OnlineShop/hooks/useAuth";
 import Logout from "./OnlineShop/Login/Logout";
@@ -20,6 +21,8 @@ import { serverMessageHandler, socketEstablished } from "./Chat/chatHandler";
 import { useSocket } from "./socket";
 import { useGetUnassignedChat } from "./Chat/hooks/useGet";
 import { useQueryClient } from "react-query";
+import { useLoading } from "./Chat/hooks/useLoading";
+import { set } from "react-hook-form";
 
 const HeaderContent = () => {
   const loggedInUser = useAuth((state) => state.loggedInUser);
@@ -45,27 +48,40 @@ export default function App() {
   //   token: { colorBgContainer },
   // } = theme.useToken();
   const location = useLocation();
+  const navigate = useNavigate();
   const loggedInUser = useAuth((state) => state.loggedInUser);
   const socket = useSocket();
   const queryClient = useQueryClient();
+  const { setAcceptLoading, setDisconnectLoading } = useLoading(
+    (state) => state
+  );
   React.useEffect(() => {
-    socketEstablished(socket);
-    socket.on("server-message", serverMessageHandler);
+    !socket.connected && socketEstablished(socket);
+    socket.on("server-message", (data: any) => {
+      serverMessageHandler(data);
+      queryClient.invalidateQueries("unassigned");
+    });
     socket.on("new-message", (data: any) => {
-      queryClient.setQueryData(["chatContent", data.chatId], (old: any) => [
-        ...old,
-        data,
-      ]);
+      queryClient.getQueryData(["chatContent", data.chatId]) &&
+        queryClient.setQueryData(["chatContent", data.chatId], (old: any) => [
+          ...old,
+          data,
+        ]);
       console.log("new message received: " + data.content);
     });
     socket.on("assigned", (data: any) => {
       queryClient.setQueriesData("unassigned", (old: any) =>
         old.filter((chat: any) => chat.id !== data.message.id)
       );
-      queryClient.setQueriesData("assigned", (old: any) => [
-        ...old,
-        data.message,
-      ]);
+      notification.destroy(`newchat-${data.message.id}`);
+      if (data.message.employeeId === loggedInUser?.id) {
+        queryClient.setQueriesData("assigned", (old: any) => [
+          data.message,
+          ...old,
+        ]);
+        setAcceptLoading(false);
+        navigate(`/chat/${data.message.id}`);
+      }
     });
     socket.on("disconnected", (data) => {
       queryClient.setQueriesData("assigned", (old: any) => {
@@ -76,6 +92,8 @@ export default function App() {
           return chat;
         });
       });
+
+      setDisconnectLoading(false);
     });
 
     console.log("socket listening");
@@ -88,7 +106,7 @@ export default function App() {
       // socket.disconnect();
       // console.log("socket disconnected");
     };
-  }, []);
+  }, [socket]);
   React.useEffect(() => {
     !loggedInUser && socket.disconnect();
   }, [loggedInUser]);

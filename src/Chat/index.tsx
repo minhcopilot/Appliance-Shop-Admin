@@ -3,7 +3,7 @@ import styles from "./Chat.module.css";
 // import Login, { Button } from "./Login";
 // import Category from "./Category";
 // import ButtonTabs from "../Session3/Tabs/ButtonTabs";
-import { Layout, Menu, Skeleton, Spin, theme } from "antd";
+import { Flex, Layout, Menu, Skeleton, Spin, theme } from "antd";
 
 import { Link, Outlet, useLocation } from "react-router-dom";
 import Sider from "antd/es/layout/Sider";
@@ -15,6 +15,8 @@ import {
   UserAddOutlined,
   UserOutlined,
 } from "@ant-design/icons";
+import ChatSearch from "./components/ChatSearch";
+import { set } from "react-hook-form";
 
 export default function Chat() {
   const {
@@ -25,7 +27,11 @@ export default function Chat() {
   const loggedInUser = useAuth().loggedInUser;
   const assignedChats = useGetAssignedChat();
   const unassignedChats = useGetUnassignedChat();
+  const [searchChats, setSearchChats] = React.useState<any>([]);
   const loading = !(assignedChats.isSuccess && unassignedChats.isSuccess);
+  React.useEffect(() => {
+    setSearchChats(assignedChats?.data);
+  }, [assignedChats?.data]);
   return (
     <>
       {loggedInUser ? (
@@ -51,29 +57,38 @@ export default function Chat() {
           >
             <Skeleton loading={loading}>
               {!loading && (
-                <Menu
-                  style={{ marginTop: 64 }}
-                  // theme="dark"
-                  mode="inline"
-                  selectedKeys={[location.pathname.split("/")[2]]}
-                  items={[
-                    ...unassignedChats.data?.map((chat: any) => ({
-                      key: chat.id,
-                      icon: <UserAddOutlined />,
-                      danger: true,
-                      label: (
-                        <Link to={chat.id.toString()}>{chat.customerName}</Link>
-                      ),
-                    })),
-                    ...assignedChats.data?.map((chat: any) => ({
-                      key: chat.id,
-                      icon: <UserOutlined />,
-                      label: (
-                        <Link to={chat.id.toString()}>{chat.customerName}</Link>
-                      ),
-                    })),
-                  ]}
-                />
+                <Flex style={{ marginTop: 64 }} vertical gap={10}>
+                  <ChatSearch
+                    assignedChats={assignedChats}
+                    setSearchChat={setSearchChats}
+                  />
+                  <Menu
+                    // theme="dark"
+                    mode="vertical"
+                    selectedKeys={[location.pathname.split("/")[2]]}
+                    items={[
+                      ...unassignedChats.data?.map((chat: any) => ({
+                        key: chat.id,
+                        icon: <UserAddOutlined />,
+                        danger: true,
+                        label: (
+                          <Link to={chat.id.toString()}>
+                            {chat.customerName}
+                          </Link>
+                        ),
+                      })),
+                      ...searchChats?.map((chat: any) => ({
+                        key: chat.id,
+                        icon: <UserOutlined />,
+                        label: (
+                          <Link to={chat.id.toString()}>
+                            {chat.customerName}
+                          </Link>
+                        ),
+                      })),
+                    ]}
+                  />
+                </Flex>
               )}
             </Skeleton>
           </Sider>

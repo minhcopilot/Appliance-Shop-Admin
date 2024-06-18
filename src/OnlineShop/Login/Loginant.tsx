@@ -2,6 +2,7 @@ import React, { useState } from "react";
 // import styles from "./Login.module.css";
 import { Button, Form, Input, Modal } from "antd";
 import useAuth from "../hooks/useAuth";
+import { useQueryClient } from "react-query";
 
 // type Props = { setIsLoggedIn: (data: any) => void; messageApi: any };
 
@@ -14,9 +15,11 @@ export default function Loginant() {
   const login = useAuth((state) => state.login);
   const [loginPopup, setLoginPopup] = useState(false);
   const [loginform] = Form.useForm();
+  const queryClient = useQueryClient();
   const handleLogin = async (data: any) => {
-    console.log("««««« data »»»»»", data);
     await login(data);
+    queryClient.invalidateQueries("assigned");
+    queryClient.invalidateQueries("unassigned");
     setLoginPopup(false);
   };
   return (

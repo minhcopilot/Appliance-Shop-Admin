@@ -49,17 +49,19 @@ const useAuth = create<authInterface>()(
               }));
               message.success({
                 key: "login",
-                content: "Login success",
+                content: "Đăng nhập thành công",
               });
             } else
               message.error({
                 key: "login",
-                content: response.data.message,
+                content:
+                  response.data.message ||
+                  "Tên đăng nhập hoặc mật khẩu không đúng",
               });
           } catch (error: any) {
             message.error({
               key: "login",
-              content: error.response.data.message,
+              content: error.response.data.message || "Có lỗi khi đăng nhập",
             });
           }
         },
