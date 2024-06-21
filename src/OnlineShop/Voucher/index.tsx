@@ -2,7 +2,7 @@ import React from "react";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import { DatePicker, Form, Input } from "antd";
+import { DatePicker, Form, Input, Select } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import TextArea from "antd/es/input/TextArea";
 import SubjectTemplate from "../Components/SubjectTemplate";
@@ -100,6 +100,18 @@ const VoucherForm = ({
       >
         <Input name="maxUsageCount" type="number"></Input>
       </Form.Item>
+      <Form.Item
+        name="voucherType"
+        label="Loại voucher"
+        rules={[{ required: true, message: "Loại voucherkhông được bỏ trống" }]}
+      >
+        <Select
+          options={[
+            { label: "Voucher toàn sàn", value: "GLOBAL" },
+            { label: "Voucher cho khách hàng", value: "CUSTOMER" },
+          ]}
+        />
+      </Form.Item>
     </Form>
   );
 };
@@ -155,6 +167,12 @@ const Voucherant = () => {
       title: "Số lần sử dụng còn lại",
       dataIndex: "remainingUsageCount",
       key: "remainingUsageCount",
+      responsive: ["md"],
+    },
+    {
+      title: "Loại voucher",
+      dataIndex: "voucherType",
+      key: "voucherType",
       responsive: ["md"],
     },
   ];
