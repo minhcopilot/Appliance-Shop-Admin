@@ -9,8 +9,6 @@ import AddVoucherForCustomerForm from "./AddVoucherForCustomerForm";
 import TextArea from "antd/es/input/TextArea";
 import SubjectTemplate from "../Components/SubjectTemplate";
 import axiosClient from "../config/axiosClient";
-import useGetSubjects from "../hooks/useGet";
-// type Props = {};
 
 dayjs.extend(customParseFormat);
 dayjs.extend(utc);
