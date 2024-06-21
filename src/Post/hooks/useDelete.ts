@@ -1,8 +1,6 @@
 import { message } from "antd";
 import axiosClient from "../config/axiosClient";
-// import React from "react";
 import { Error } from "./useGet";
-// import { useCurrentId } from "./usePatch";
 import { useMutation, useQueryClient } from "react-query";
 import useAuth from "../../OnlineShop/hooks/useAuth";
 
@@ -29,22 +27,17 @@ const useDelete = (subject: string, silent?: boolean) => {
       !silent &&
         message.success({
           key: "deletesubject",
-          content: "Deleted",
+          content: "Đã xóa thành công",
         });
     },
     onError: (error) => {
       !silent &&
         message.error({
           key: "deletesubject",
-          content: error.response.data.message,
+          content: error.response.data.message || "Có lỗi xảy ra",
         });
     },
   });
-  // result.isLoading &&
-  //   message.loading({
-  //     key: "deletesubject",
-  //     content: "Loading",
-  //   });
 
   return result;
 };

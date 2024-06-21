@@ -87,9 +87,6 @@ interface SupplierType extends addschemaInput {
 }
 
 const Supplierant = () => {
-  // const [refresh, setRefresh] = useState(false);
-  // const [currentId, setCurrentId] = useState<number | null>(null);
-  // const [patchPopup, setPatchPopup] = useState(false);
   const defaultColumns: ColumnsType<SupplierType> = [
     {
       title: "Tên nhà cung cấp",

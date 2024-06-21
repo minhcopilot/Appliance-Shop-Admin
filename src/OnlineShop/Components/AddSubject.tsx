@@ -2,7 +2,6 @@ import { Button, Flex, Form, Space } from "antd";
 import Title from "antd/es/typography/Title";
 import React from "react";
 import useAdd from "../hooks/useAdd";
-import axiosClient from "../config/axiosClient";
 
 type Props = {
   subject: string;
@@ -12,7 +11,6 @@ type Props = {
 
 export default function AddSubject({ subject, currentform, title }: Props) {
   const [addSubject] = Form.useForm();
-  // const [data, setData] = React.useState(null);
   const query = useAdd(subject);
   const submitAddSubject = async (data: any) => {
     if (subject === "products") {

@@ -6,8 +6,6 @@ import useAuth from "./useAuth";
 import { onlineManager, useMutation, useQueryClient } from "react-query";
 
 const useAdd = (subject: string, silent?: boolean) => {
-  // const [success, setSuccess] = React.useState(false);
-  // const setRefresh = useRefresh((state) => state.setRefresh);
   const token = useAuth((state) => state.token);
   const add = async (data: any) => {
     const response = await axiosClient.post(subject, data, {
@@ -20,8 +18,6 @@ const useAdd = (subject: string, silent?: boolean) => {
   const queryClient = useQueryClient();
   const result = useMutation<any, Error>(add, {
     onSuccess: (data) => {
-      // queryClient.setQueryData([subject], (olddata: any) => [...olddata, data]);
-      //api lại sai :/ trả thiếu category,supplier, mất công fetch lại :/)
       const newitemcat = queryClient
         .getQueryData<any[]>(["categories"])
         ?.find((value) => {
@@ -43,12 +39,12 @@ const useAdd = (subject: string, silent?: boolean) => {
         ? !silent &&
           message.success({
             key: "addsubject",
-            content: "Added order with ID: " + data.id,
+            content: "Đã thêm đơn hàng với ID: " + data.id,
           })
         : !silent &&
           message.success({
             key: "addsubject",
-            content: "Added " + data.name + " with ID: " + data.id,
+            content: "Đã thêm " + data.name + " với ID: " + data.id,
           });
       result.reset();
     },
@@ -56,7 +52,7 @@ const useAdd = (subject: string, silent?: boolean) => {
       !silent &&
         message.error({
           key: "addsubject",
-          content: error.response.data.message,
+          content: error.response.data.message || "Có lỗi xảy ra khi thêm",
         });
     },
     retry: (failureCount, error) => {
@@ -69,50 +65,16 @@ const useAdd = (subject: string, silent?: boolean) => {
         ? !silent &&
           message.loading({
             key: "addsubject",
-            content: "Submitting",
+            content: "Đang tạo...",
             duration: 0,
           })
         : !silent &&
           message.loading({
             key: "addsubject",
-            content: "Lost Connection",
+            content: "Mất kết nối...",
             duration: 0,
           })); // eslint-disable-next-line
   }, [result]);
-  // React.useEffect(() => {
-  //   const addData = async (data: any) => {
-  //     try {
-  //       message.loading({
-  //         key: "addsubject",
-  //         content: "Loading",
-  //       });
-  //       const response = await axiosClient.post(
-  //         "/online-shop/" + subject,
-  //         data,
-  //         {
-  //           headers: {
-  //             Authorization: "Bearer " + token,
-  //           },
-  //         }
-  //       );
-  //       setSuccess(true);
-  //       message.success({
-  //         key: "addsubject",
-  //         content:
-  //           "Added " + response.data.name + " with ID: " + response.data.id,
-  //         duration: 2,
-  //       });
-  //       setRefresh();
-  //     } catch (error: any) {
-  //       message.error({
-  //         key: "addsubject",
-  //         content: error.response.data.message,
-  //         duration: 2,
-  //       });
-  //     }
-  //   };
-  //   data && addData(data);
-  // }, [data]);
   return result;
 };
 

@@ -5,7 +5,6 @@ import usePatchSubject, {
   usePatchPopup,
 } from "../hooks/usePatch";
 import useGetSubjects from "../hooks/useGet";
-import axiosClient from "../config/axiosClient";
 
 type Props = {
   subject: string;
@@ -72,7 +71,7 @@ export default function PatchSubject({ subject, currentform, title }: Props) {
         <Col>
           <Space>
             <Button type="primary" onClick={() => patchSubject.submit()}>
-              Change this {subject}
+              Sửa
             </Button>
             <Button
               onClick={() => {
@@ -81,7 +80,7 @@ export default function PatchSubject({ subject, currentform, title }: Props) {
                 setCurrentId(null);
               }}
             >
-              Cancel
+              Hủy
             </Button>
           </Space>
         </Col>
@@ -101,13 +100,13 @@ export default function PatchSubject({ subject, currentform, title }: Props) {
       {query.isError &&
         (query.error.response ? (
           <Alert
-            message={query.error.response.data.message}
+            message={query.error.response.data.message || "Lỗi không xác định"}
             type="error"
             showIcon
             closable
           />
         ) : (
-          <Alert message="Lost Connection" type="error" showIcon />
+          <Alert message="Mất kết nối" type="error" showIcon />
         ))}
     </Modal>
   );

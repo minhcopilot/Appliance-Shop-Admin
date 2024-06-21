@@ -1,6 +1,6 @@
 import React from "react";
 // import styles from "./Customer.module.css";
-import { Button, DatePicker, Form, Input, Modal } from "antd";
+import { DatePicker, Form, Input } from "antd";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -8,7 +8,6 @@ import type { ColumnsType } from "antd/es/table";
 import AddVoucherForCustomerForm from "./AddVoucherForCustomerForm";
 import TextArea from "antd/es/input/TextArea";
 import SubjectTemplate from "../Components/SubjectTemplate";
-// type Props = {};
 
 dayjs.extend(customParseFormat);
 dayjs.extend(utc);

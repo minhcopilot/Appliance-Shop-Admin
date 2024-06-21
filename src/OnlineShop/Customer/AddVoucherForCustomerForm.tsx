@@ -1,6 +1,5 @@
 import React from "react";
-import { Form, Input, DatePicker, Button, Select } from "antd";
-import dayjs from "dayjs";
+import { Form, Button, Select } from "antd";
 import useGetSubjects from "../hooks/useGet";
 
 interface AddVoucherForCustomerFormProps {
@@ -26,7 +25,7 @@ const AddVoucherForCustomerForm: React.FC<AddVoucherForCustomerFormProps> = ({
         label="Khách hàng"
         rules={[
           { type: "number" },
-          { required: true, message: "Customer is required" },
+          { required: true, message: "Hãy chọn khách hàng" },
         ]}
       >
         <Select
@@ -43,7 +42,7 @@ const AddVoucherForCustomerForm: React.FC<AddVoucherForCustomerFormProps> = ({
         label="Voucher"
         rules={[
           { type: "string" },
-          { required: true, message: "Voucher is required" },
+          { required: true, message: "Hãy chọn Voucher" },
         ]}
       >
         <Select

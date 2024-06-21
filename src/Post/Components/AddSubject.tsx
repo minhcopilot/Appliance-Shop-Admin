@@ -1,8 +1,6 @@
 import { Button, Collapse, Flex, Form, Space } from "antd";
-import Title from "antd/es/typography/Title";
 import React from "react";
 import useAdd from "../hooks/useAdd";
-import { ArrowLeftOutlined } from "@ant-design/icons";
 
 type Props = {
   subject: string;
@@ -53,10 +51,10 @@ export default function AddSubject({ subject, currentform, title }: Props) {
                 <Form.Item wrapperCol={{ sm: { offset: 6 } }}>
                   <Space>
                     <Button type="primary" onClick={() => addSubject.submit()}>
-                      Add
+                      Thêm
                     </Button>
                     <Button onClick={() => addSubject.resetFields()}>
-                      Reset
+                      Xóa hết
                     </Button>
                   </Space>
                 </Form.Item>

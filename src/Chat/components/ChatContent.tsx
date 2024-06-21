@@ -1,24 +1,12 @@
 import React from "react";
 import Message from "./Message";
-import {
-  Button,
-  Card,
-  Flex,
-  FloatButton,
-  Layout,
-  Skeleton,
-  Space,
-  Spin,
-} from "antd";
+import { Button, Card, Flex, FloatButton, Skeleton } from "antd";
 import styles from "./ChatContent.module.css";
 import { ArrowDownOutlined, LoadingOutlined } from "@ant-design/icons";
 import { useGetAssignedChat, useGetContent } from "../hooks/useGet";
 import SendForm from "./SendForm";
 import { useSocket } from "../../socket";
-import Title from "antd/es/typography/Title";
-import { set } from "react-hook-form";
 import { useLoading } from "../hooks/useLoading";
-const { Header } = Layout;
 
 type Props = { chatId: number };
 
@@ -60,7 +48,7 @@ export default function ChatContent({ chatId }: Props) {
           loading={disconnectLoading ? true : false}
           disabled={currentChat?.isFinished}
         >
-          Disconnect Chat
+          Ngắt kết nối
         </Button>
       }
     >
@@ -75,7 +63,7 @@ export default function ChatContent({ chatId }: Props) {
             <FloatButton
               icon={<ArrowDownOutlined />}
               onClick={scrollToLatest}
-              tooltip="Scroll to latest"
+              tooltip="Xem tin nhắn mới nhất"
               style={{
                 position: "absolute",
                 right: 24,

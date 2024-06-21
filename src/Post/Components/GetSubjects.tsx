@@ -1,7 +1,6 @@
 import Table, { ColumnsType } from "antd/es/table";
 import React from "react";
 import { Alert, Flex, Space, Spin } from "antd";
-import Title from "antd/es/typography/Title";
 import useGetSubjects from "../hooks/useGet";
 import DeleteSubject from "./DeleteSubject";
 
@@ -12,10 +11,8 @@ type Props = {
 };
 
 export default function GetSubjects({ subject, title, subjectColumn }: Props) {
-  // const refresh = useRefresh((state) => state.refresh);
   const query = useGetSubjects(subject);
   const [selectedRowKeys, setSelectedRowKeys] = React.useState<any[]>([]);
-
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
     setSelectedRowKeys(newSelectedRowKeys);
   };
@@ -36,13 +33,17 @@ export default function GetSubjects({ subject, title, subjectColumn }: Props) {
       {query.isLoading ? (
         <Spin />
       ) : query.isError ? (
-        <Alert message={query.error.message} type="error" closable />
+        <Alert
+          message={query.error.message || "Có lỗi xảy ra khi lấy dữ liệu"}
+          type="error"
+          closable
+        />
       ) : (
         <Space direction="vertical">
           <DeleteSubject
             deleteId={selectedRowKeys}
             subject={subject}
-            title="Delete Selected Items?"
+            title="Xóa các mục đã chọn?"
             disabled={!hasSelected}
             type="primary"
           />

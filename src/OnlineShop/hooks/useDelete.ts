@@ -1,9 +1,7 @@
 import { message } from "antd";
 import axiosClient from "../config/axiosClient";
-// import React from "react";
 import { Error } from "./useGet";
 import useAuth from "./useAuth";
-// import { useCurrentId } from "./usePatch";
 import { useMutation, useQueryClient } from "react-query";
 
 const useDelete = (subject: string, silent?: boolean) => {
@@ -29,14 +27,14 @@ const useDelete = (subject: string, silent?: boolean) => {
       !silent &&
         message.success({
           key: "deletesubject",
-          content: "Deleted",
+          content: "Đã xóa",
         });
     },
     onError: (error) => {
       !silent &&
         message.error({
           key: "deletesubject",
-          content: error.response.data.message,
+          content: error.response.data.message || "Có lỗi xảy ra khi xóa",
         });
     },
   });

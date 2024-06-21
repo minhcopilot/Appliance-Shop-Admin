@@ -22,7 +22,7 @@ export const AssignButtons = ({ notifKey, id }: Props) => {
     <Space>
       {notifKey && (
         <Button type="link" onClick={() => notification.destroy()}>
-          Reject All
+          Từ chối tất cả
         </Button>
       )}
       <Button
@@ -32,7 +32,7 @@ export const AssignButtons = ({ notifKey, id }: Props) => {
         }}
         loading={acceptLoading ? true : false}
       >
-        Accept
+        Đồng ý
       </Button>
     </Space>
   );

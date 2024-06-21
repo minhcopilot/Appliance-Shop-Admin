@@ -16,15 +16,7 @@ export const Notice = () => {
   return (
     <Alert
       message="Informational Notes"
-      description={
-        <p>
-          You can't delete custormers, employees those are currently having
-          orders, or categories with products.
-          <br />
-          Try to delete existing relative orders / products by using "Filter"
-          and "Delete selected items" function first
-        </p>
-      }
+      description={<p></p>}
       type="info"
       showIcon
     />
@@ -67,17 +59,17 @@ export default function Article() {
           items={[
             {
               key: "category",
-              label: <Link to="category">Category</Link>,
+              label: <Link to="category">Danh mục</Link>,
               icon: <MdOutlineCategory />,
             },
             {
               key: "post",
-              label: <Link to="post">Post</Link>,
+              label: <Link to="post">Bài viết</Link>,
               icon: <MdOutlinePostAdd />,
             },
             {
               key: "comment",
-              label: <Link to="comment">Comment</Link>,
+              label: <Link to="comment">Bình luận</Link>,
               icon: <CommentOutlined />,
             },
           ]}
@@ -88,7 +80,7 @@ export default function Article() {
         style={sideCollapsed ? { marginLeft: 50 } : { marginLeft: 170 }}
       >
         <div style={{ padding: 10 }}>
-          {loggedInUser ? <Outlet /> : <h1>Log in to see the content</h1>}
+          {loggedInUser ? <Outlet /> : <h1>Đăng nhập để xem nội dung</h1>}
         </div>
       </Content>
     </Layout>

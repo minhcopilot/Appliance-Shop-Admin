@@ -1,10 +1,6 @@
 import React from "react";
 import styles from "./OnlineShop.module.css";
-// import Login, { Button } from "./Login";
-// import Category from "./Category";
-// import ButtonTabs from "../Session3/Tabs/ButtonTabs";
 import { Alert, Layout, Menu, theme } from "antd";
-
 import { Link, Outlet, useLocation } from "react-router-dom";
 import Sider from "antd/es/layout/Sider";
 import {
@@ -74,32 +70,32 @@ export default function OnlineShop() {
           items={[
             {
               key: "category",
-              label: <Link to="category">Category</Link>,
+              label: <Link to="category">Danh mục</Link>,
               icon: <MdOutlineCategory />,
             },
             {
               key: "supplier",
-              label: <Link to={"supplier"}>Supplier</Link>,
+              label: <Link to={"supplier"}>Nhà cung cấp</Link>,
               icon: <MdOutlineLocalShipping />,
             },
             {
               key: "employee",
-              label: <Link to={"employee"}>Employee</Link>,
+              label: <Link to={"employee"}>Nhân viên</Link>,
               icon: <MdOutlinePerson3 />,
             },
             {
               key: "customer",
-              label: <Link to={"customer"}>Customer</Link>,
+              label: <Link to={"customer"}>Khách hàng</Link>,
               icon: <MdOutlinePeopleOutline />,
             },
             {
               key: "product",
-              label: <Link to={"product"}>Product</Link>,
+              label: <Link to={"product"}>Sản phẩm</Link>,
               icon: <MdOutlineInbox />,
             },
             {
               key: "order",
-              label: <Link to={"order"}>Order</Link>,
+              label: <Link to={"order"}>Đơn hàng</Link>,
               icon: <MdOutlineShoppingCart />,
             },
             {

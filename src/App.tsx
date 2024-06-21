@@ -142,15 +142,15 @@ export default function App() {
             items={[
               {
                 key: "",
-                label: <Link to="">Home</Link>,
+                label: <Link to="">Trang chủ</Link>,
               },
               {
                 key: "management",
-                label: <Link to="management">Online Shop</Link>,
+                label: <Link to="management">Quản lý Shop</Link>,
               },
               {
                 key: "article",
-                label: <Link to="article">Article</Link>,
+                label: <Link to="article">Bài viết</Link>,
               },
               {
                 key: "chat",
@@ -161,7 +161,7 @@ export default function App() {
                       overflowCount={10}
                       size="small"
                     >
-                      <p style={{ color: "white" }}>Chat</p>
+                      <p style={{ color: "white" }}>Hỗ trợ khách hàng</p>
                     </Badge>
                   </Link>
                 ),

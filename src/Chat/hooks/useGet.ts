@@ -1,7 +1,6 @@
 import { useQuery, useQueryClient } from "react-query";
 import axiosClient from "../../OnlineShop/config/axiosClient";
 import useAuth from "../../OnlineShop/hooks/useAuth";
-import { useSocket } from "../../socket";
 
 export const useGetAssignedChat = () => {
   const token = useAuth((state) => state.token);
@@ -26,7 +25,6 @@ export const useGetAssignedChat = () => {
 
 export const useGetUnassignedChat = () => {
   const token = useAuth((state) => state.token);
-  const socket = useSocket();
   const getUnassignedChat = async () => {
     try {
       const response = token

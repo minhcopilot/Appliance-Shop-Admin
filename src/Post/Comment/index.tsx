@@ -39,32 +39,32 @@ export const CommentForm = ({
     >
       <Form.Item
         name="status"
-        label="Status"
+        label="Trạng thái"
         rules={[
           {
             type: "enum",
             enum: ["approved", "pending", "spam"],
-            message: "Comment is not valid",
+            message: "Trạng thái không hợp lệ",
           },
         ]}
       >
         <Radio.Group
           optionType="button"
           options={[
-            { value: "approved", label: "Approved" },
-            { value: "pending", label: "Pending" },
+            { value: "approved", label: "Đã duyệt" },
+            { value: "pending", label: "Đang chờ" },
             { value: "spam", label: "Spam" },
           ]}
         />
       </Form.Item>
       <Form.Item
         name="author"
-        label="Author"
+        label="Tác giả"
         validateDebounce={1000}
         rules={[
           { type: "string" },
-          { required: true, message: "Author Name is required" },
-          { max: 100, message: "Author Name should not be too long" },
+          { required: true, message: "Tên tác giả là bắt buộc" },
+          { max: 100, message: "Tên tác giả không được quá dài" },
         ]}
       >
         <Input name="author" type="text"></Input>
@@ -75,12 +75,12 @@ export const CommentForm = ({
         validateDebounce={500}
         rules={[
           { type: "email" },
-          { max: 100, message: "Email should not be too long" },
+          { max: 100, message: "Email không được quá dài" },
         ]}
       >
         <Input name="email" type="text"></Input>
       </Form.Item>
-      <Form.Item name="content" label="Content" rules={[{ type: "string" }]}>
+      <Form.Item name="content" label="Nội dung" rules={[{ type: "string" }]}>
         <Input.TextArea name="content" autoSize rows={3} />
       </Form.Item>
     </Form>
@@ -94,29 +94,29 @@ interface CommentType extends addschemaInput {
 
 const statusFilter = [
   {
-    text: "Approved",
+    text: "Đã duyệt",
     value: "approved",
   },
   {
-    text: "Pending",
+    text: "Đang chờ",
     value: "pending",
   },
   {
-    text: "Ppam",
+    text: "Spam",
     value: "spam",
   },
 ];
 
 export const commentColumns: ColumnsType<CommentType> = [
   {
-    title: "Status",
+    title: "Trạng thái",
     dataIndex: "status",
     key: "status",
     filters: statusFilter,
     onFilter: (value, record) => record.status === value,
   },
   {
-    title: "Author",
+    title: "Tác giả",
     dataIndex: "author",
     key: "author",
   },
@@ -126,7 +126,7 @@ export const commentColumns: ColumnsType<CommentType> = [
     key: "email",
   },
   {
-    title: "Content",
+    title: "Nội dung",
     dataIndex: "content",
     key: "content",
   },
@@ -145,7 +145,7 @@ const Comment = () => {
       <GetSubjects
         subject={subjects}
         subjectColumn={subjectColumn}
-        title="All Comment"
+        title="Danh sách bình luận"
       />
       {loggedInUser && (
         <>
@@ -153,21 +153,11 @@ const Comment = () => {
             <PatchSubject
               currentform={<CommentForm />}
               subject={subjects}
-              title="Patch comment"
+              title="Chỉnh sửa bình luận"
             />
           )}
         </>
       )}
-      {/* <SubjectTemplate
-      subject="comment"
-      subjects={
-        params.postId
-          ? "comments/all/search/query?postId=" + params.postId
-          : "comments/all"
-      }
-      defaultColumns={commentColumns}
-      currentform={<CommentForm />}
-    /> */}
     </>
   );
 };

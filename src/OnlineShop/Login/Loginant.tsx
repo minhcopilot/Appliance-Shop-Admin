@@ -39,9 +39,9 @@ export default function Loginant() {
             name="email"
             label="Email"
             rules={[
-              { required: true, message: "Please input your email" },
+              { required: true, message: "Vui lòng không để trống email" },
               { type: "email" },
-              { max: 30, message: "Username is too long" },
+              { max: 30, message: "Email quá dài" },
             ]}
           >
             <Input name="email" type="email" max={30}></Input>
@@ -50,9 +50,9 @@ export default function Loginant() {
             name="password"
             label="Mật khẩu"
             rules={[
-              { required: true, message: "Please input your password" },
+              { required: true, message: "Vui lòng nhập mật khẩu" },
               { type: "string" },
-              { max: 30, message: "Password is too long" },
+              { max: 30, message: "Mật khẩu quá dài" },
             ]}
           >
             <Input.Password

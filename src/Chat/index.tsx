@@ -10,13 +10,8 @@ import Sider from "antd/es/layout/Sider";
 import { Content } from "antd/es/layout/layout";
 import useAuth from "../OnlineShop/hooks/useAuth";
 import { useGetAssignedChat, useGetUnassignedChat } from "./hooks/useGet";
-import {
-  LoadingOutlined,
-  UserAddOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+import { UserAddOutlined, UserOutlined } from "@ant-design/icons";
 import ChatSearch from "./components/ChatSearch";
-import { set } from "react-hook-form";
 
 export default function Chat() {
   const {
@@ -27,10 +22,10 @@ export default function Chat() {
   const loggedInUser = useAuth().loggedInUser;
   const assignedChats = useGetAssignedChat();
   const unassignedChats = useGetUnassignedChat();
-  const [searchChats, setSearchChats] = React.useState<any>([]);
+  const [searchChats, setSearchChats] = React.useState<any[]>([]);
   const loading = !(assignedChats.isSuccess && unassignedChats.isSuccess);
   React.useEffect(() => {
-    setSearchChats(assignedChats?.data);
+    assignedChats.isSuccess && setSearchChats(assignedChats?.data);
   }, [assignedChats?.data]);
   return (
     <>
@@ -102,7 +97,7 @@ export default function Chat() {
           </Content>
         </Layout>
       ) : (
-        <h1>Log in to see the content</h1>
+        <h1>Đăng nhập để xem</h1>
       )}
     </>
   );

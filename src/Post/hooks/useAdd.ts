@@ -6,8 +6,6 @@ import { onlineManager, useMutation, useQueryClient } from "react-query";
 import useAuth from "../../OnlineShop/hooks/useAuth";
 
 const useAdd = (subject: string, silent?: boolean) => {
-  // const [success, setSuccess] = React.useState(false);
-  // const setRefresh = useRefresh((state) => state.setRefresh);
   const access_token = useAuth((state) => state.token);
   const add = async (data: any) => {
     const response = await axiosClient.post(subject, data, {
@@ -20,8 +18,6 @@ const useAdd = (subject: string, silent?: boolean) => {
   const queryClient = useQueryClient();
   const result = useMutation<any, Error>(add, {
     onSuccess: (data) => {
-      // queryClient.setQueryData([subject], (olddata: any) => [...olddata, data]);
-      //api lại sai :/ trả thiếu category,supplier, mất công fetch lại :/)
       const newitemcat = queryClient
         .getQueryData<any[]>(["categories"])
         ?.find((value) => {
@@ -39,24 +35,18 @@ const useAdd = (subject: string, silent?: boolean) => {
           ])
         : queryClient.invalidateQueries([subject]);
       console.log(queryClient.getQueryData([subject]));
-      subject === "orders"
-        ? !silent &&
-          message.success({
-            key: "addsubject",
-            content: "Added order with ID: " + data.id,
-          })
-        : !silent &&
-          message.success({
-            key: "addsubject",
-            content: "Added " + data.name + " with ID: " + data.id,
-          });
+      !silent &&
+        message.success({
+          key: "addsubject",
+          content: "Thêm thành công",
+        });
       result.reset();
     },
     onError: (error) => {
       !silent &&
         message.error({
           key: "addsubject",
-          content: error.response.data.message,
+          content: error.response.data.message || "Có lỗi xảy ra",
         });
     },
     retry: (failureCount, error) => {
@@ -69,13 +59,13 @@ const useAdd = (subject: string, silent?: boolean) => {
         ? !silent &&
           message.loading({
             key: "addsubject",
-            content: "Submitting",
+            content: "Đang thêm...",
             duration: 0,
           })
         : !silent &&
           message.loading({
             key: "addsubject",
-            content: "Lost Connection",
+            content: "Mất kết nối",
             duration: 0,
           })); // eslint-disable-next-line
   }, [result]);
