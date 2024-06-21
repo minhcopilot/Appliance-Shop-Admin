@@ -144,8 +144,12 @@ const ProductForm = ({
           options={products?.map((item) => {
             return { value: item.id, label: item.name };
           })}
+          showSearch
+          filterOption={(input, option) =>
+            (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+          }
           onSelect={(value) => selectProduct(value)}
-        ></Select>
+        />
       </Form.Item>
       <Form.Item
         name="quantity"
@@ -541,7 +545,11 @@ const OrderForm = ({
                 label: item?.firstName + " " + item?.lastName,
               };
             })}
-          ></Select>
+            showSearch
+            filterOption={(input, option) =>
+              (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+            }
+          />
         </Form.Item>
         <Form.Item
           name="employeeId"
@@ -558,7 +566,11 @@ const OrderForm = ({
                 label: item.firstName + " " + item.lastName,
               };
             })}
-          ></Select>
+            showSearch
+            filterOption={(input, option) =>
+              (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+            }
+          />
         </Form.Item>
         <Form.Item
           name="description"

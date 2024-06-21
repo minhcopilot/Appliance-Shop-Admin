@@ -82,6 +82,10 @@ const ProductForm = ({
           options={categories.data?.map((item) => {
             return { value: item.id, label: item.name };
           })}
+          showSearch
+          filterOption={(input, option) =>
+            (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+          }
         ></Select>
       </Form.Item>
       <Form.Item
@@ -96,6 +100,10 @@ const ProductForm = ({
           options={suppliers.data?.map((item) => {
             return { value: item.id, label: item.name };
           })}
+          showSearch
+          filterOption={(input, option) =>
+            (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+          }
         ></Select>
       </Form.Item>
       <Form.Item

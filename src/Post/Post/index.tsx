@@ -142,7 +142,11 @@ export const PostForm = ({
           options={postCategory.data?.map((item) => {
             return { value: item.id, label: item.title };
           })}
-        ></Select>
+          showSearch
+          filterOption={(input, option) =>
+            (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+          }
+        />
       </Form.Item>
       <Form.Item
         name="status"
