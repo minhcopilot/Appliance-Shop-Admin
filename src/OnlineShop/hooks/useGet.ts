@@ -34,32 +34,6 @@ export const useRefresh = create<refreshInterface>()(
     { name: "refresh" }
   )
 );
-// export const useGetSubject = (
-//   subject: string,
-//   id: number | null,
-//   setLoading?: (data: boolean) => void
-// ) => {
-//   const [data, setData] = React.useState<any>(null);
-//   const refresh = useRefresh((state) => state.refresh);
-//   React.useEffect(() => {
-//     const getData = async () => {
-//       try {
-//         setLoading && setLoading(true);
-//         const response = await axiosClient.get(
-//           "/online-shop/" + subject + "/" + id
-//         );
-//         setData(response.data);
-//         setLoading && setLoading(false);
-//       } catch (error: any) {
-//         setData(null);
-//         setLoading && setLoading(false);
-//         message.error(error.response.data.message, 2);
-//       }
-//     };
-//     id && getData();
-//   }, [id, refresh]);
-//   return [data];
-// };
 
 export const useGetSubject = (
   subject: string,
@@ -92,14 +66,7 @@ export const useGetSubject = (
       !silent &&
       message.loading({
         key: "geterror",
-        content: "Connecting",
-        duration: 0,
-      });
-    result.isLoading &&
-      !silent &&
-      message.loading({
-        key: "geterror",
-        content: "Connecting",
+        content: "Đang kết nối",
         duration: 0,
       });
     result.isSuccess && message.destroy("geterror");
@@ -108,34 +75,18 @@ export const useGetSubject = (
         ? !silent &&
           message.error({
             key: "geterror",
-            content: result.error.response.data.message,
+            content:
+              result.error.response.data.message || "Có lỗi khi lấy dữ liệu",
           })
         : !silent &&
           message.loading({
             key: "geterror",
-            content: "Lost Connection",
+            content: "Mất kêt nối",
             duration: 0,
           })); // eslint-disable-next-line
   }, [result]);
   return result;
 };
-
-// const useGetSubjects = (subject: string) => {
-//   const [data, setData] = React.useState<any[]>([]);
-//   const refresh = useRefresh((state) => state.refresh);
-//   React.useEffect(() => {
-//     const getData = async () => {
-//       try {
-//         const response = await axiosClient.get("/online-shop/" + subject);
-//         setData(response.data);
-//       } catch (error) {
-//         console.log(error);
-//       }
-//     };
-//     getData();
-//   }, [refresh]);
-//   return [data];
-// };
 
 const useGetSubjects = (subject: string) => {
   const getSubjects = async (subject: string) => {

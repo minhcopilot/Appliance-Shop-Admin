@@ -15,8 +15,8 @@ export const socketEstablished = (socket: any) => {
 const openNotification = (customerName: string, id: number) => {
   const key = `newchat-${id}`;
   notification.open({
-    message: `New chat from ${customerName}`,
-    description: "Do you want to accept this chat?",
+    message: `Tin nhắn mới từ ${customerName}`,
+    description: "Bạn có tin nhắn mới từ khách hàng, hãy kiểm tra ngay!",
     btn: <AssignButtons id={id} key={key} />,
     duration: 5,
     key,

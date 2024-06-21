@@ -2,7 +2,6 @@ import { message } from "antd";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import axiosClient from "../config/axiosClient";
-// import React from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { Error } from "./useGet";
 import useAuth from "../../OnlineShop/hooks/useAuth";
@@ -31,11 +30,7 @@ export const usePatchPopup = create<patchPopupInterface>()(
   }))
 );
 
-const usePatchSubject = (
-  subject: string,
-  // id: number | null,
-  silent?: boolean
-) => {
+const usePatchSubject = (subject: string, silent?: boolean) => {
   const access_token = useAuth((state) => state.token);
   const setPatchPopup = usePatchPopup((state) => state.setPatchPopup);
   const setCurrentId = useCurrentId((state) => state.setCurrentId);
@@ -57,11 +52,10 @@ const usePatchSubject = (
         message.success({
           key: "patchsubject",
           type: "success",
-          content: "Modified successfully",
+          content: "Sửa thành công",
         });
       queryClient.invalidateQueries([subject]);
       queryClient.invalidateQueries([subject, variables.id]);
-      // queryClient.setQueryData([subject, variables.id], data);
       setPatchPopup(false);
       setCurrentId(null);
     },

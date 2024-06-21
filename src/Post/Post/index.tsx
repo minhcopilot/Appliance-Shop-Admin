@@ -1,7 +1,6 @@
 import React from "react";
 import { Button, Form, Input, InputNumber, Radio, Select, Upload } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import TextArea from "antd/es/input/TextArea";
 import SubjectTemplate from "../Components/SubjectTemplate";
 import useGetSubjects, { useGetSubject } from "../hooks/useGet";
 import { UploadOutlined } from "@ant-design/icons";
@@ -12,7 +11,6 @@ import { categorySchemaInput } from "../Category";
 import { useParams } from "react-router-dom";
 import axiosClient from "../config/axiosClient";
 import useAuth from "../../OnlineShop/hooks/useAuth";
-import { resolve } from "path";
 // type Props = {};
 
 interface addschemaInput {
@@ -79,38 +77,38 @@ export const PostForm = ({
     >
       <Form.Item
         name="type"
-        label="Type"
+        label="Loại bài viết"
         rules={[
           {
             type: "enum",
             enum: ["post", "page"],
-            message: "Post type is not valid",
+            message: "Loại bài viết không hợp lệ",
           },
         ]}
       >
         <Radio.Group
           optionType="button"
           options={[
-            { value: "post", label: "Post" },
-            { value: "page", label: "Page" },
+            { value: "post", label: "Bài viết" },
+            { value: "page", label: "Trang" },
           ]}
         />
       </Form.Item>
       <Form.Item
         name="title"
-        label="Post Title"
+        label="Tiêu đề bài viết"
         validateDebounce={1000}
         rules={[
           { type: "string" },
-          { required: true, message: "Category Name is required" },
-          { max: 100, message: "Category Name should not be too long" },
+          { required: true, message: "Tiêu đề là bắt buộc" },
+          { max: 100, message: "Tiêu đề quá dài" },
           {
             validator: async (_, title) => {
               return currentId
                 ? checkUnique("posts", { title }, currentId)
                 : checkUnique("posts", { title });
             },
-            message: "Post Title is already used",
+            message: "Tiêu đề đã được sử dụng",
           },
         ]}
       >
@@ -118,18 +116,18 @@ export const PostForm = ({
       </Form.Item>
       <Form.Item
         name="url"
-        label="Post URL"
+        label="URL"
         validateDebounce={500}
         rules={[
           { type: "string" },
-          { max: 500, message: "Category Name should not be too long" },
+          { max: 500, message: "URL quá dài" },
           {
             validator: async (_, url) => {
               return currentId
                 ? checkUnique("posts", { url }, currentId)
                 : checkUnique("posts", { url });
             },
-            message: "URL is already used",
+            message: "URL đã được sử dụng",
           },
         ]}
       >
@@ -137,60 +135,64 @@ export const PostForm = ({
       </Form.Item>
       <Form.Item
         name="postCategoryId"
-        label="Category"
+        label="Danh mục bài viết"
         rules={[{ type: "string" }]}
       >
         <Select
           options={postCategory.data?.map((item) => {
             return { value: item.id, label: item.title };
           })}
-        ></Select>
+          showSearch
+          filterOption={(input, option) =>
+            (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+          }
+        />
       </Form.Item>
       <Form.Item
         name="status"
-        label="Status"
+        label="Trạng thái"
         rules={[
           {
             type: "enum",
             enum: ["draft", "published", "deleted"],
-            message: "Post status is not valid",
+            message: "Trạng thái không hợp lệ",
           },
         ]}
       >
         <Radio.Group
           optionType="button"
           options={[
-            { value: "draft", label: "Draft" },
-            { value: "published", label: "Published" },
-            { value: "deleted", label: "Deleted" },
+            { value: "draft", label: "Nháp" },
+            { value: "published", label: "Đã đăng" },
+            { value: "deleted", label: "Đã xóa" },
           ]}
         />
       </Form.Item>
       <Form.Item
         name="commentStatus"
-        label="Comment Status"
+        label="Trạng thái bình luận"
         rules={[
           {
             type: "enum",
             enum: ["open", "closed"],
-            message: "Comment status is not valid",
+            message: "Trạng thái bình luận không hợp lệ",
           },
         ]}
       >
         <Radio.Group
           optionType="button"
           options={[
-            { value: "open", label: "Open" },
-            { value: "closed", label: "Closed" },
+            { value: "open", label: "Mở" },
+            { value: "closed", label: "Đóng" },
           ]}
         />
       </Form.Item>
       <Form.Item
         name="like"
-        label="Like Number"
+        label="Số lượt thích"
         rules={[
-          { type: "number", message: "Like Number is not valid" },
-          { type: "integer", message: "Like Number is not valid" },
+          { type: "number", message: "Số lượt thích không hợp lệ" },
+          { type: "integer", message: "Số lượt thích không hợp lệ" },
         ]}
       >
         <InputNumber name="like" min={0} step={1}></InputNumber>
@@ -257,53 +259,53 @@ interface PostType extends addschemaInput {
 
 const typeFilter = [
   {
-    text: "Post",
+    text: "Bài viết",
     value: "post",
   },
   {
-    text: "Page",
+    text: "Trang",
     value: "page",
   },
 ];
 const statusFilter = [
   {
-    text: "Draft",
+    text: "Nháp",
     value: "draft",
   },
   {
-    text: "Published",
+    text: "Đã đăng",
     value: "published",
   },
   {
-    text: "Deleted",
+    text: "Đã xóa",
     value: "deleted",
   },
 ];
 const commentStatusFilter = [
   {
-    text: "Open",
+    text: "Mở",
     value: "open",
   },
   {
-    text: "Closed",
+    text: "Đóng",
     value: "closed",
   },
 ];
 export const postColumns: ColumnsType<PostType> = [
   {
-    title: "Type",
+    title: "Loại bài viết",
     dataIndex: "type",
     key: "type",
     filters: typeFilter,
     onFilter: (value, record) => record.type === value,
   },
   {
-    title: "Post Name",
+    title: "Tiêu đề bài viết",
     dataIndex: "title",
     key: "title",
   },
   {
-    title: "Category",
+    title: "Danh mục bài viết",
     dataIndex: "category",
     key: "category",
     render: (text: any, record: PostType, index: number) => {
@@ -311,7 +313,7 @@ export const postColumns: ColumnsType<PostType> = [
     },
   },
   {
-    title: "Image",
+    title: "Hình ảnh",
     key: "imageUrl",
     dataIndex: "imageUrl",
     width: "1%",
@@ -320,31 +322,45 @@ export const postColumns: ColumnsType<PostType> = [
     },
   },
   {
-    title: "Author",
+    title: "Tác giả",
     dataIndex: "authorName",
     key: "authorName",
   },
   {
-    title: "Status",
+    title: "Trạng thái",
     dataIndex: "status",
     key: "status",
     filters: statusFilter,
     onFilter: (value, record) => record.type === value,
+    render: (text: any, record: PostType, index: number) => {
+      return (
+        <>
+          {record.status === "draft"
+            ? "Nháp"
+            : record.status === "published"
+            ? "Đã đăng"
+            : "Đã xóa"}
+        </>
+      );
+    },
   },
   {
-    title: "Comment Status",
+    title: "Trạng thái bình luận",
     dataIndex: "commentStatus",
     key: "commentStatus",
     filters: commentStatusFilter,
     onFilter: (value, record) => record.type === value,
+    render: (text: any, record: PostType, index: number) => {
+      return <>{record.commentStatus === "open" ? "Mở" : "Đóng"}</>;
+    },
   },
   {
-    title: "Like",
+    title: "Lượt thích",
     dataIndex: "like",
     key: "like",
   },
   {
-    title: "View",
+    title: "Lượt xem",
     dataIndex: "view",
     key: "view",
   },

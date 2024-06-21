@@ -1,9 +1,7 @@
-import React from "react";
 import useDelete from "../hooks/useDelete";
 import { Button, ButtonProps, Popconfirm, message } from "antd";
 import { AiOutlineDelete } from "react-icons/ai";
 import usePatchSubject from "../hooks/usePatch";
-// import useGetSubjects from "../hooks/useGet";
 
 interface Props extends ButtonProps {
   deleteId: any[];
@@ -20,8 +18,6 @@ export default function DeleteSubject({
   ...props
 }: Props) {
   const confirmDelete = useDelete(subject);
-  // const deleteOrder = useDelete("orders");
-  // const orders = useGetSubjects("orders");
   const patch = usePatchSubject("orders", true);
   const EmptyOrderDetail = async (data: any, id: any) => {
     const passdata: any = { data: data, id: id };
@@ -42,30 +38,9 @@ export default function DeleteSubject({
     confirmDelete.isLoading &&
       message.loading({
         key: "deletesubject",
-        content: "Loading",
+        content: "Đang xóa...",
       });
   };
-  // hàm delete product mà đang bug
-  // const emptyOrder = async (id: any) => {
-  //   const matchOrders: any[] = [];
-  //   orders.isSuccess &&
-  //     orders.data?.map((value) => {
-  //       value.orderDetails.some((value: any) => {
-  //         return value.product.id == id;
-  //       }) && matchOrders.push(value.id);
-  //     });
-  //   console.log(matchOrders);
-  //   try {
-  //     const todo = await matchOrders?.forEach((value: any) => {
-  //       EmptyOrderDetail({ orderDetails: [] }, value.id);
-  //       deleteOrder.mutate(value);
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   } finally {
-  //     confirmDelete.mutate(id);
-  //   }
-  // };
 
   return (
     <Popconfirm
@@ -74,11 +49,11 @@ export default function DeleteSubject({
       description={
         deleteId.length <= 1
           ? subject === "orders"
-            ? "Bạn có chắc chắn muốn xóa đơn hàng này? Hành động này sẽ làm trống chi tiết đơn hàng trước"
-            : "Bạn có chắc chắn muốn xóa mục này?"
+            ? "Bạn có chắc muốn xóa đơn hàng này? Điều này sẽ xóa chi tiết đơn hàng trước"
+            : "Bạn có chắc muốn xóa mục đã chọn"
           : subject === "orders"
-          ? "Bạn có chắc chắn muốn xóa những đơn hàng này? Hành động này sẽ làm trống chi tiết đơn hàng trước"
-          : "Bạn có chắc chắn muốn xóa những mục này?"
+          ? "Bạn có chắc muốn xóa những đơn hàng này? Điều này sẽ xóa chi tiết đơn hàng trước"
+          : "Bạn có chắc muốn xóa những mục đã chọn?"
       }
       onConfirm={DeleteHandle}
       okText="Đồng ý"
@@ -93,8 +68,8 @@ export default function DeleteSubject({
         {collapsed
           ? null
           : deleteId.length === 1
-          ? "Xoá"
-          : "Xoá các mục đã chọn"}
+          ? "Xóa mục đã chọn"
+          : "Xóa các mục đã chọn"}
       </Button>
     </Popconfirm>
   );

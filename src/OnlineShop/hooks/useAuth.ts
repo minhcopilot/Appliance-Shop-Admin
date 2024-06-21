@@ -34,7 +34,7 @@ const useAuth = create<authInterface>()(
         refreshToken: null,
         login: async (data: loginForm) => {
           try {
-            message.loading({ key: "login", content: "Loading" });
+            message.loading({ key: "login", content: "Đang đăng nhập" });
             const response: any = await axiosClient.post(
               "admin/auth/login",
               data
@@ -71,7 +71,7 @@ const useAuth = create<authInterface>()(
             token: null,
             refreshToken: null,
           }));
-          message.success({ content: "Successfully Logged Out" });
+          message.success({ content: "Đã đăng xuất" });
         },
         refresh: async () => {
           try {

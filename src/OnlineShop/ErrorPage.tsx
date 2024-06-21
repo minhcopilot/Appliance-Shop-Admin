@@ -1,9 +1,5 @@
 import { Button, Result } from "antd";
-// import { relative } from "path";
-// import React from "react";
 import { useNavigate, useRouteError } from "react-router-dom";
-
-// type Props = {};
 
 export default function ErrorPage() {
   const error: any = useRouteError();
@@ -18,7 +14,7 @@ export default function ErrorPage() {
           onClick={() => navigate("..", { relative: "path" })}
           type="primary"
         >
-          Go Back
+          Quay lại
         </Button>
       }
     />

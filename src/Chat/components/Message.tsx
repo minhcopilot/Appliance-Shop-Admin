@@ -23,13 +23,13 @@ export default function Message({ message }: { message: MessageProps }) {
     <>
       {message.replyTo && <ReplyTo id={message.replyTo} />}
       <Badge.Ribbon
-        text={message.sender}
+        text={message.sender === "employee" ? "Nhân viên" : "Khách hàng"}
         placement={placement}
         style={{ margin: 10 }}
       >
         <Card size="small">
           <div
-            style={{ marginLeft: 80, marginRight: 80 }}
+            style={{ marginLeft: 90, marginRight: 80 }}
             dir={message.sender === "employee" ? "rtl" : ""}
           >
             {message.type === "text" && message.content}

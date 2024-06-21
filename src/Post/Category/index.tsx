@@ -8,7 +8,6 @@ import { UploadOutlined } from "@ant-design/icons";
 import { checkUnique } from "../hooks/usefulHooks";
 import { useCurrentId } from "../hooks/usePatch";
 import { Link } from "react-router-dom";
-// type Props = {};
 
 export interface categorySchemaInput {
   title: string;
@@ -41,19 +40,19 @@ const CategoryForm = ({
     >
       <Form.Item
         name="title"
-        label="Category Name"
+        label="Tên danh mục"
         validateDebounce={1000}
         rules={[
           { type: "string" },
-          { required: true, message: "Category Name is required" },
-          { max: 50, message: "Category Name should not be too long" },
+          { required: true, message: "Tên danh mục là bắt buộc" },
+          { max: 50, message: "Tên danh mục không được quá dài" },
           {
             validator: async (_, title) => {
               return currentId
                 ? checkUnique("categories", { title }, currentId)
                 : checkUnique("categories", { title });
             },
-            message: "Category Name is already used",
+            message: "Tên danh mục đã được sử dụng",
           },
         ]}
       >
@@ -73,17 +72,17 @@ const CategoryForm = ({
       </Form.Item>
       <Form.Item
         name="url"
-        label="Category URL"
+        label="URL danh mục"
         rules={[
           { type: "string" },
-          { max: 500, message: "Category URL should not be too long" },
+          { max: 500, message: "URL danh mục không được quá dài" },
           {
             validator: async (_, url) => {
               return currentId
                 ? checkUnique("categories", { url }, currentId)
                 : checkUnique("categories", { url });
             },
-            message: "Category URL is already used",
+            message: "URL danh mục đã được sử dụng",
           },
         ]}
       >
@@ -91,21 +90,25 @@ const CategoryForm = ({
       </Form.Item>
       <Form.Item
         name="parentId"
-        label="Category Parent"
+        label="Danh mục cha"
         rules={[{ type: "string" }]}
       >
         <Select
           options={postCategory.data?.map((item) => {
             return { value: item.id, label: item.title };
           })}
-        ></Select>
+          showSearch
+          filterOption={(input, option) =>
+            (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+          }
+        />
       </Form.Item>
       <Form.Item
         name="description"
-        label="Description"
+        label="Mô tả"
         rules={[
           { type: "string" },
-          { max: 500, message: "Description should not be too long" },
+          { max: 500, message: "Mô tả không được quá dài" },
         ]}
       >
         <TextArea name="description" autoSize></TextArea>
@@ -121,7 +124,7 @@ interface CategoryType extends categorySchemaInput {
 
 export const postCategoryColumns: ColumnsType<CategoryType> = [
   {
-    title: "Category Name",
+    title: "Tên danh mục",
     dataIndex: "title",
     key: "title",
     render: (value: string, record: any, index: number) => {
@@ -129,7 +132,7 @@ export const postCategoryColumns: ColumnsType<CategoryType> = [
     },
   },
   {
-    title: "Image",
+    title: "Hình ảnh",
     key: "imageUrl",
     dataIndex: "imageUrl",
     width: "1%",
@@ -140,7 +143,7 @@ export const postCategoryColumns: ColumnsType<CategoryType> = [
     },
   },
   {
-    title: "Parent Category Name",
+    title: "Danh mục cha",
     dataIndex: "parentId",
     key: "parentId",
     render: (text: any, record: CategoryType, index: number) => {
@@ -148,7 +151,7 @@ export const postCategoryColumns: ColumnsType<CategoryType> = [
     },
   },
   {
-    title: "Description",
+    title: "Mô tả",
     dataIndex: "description",
     key: "description",
     responsive: ["sm"],

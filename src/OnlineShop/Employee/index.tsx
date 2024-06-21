@@ -7,7 +7,6 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import type { ColumnsType } from "antd/es/table";
 import TextArea from "antd/es/input/TextArea";
 import SubjectTemplate from "../Components/SubjectTemplate";
-// type Props = {};
 
 dayjs.extend(customParseFormat);
 dayjs.extend(utc);

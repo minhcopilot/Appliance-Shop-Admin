@@ -92,7 +92,7 @@ export default function PatchSubject({ subject, currentform, title }: Props) {
           <Col>
             <Space>
               <Button type="primary" onClick={() => patchSubject.submit()}>
-                Change this {subject}
+                Sửa
               </Button>
               <Button
                 onClick={() => {
@@ -101,7 +101,7 @@ export default function PatchSubject({ subject, currentform, title }: Props) {
                   setCurrentId(null);
                 }}
               >
-                Cancel
+                Hủy
               </Button>
             </Space>
           </Col>

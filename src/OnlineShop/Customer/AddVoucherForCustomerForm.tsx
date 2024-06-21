@@ -80,7 +80,7 @@ const AddVoucherForCustomerForm: React.FC<AddVoucherForCustomerFormProps> = ({
         label="Mã khách hàng"
         rules={[
           { type: "number" },
-          { required: true, message: "Customer is required" },
+          { required: true, message: "Hãy chọn khách hàng" },
         ]}
       >
         <Input disabled></Input>
@@ -90,7 +90,7 @@ const AddVoucherForCustomerForm: React.FC<AddVoucherForCustomerFormProps> = ({
         label="Voucher"
         rules={[
           { type: "string" },
-          { required: true, message: "Voucher is required" },
+          { required: true, message: "Hãy chọn Voucher" },
         ]}
       >
         <Select

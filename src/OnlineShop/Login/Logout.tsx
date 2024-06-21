@@ -1,9 +1,6 @@
-// import React from "react";
 import useAuth from "../hooks/useAuth";
 import { Button, Flex } from "antd";
 import styles from "./Logout.module.css";
-
-// type Props = {};
 
 export default function Logout() {
   const email = useAuth((state) => state.loggedInUser?.email);
@@ -14,7 +11,7 @@ export default function Logout() {
       <Flex vertical className={styles.userinfo}>
         <strong style={{ fontWeight: 600 }}>{email}</strong> <span>{role}</span>
       </Flex>
-      <Button onClick={() => logout()}>Logout</Button>
+      <Button onClick={() => logout()}>Đăng xuất</Button>
     </Flex>
   );
 }

@@ -45,34 +45,11 @@ const ProductForm = ({
 }) => {
   const categories = useGetSubjects("categories");
   const suppliers = useGetSubjects("suppliers");
-  // const [fileList, setFileList] = React.useState<any[]>([]);
-  // const [isEditMode, setIsEditMode] = React.useState(false);
 
-  // React.useEffect(() => {
-  //   if (initialValues) {
-  //     setIsEditMode(true);
-  //   } else {
-  //     setIsEditMode(false);
-  //   }
-  // }, [initialValues]);
-  // const beforeUpload = (file: any) => {
-  //   form.setFieldsValue({ fileList: file });
-  //   return false;
-  // };
-
-  // const onRemove = (file: any) => {
-  //   // Logic to handle file removal
-  //   setFileList(fileList.filter((item: any) => item.uid !== file.uid));
-  // };
   const onRemove = (file: any) => {
     let removeFiles = form.getFieldValue("removeFiles") || [];
     form.setFieldValue("removeFiles", [...removeFiles, file.uid]);
   };
-  // const handleFileChange = (info: any) => {
-  //   let fileList = [...info.fileList];
-  //   fileList = fileList.slice(-5); // Chỉ cho phép tải lên tối đa 5 tệp
-  //   setFileList(fileList);
-  // };
 
   return (
     <Form
@@ -105,6 +82,10 @@ const ProductForm = ({
           options={categories.data?.map((item) => {
             return { value: item.id, label: item.name };
           })}
+          showSearch
+          filterOption={(input, option) =>
+            (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+          }
         ></Select>
       </Form.Item>
       <Form.Item
@@ -119,6 +100,10 @@ const ProductForm = ({
           options={suppliers.data?.map((item) => {
             return { value: item.id, label: item.name };
           })}
+          showSearch
+          filterOption={(input, option) =>
+            (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+          }
         ></Select>
       </Form.Item>
       <Form.Item

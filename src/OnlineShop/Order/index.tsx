@@ -144,8 +144,12 @@ const ProductForm = ({
           options={products?.map((item) => {
             return { value: item.id, label: item.name };
           })}
+          showSearch
+          filterOption={(input, option) =>
+            (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+          }
           onSelect={(value) => selectProduct(value)}
-        ></Select>
+        />
       </Form.Item>
       <Form.Item
         name="quantity"
@@ -182,7 +186,7 @@ const ProductForm = ({
         style={{ overflow: "hidden" }}
       >
         <Button onClick={() => productForm.submit()}>
-          Add Product to Order
+          Thêm sản phẩm vào đơn hàng
         </Button>
       </Form.Item>
     </Form>
@@ -487,7 +491,7 @@ const OrderForm = ({
           rules={[
             {
               type: "enum",
-              enum: ["CASH", "CREDIT CARD"],
+              enum: ["CASH", "MOMO", "ZALOPAY", "PAYOS"],
               message: "Phương thức thanh toán không hợp lệ",
             },
             // { required: true, message: "Payment Type is required" },
@@ -496,8 +500,10 @@ const OrderForm = ({
           <Radio.Group
             optionType="button"
             options={[
-              { value: "CASH", label: "Cash" },
-              { value: "CREDIT CARD", label: "Credit Card" },
+              { value: "CASH", label: "Tiền mặt" },
+              { value: "MOMO", label: "Momo" },
+              { value: "ZALOPAY", label: "ZaloPay" },
+              { value: "PAYOS", label: "Chuyển khoản" },
             ]}
           />
         </Form.Item>
@@ -508,7 +514,7 @@ const OrderForm = ({
             {
               type: "enum",
               enum: ["WAITING", "COMPLETED", "CANCELED", "DELIVERING"],
-              message: "Status is not valid",
+              message: "Trạng thái không hợp lệ",
             },
 
             // { required: true, message: "Status is required" },
@@ -517,10 +523,10 @@ const OrderForm = ({
           <Radio.Group
             optionType="button"
             options={[
-              { value: "WAITING", label: "Waiting" },
-              { value: "COMPLETED", label: "Completed" },
-              { value: "DELIVERING", label: "Delivering" },
-              { value: "CANCELED", label: "Canceled", style: { color: "red" } },
+              { value: "WAITING", label: "Đang chờ" },
+              { value: "COMPLETED", label: "Hoàn thành" },
+              { value: "DELIVERING", label: "Đang giao" },
+              { value: "CANCELED", label: "Đã hủy", style: { color: "red" } },
             ]}
           />
         </Form.Item>
@@ -529,7 +535,7 @@ const OrderForm = ({
           label="Khách hàng"
           rules={[
             { type: "number" },
-            { required: true, message: "Customer is required" },
+            { required: true, message: "Khách hàng là bắt buộc" },
           ]}
         >
           <Select
@@ -539,14 +545,18 @@ const OrderForm = ({
                 label: item?.firstName + " " + item?.lastName,
               };
             })}
-          ></Select>
+            showSearch
+            filterOption={(input, option) =>
+              (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+            }
+          />
         </Form.Item>
         <Form.Item
           name="employeeId"
           label="Nhân viên"
           rules={[
             { type: "number" },
-            { required: true, message: "Employee is required" },
+            { required: true, message: "Nhân viên là bắt buộc" },
           ]}
         >
           <Select
@@ -556,7 +566,11 @@ const OrderForm = ({
                 label: item.firstName + " " + item.lastName,
               };
             })}
-          ></Select>
+            showSearch
+            filterOption={(input, option) =>
+              (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+            }
+          />
         </Form.Item>
         <Form.Item
           name="description"
@@ -639,28 +653,36 @@ const Orderant = () => {
   const paymentTypeFilter = [
     {
       text: "Cash",
-      value: "CASH",
+      value: "Tiền mặt",
     },
     {
-      text: "Credit Card",
-      value: "CREDIT CARD",
+      text: "Momo",
+      value: "MOMO",
+    },
+    {
+      text: "ZaloPay",
+      value: "ZALOPAY",
+    },
+    {
+      text: "Chuyển khoản",
+      value: "PAYOS",
     },
   ];
   const statusFilter = [
     {
-      text: "Waiting",
+      text: "Đang chờ",
       value: "WAITING",
     },
     {
-      text: "Completed",
+      text: "Hoàn thành",
       value: "COMPLETED",
     },
     {
-      text: "Canceled",
+      text: "Đã hủy",
       value: "CANCELED ",
     },
     {
-      text: "Delivering",
+      text: "Đang giao",
       value: "DELIVERING",
     },
   ];
@@ -714,18 +736,42 @@ const Orderant = () => {
     },
     {
       title: "Phương thức thanh toán",
-      dataIndex: "paymentType",
       key: "paymentType",
       filters: paymentTypeFilter,
       onFilter: (value, record) => record.paymentType === value,
+      render: (text: any, record: OrderType, index: number) => {
+        return (
+          <>
+            {record.paymentType === "CASH"
+              ? "Tiền mặt"
+              : record.paymentType === "MOMO"
+              ? "Momo"
+              : record.paymentType === "ZALOPAY"
+              ? "ZaloPay"
+              : "Chuyển khoản"}
+          </>
+        );
+      },
       responsive: ["xl"],
     },
     {
       title: "Trạng thái",
-      dataIndex: "status",
       key: "status",
       filters: statusFilter,
       onFilter: (value, record) => record.status === value,
+      render: (text: any, record: OrderType, index: number) => {
+        return (
+          <>
+            {record.status === "WAITING"
+              ? "Đang chờ"
+              : record.status === "COMPLETED"
+              ? "Hoàn thành"
+              : record.status === "CANCELED"
+              ? "Đã hủy"
+              : "Đang giao"}
+          </>
+        );
+      },
       responsive: ["sm"],
     },
     {

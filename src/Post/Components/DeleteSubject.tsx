@@ -20,24 +20,10 @@ export default function DeleteSubject({
   ...props
 }: Props) {
   const confirmDelete = useDelete(subject);
-  // const deleteOrder = useDelete("orders");
-  // const orders = useGetSubjects("orders");
-  const patch = usePatchSubject("orders", true);
-  const EmptyOrderDetail = async (data: any, id: any) => {
-    const passdata: any = { data: data, id: id };
-    try {
-      await patch.mutateAsync(passdata);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      confirmDelete.mutate(id);
-    }
-  };
+
   const DeleteHandle = () => {
     deleteId.forEach((value) => {
-      subject === "orders"
-        ? EmptyOrderDetail({ orderDetails: [] }, value)
-        : confirmDelete.mutate(value);
+      confirmDelete.mutate(value);
     });
     confirmDelete.isLoading &&
       message.loading({
@@ -45,27 +31,6 @@ export default function DeleteSubject({
         content: "Loading",
       });
   };
-  // hàm delete product mà đang bug
-  // const emptyOrder = async (id: any) => {
-  //   const matchOrders: any[] = [];
-  //   orders.isSuccess &&
-  //     orders.data?.map((value) => {
-  //       value.orderDetails.some((value: any) => {
-  //         return value.product.id == id;
-  //       }) && matchOrders.push(value.id);
-  //     });
-  //   console.log(matchOrders);
-  //   try {
-  //     const todo = await matchOrders?.forEach((value: any) => {
-  //       EmptyOrderDetail({ orderDetails: [] }, value.id);
-  //       deleteOrder.mutate(value);
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   } finally {
-  //     confirmDelete.mutate(id);
-  //   }
-  // };
 
   return (
     <Popconfirm
@@ -73,16 +38,12 @@ export default function DeleteSubject({
       title={title}
       description={
         deleteId.length <= 1
-          ? subject === "orders"
-            ? "Are you sure to delete this? This will empty order detail first"
-            : "Are you sure to delete this?"
-          : subject === "orders"
-          ? "Are you sure to delete those? This will empty order detail first"
-          : "Are you sure to delete those?"
+          ? "Bạn có chắc muốn xóa mục đã chọn"
+          : "Bạn có chắc muốn xóa những mục đã chọn?"
       }
       onConfirm={DeleteHandle}
-      okText="Yes"
-      cancelText="No"
+      okText="Đồng ý"
+      cancelText="Không"
     >
       <Button
         loading={confirmDelete.isLoading}
@@ -93,8 +54,8 @@ export default function DeleteSubject({
         {collapsed
           ? null
           : deleteId.length === 1
-          ? "Delete"
-          : "Delete selected items"}
+          ? "Xóa mục đã chọn"
+          : "Xóa các mục đã chọn"}
       </Button>
     </Popconfirm>
   );

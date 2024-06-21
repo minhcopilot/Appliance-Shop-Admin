@@ -29,7 +29,7 @@ export default function SendForm({ chatId }: Props) {
     <>
       {assignedChat.isSuccess && currentChat && currentChat.isFinished ? (
         <Card size="small" style={{ backgroundColor: "#d1d1d1" }}>
-          This chat has finished
+          Đoạn chat này đã đóng
         </Card>
       ) : (
         <Form form={chatForm} onFinish={sendMessage} style={{ width: "100%" }}>
@@ -37,14 +37,14 @@ export default function SendForm({ chatId }: Props) {
             <Form.Item
               name="message"
               rules={[
-                { required: true, message: "Please input your message!" },
+                { required: true, message: "Hãy điền tin nhắn của bạn!" },
               ]}
               style={{ width: "100%" }}
             >
-              <Input autoFocus name="message" placeholder="Type a message" />
+              <Input autoFocus name="message" placeholder="Điền tin nhắn" />
             </Form.Item>
             <Button type="primary" htmlType="submit">
-              Send
+              Gửi
             </Button>
           </Space.Compact>
         </Form>

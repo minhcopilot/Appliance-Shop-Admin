@@ -25,7 +25,7 @@ const useTableColumn = (subject: string, column: ColumnsType<any>) => {
     dataIndex: "actions",
     key: "actions",
     fixed: "right",
-    width: window.innerWidth <= 426 ? 120 : 220,
+    width: 120,
     render: (value: any, record: any, index: number) => {
       return (
         <Flex gap={5} wrap="wrap-reverse" justify="flex-end">
@@ -35,13 +35,12 @@ const useTableColumn = (subject: string, column: ColumnsType<any>) => {
               setCurrentId(record.id);
               setPatchPopup(true);
             }}
-          >
-            Edit
-          </Button>
+          />
           <DeleteSubject
             deleteId={[record.id]}
             subject={subject}
-            title={"Are you sure to delete this?"}
+            title={"Bạn có chắc chắn muốn xóa?"}
+            collapsed
           />
         </Flex>
       );

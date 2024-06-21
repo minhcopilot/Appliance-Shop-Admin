@@ -30,22 +30,19 @@ const CategoryForm = ({
     >
       <Form.Item
         name="name"
-        label="Category Name"
+        label="Tên danh mục"
         rules={[
           { type: "string" },
-          { required: true, message: "Category Name is required" },
-          { max: 50, message: "Category Name should not be too long" },
+          { required: true, message: "Tên danh mục là bắt buộc" },
+          { max: 50, message: "Tên danh mục quá dài" },
         ]}
       >
         <Input name="name" type="text"></Input>
       </Form.Item>
       <Form.Item
         name="description"
-        label="Description"
-        rules={[
-          { type: "string" },
-          { max: 500, message: "Description should not be too long" },
-        ]}
+        label="Mô tả"
+        rules={[{ type: "string" }, { max: 500, message: "Mô tả quá dài" }]}
       >
         <TextArea name="description" autoSize></TextArea>
       </Form.Item>
@@ -61,12 +58,12 @@ interface CategoryType extends addschemaInput {
 const Categoryant = () => {
   const defaultColumns: ColumnsType<CategoryType> = [
     {
-      title: "Category Name",
+      title: "Tên danh mục",
       dataIndex: "name",
       key: "name",
     },
     {
-      title: "Description",
+      title: "Mô tả",
       dataIndex: "description",
       key: "description",
       responsive: ["sm"],
