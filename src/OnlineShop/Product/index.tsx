@@ -2,6 +2,7 @@ import React from "react";
 // import styles from "./Product.module.css";
 import {
   Button,
+  Flex,
   Form,
   Input,
   InputNumber,
@@ -15,7 +16,7 @@ import TextArea from "antd/es/input/TextArea";
 import SubjectTemplate from "../Components/SubjectTemplate";
 import useGetSubjects from "../hooks/useGet";
 import { uniqBy } from "../hooks/usefulHooks";
-import { UploadOutlined } from "@ant-design/icons";
+import { ArrowRightOutlined, UploadOutlined } from "@ant-design/icons";
 // type Props = {};
 
 interface getoption {
@@ -111,7 +112,7 @@ const ProductForm = ({
         label="Giá"
         rules={[{ required: true, message: "Giá không được bỏ trống" }]}
       >
-        <InputNumber name="price" addonBefore="$"></InputNumber>
+        <InputNumber name="price" addonAfter="đ"></InputNumber>
       </Form.Item>
 
       <Form.Item
@@ -155,6 +156,105 @@ const ProductForm = ({
         </Upload>
       </Form.Item>
       <Form.Item name="removeFiles" />
+    </Form>
+  );
+};
+
+const ProductSearchForm = ({
+  form,
+  onFinish,
+  buttons,
+}: {
+  form?: any;
+  onFinish?: (data: any) => void;
+  buttons?: React.ReactElement;
+}) => {
+  const categories = useGetSubjects("categories");
+  const suppliers = useGetSubjects("suppliers");
+
+  return (
+    <Form form={form} onFinish={onFinish}>
+      <Flex wrap="wrap" gap={10}>
+        <Form.Item
+          name="name"
+          label="Tên sản phẩm"
+          rules={[
+            { type: "string" },
+            { max: 100, message: "Tên sản phẩm không được quá dài" },
+          ]}
+          style={{ flex: 1, minWidth: 220 }}
+        >
+          <Input name="name" type="text"></Input>
+        </Form.Item>
+        <Form.Item
+          name="categoryId"
+          label="Danh mục"
+          rules={[{ type: "number" }]}
+          style={{ flex: 1, minWidth: 220 }}
+        >
+          <Select
+            options={categories.data?.map((item) => {
+              return { value: item.id, label: item.name };
+            })}
+            showSearch
+            filterOption={(input, option) =>
+              (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+            }
+          ></Select>
+        </Form.Item>
+        <Form.Item
+          name="supplierId"
+          label="Nhà cung cấp"
+          rules={[{ type: "number" }]}
+          style={{ flex: 1, minWidth: 220 }}
+        >
+          <Select
+            options={suppliers.data?.map((item) => {
+              return { value: item.id, label: item.name };
+            })}
+            showSearch
+            filterOption={(input, option) =>
+              (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+            }
+          ></Select>
+        </Form.Item>
+      </Flex>
+      <Flex wrap="wrap" gap={10}>
+        <Form.Item label="Giá" style={{ flex: 1, minWidth: 220 }}>
+          <Flex gap={5}>
+            <Form.Item name="priceFrom">
+              <InputNumber addonAfter="đ"></InputNumber>
+            </Form.Item>
+            {" - "}
+            <Form.Item name="priceTo">
+              <InputNumber addonAfter="đ"></InputNumber>
+            </Form.Item>
+          </Flex>
+        </Form.Item>
+        <Form.Item label="Giảm giá" style={{ flex: 1, minWidth: 220 }}>
+          <Flex gap={5}>
+            <Form.Item name="discountFrom">
+              <InputNumber addonAfter="%" min={0} max={90} />
+            </Form.Item>
+            {" - "}
+            <Form.Item name="discountTo">
+              <InputNumber addonAfter="%" min={0} max={90} />
+            </Form.Item>
+          </Flex>
+        </Form.Item>
+        <Form.Item label="Tồn kho" style={{ flex: 1, minWidth: 300 }}>
+          <Flex gap={5} style={{ width: "100%" }} wrap="wrap">
+            <Form.Item name="stockFrom" style={{ flex: 1, minWidth: 50 }}>
+              <InputNumber min={0} style={{ width: "100%" }}></InputNumber>
+            </Form.Item>
+            {" - "}
+            <Form.Item name="stockTo" style={{ flex: 1, minWidth: 50 }}>
+              <InputNumber min={0} style={{ width: "100%" }}></InputNumber>
+            </Form.Item>
+          </Flex>
+        </Form.Item>
+        {buttons}
+      </Flex>
     </Form>
   );
 };
@@ -279,6 +379,7 @@ const Productant = () => {
       subjects="products"
       currentform={<ProductForm />}
       defaultColumns={defaultColumns}
+      searchform={<ProductSearchForm />}
     />
   ) : (
     <Spin />

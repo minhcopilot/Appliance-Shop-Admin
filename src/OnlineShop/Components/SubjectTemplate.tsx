@@ -14,6 +14,7 @@ type Props = {
   subject: string;
   defaultColumns: ColumnsType<any>;
   currentform: React.ReactElement;
+  searchform?: React.ReactElement;
 };
 
 export default function SubjectTemplate({
@@ -21,6 +22,7 @@ export default function SubjectTemplate({
   subject,
   defaultColumns,
   currentform,
+  searchform,
 }: Props) {
   const loggedInUser = useAuth((state) => state.loggedInUser);
   const currentId = useCurrentId((state) => state.currentId);
@@ -28,11 +30,11 @@ export default function SubjectTemplate({
 
   return (
     <Flex vertical gap={15}>
-      <GetSubject
+      {/* <GetSubject
         subject={subjects}
         subjectColumn={subjectColumn}
         title={"Lấy " + subject + " theo ID"}
-      />
+      /> */}
       {loggedInUser && (
         <AddSubject
           currentform={currentform}
@@ -43,7 +45,8 @@ export default function SubjectTemplate({
       <GetSubjects
         subject={subjects}
         subjectColumn={subjectColumn}
-        title={"Thêm mới " + subjects}
+        searchform={searchform}
+        title={"Danh sách " + subject}
       />
       {loggedInUser && (
         <>

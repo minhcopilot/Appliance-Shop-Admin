@@ -1,7 +1,7 @@
 import React from "react";
 // import styles from "./Supplier.module.css";
 
-import { Form, Input } from "antd";
+import { Flex, Form, Input } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import TextArea from "antd/es/input/TextArea";
 import SubjectTemplate from "../Components/SubjectTemplate";
@@ -81,6 +81,66 @@ const SupplierForm = ({
     </Form>
   );
 };
+
+const SupplierSearchForm = ({
+  form,
+  onFinish,
+  buttons,
+}: {
+  form?: any;
+  onFinish?: (data: any) => void;
+  buttons?: React.ReactElement;
+}) => {
+  return (
+    <Form form={form} onFinish={onFinish}>
+      <Flex wrap="wrap" gap={10}>
+        <Form.Item
+          name="name"
+          label="Tên nhà cung cấp"
+          rules={[
+            { type: "string" },
+            { max: 100, message: "Tên nhà cung cấp không được quá dài" },
+          ]}
+          style={{ flex: 1, minWidth: 220 }}
+        >
+          <Input name="name" type="text"></Input>
+        </Form.Item>
+
+        <Form.Item
+          name="address"
+          label="Địa chỉ"
+          rules={[
+            { type: "string" },
+            { max: 300, message: "Địa chỉ không được quá dài" },
+          ]}
+          style={{ flex: 1, minWidth: 220 }}
+        >
+          <TextArea name="email" autoSize></TextArea>
+        </Form.Item>
+        <Form.Item
+          name="phoneNumber"
+          label="Số điện thoại"
+          rules={[{ type: "string", message: "Số điện thoại không hợp lệ" }]}
+          style={{ flex: 1, minWidth: 220 }}
+        >
+          <Input name="phoneNumber" type="number"></Input>
+        </Form.Item>
+      </Flex>
+      <Flex wrap="wrap" gap={10}>
+        <Form.Item
+          name="email"
+          label="Email"
+          rules={[{ max: 300, message: "Email không được quá dài" }]}
+          style={{ flex: 1, minWidth: 250 }}
+        >
+          <Input name="email" type="text"></Input>
+        </Form.Item>
+        {buttons}
+      </Flex>
+    </Form>
+  );
+};
+
 interface SupplierType extends addschemaInput {
   key: React.Key;
   id: number;
@@ -125,6 +185,7 @@ const Supplierant = () => {
       subjects="suppliers"
       currentform={<SupplierForm />}
       defaultColumns={defaultColumns}
+      searchform={<SupplierSearchForm />}
     />
   );
 };

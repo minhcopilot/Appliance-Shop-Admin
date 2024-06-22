@@ -1,6 +1,6 @@
 import React from "react";
 // import styles from "./Employee.module.css";
-import { DatePicker, Form, Input } from "antd";
+import { DatePicker, Flex, Form, Input } from "antd";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -114,7 +114,7 @@ const EmployeeForm = ({
         ]}
         initialValue={initialValues && initialValues.phoneNumber}
       >
-        <Input addonBefore="+84" name="phoneNumber" type="number"></Input>
+        <Input name="phoneNumber" type="number"></Input>
       </Form.Item>
       <Form.Item
         name="birthday"
@@ -134,6 +134,86 @@ const EmployeeForm = ({
     </Form>
   );
 };
+
+const EmployeeSearchForm = ({
+  form,
+  onFinish,
+  buttons,
+}: {
+  form?: any;
+  onFinish?: (data: any) => void;
+  buttons?: React.ReactElement;
+}) => {
+  return (
+    <Form form={form} onFinish={onFinish}>
+      <Flex wrap="wrap" gap={10}>
+        <Form.Item
+          name="name"
+          label="Họ và tên"
+          rules={[
+            { type: "string" },
+            { max: 100, message: "Tên khách hàng không được quá dài" },
+          ]}
+          style={{ flex: 1, minWidth: 220 }}
+        >
+          <Input name="firstName" type="text"></Input>
+        </Form.Item>
+
+        <Form.Item
+          name="address"
+          label="Địa chỉ"
+          rules={[
+            { type: "string" },
+            { max: 300, message: "Địa chỉ không được quá dài" },
+          ]}
+          style={{ flex: 1, minWidth: 220 }}
+        >
+          <TextArea name="email" autoSize></TextArea>
+        </Form.Item>
+        <Form.Item
+          name="phoneNumber"
+          label="Số điện thoại"
+          rules={[
+            { type: "string", message: "Số điện thoại không hợp lệ" },
+            { max: 12, message: "Số điện thoại không hợp lệ" },
+          ]}
+          style={{ flex: 1, minWidth: 220 }}
+        >
+          <Input name="phoneNumber" type="number"></Input>
+        </Form.Item>
+      </Flex>
+      <Flex wrap="wrap" gap={10}>
+        <Form.Item
+          name="email"
+          label="Email"
+          rules={[{ max: 300, message: "Email không được quá dài" }]}
+          style={{ flex: 1, minWidth: 220 }}
+        >
+          <Input name="email" type="text"></Input>
+        </Form.Item>
+        <Form.Item
+          name="birthday"
+          label="Ngày sinh"
+          rules={
+            [
+              // { type: "date", message: "Ngày sinh không hợp lệ" },
+              // { required: true, message: "Birthday is required" },
+            ]
+          }
+          style={{ flex: 1, minWidth: 220 }}
+        >
+          <DatePicker.RangePicker
+            format={"YYYY-MM-DD"}
+            name="birthday"
+            style={{ width: "100%" }}
+          />
+        </Form.Item>
+        {buttons}
+      </Flex>
+    </Form>
+  );
+};
+
 interface EmployeeType extends addschemaInput {
   key: React.Key;
   id: number;
@@ -192,6 +272,7 @@ const Employeeant = () => {
       subjects="employees"
       currentform={<EmployeeForm />}
       defaultColumns={defaultColumns}
+      searchform={<EmployeeSearchForm />}
     />
   );
 };

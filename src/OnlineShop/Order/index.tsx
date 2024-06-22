@@ -610,6 +610,162 @@ const OrderForm = ({
   );
 };
 
+const OrderSearchForm = ({
+  form,
+  onFinish,
+  buttons,
+}: {
+  form?: any;
+  onFinish?: (data: any) => void;
+  buttons?: React.ReactElement;
+}) => {
+  const customers = useGetSubjects("customers");
+  const employees = useGetSubjects("employees");
+  return (
+    <Flex vertical gap={10}>
+      <Form form={form} onFinish={onFinish}>
+        <Flex wrap="wrap" gap={10}>
+          <Form.Item
+            name="customerId"
+            label="Khách hàng"
+            rules={[{ type: "number" }]}
+            style={{ flex: 1, minWidth: 220 }}
+          >
+            <Select
+              options={customers.data?.map((item) => {
+                return {
+                  value: item.id,
+                  label: item?.firstName + " " + item?.lastName,
+                };
+              })}
+              showSearch
+              filterOption={(input, option) =>
+                (option?.label ?? "")
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
+              }
+            />
+          </Form.Item>
+          <Form.Item
+            name="employeeId"
+            label="Nhân viên"
+            rules={[{ type: "number" }]}
+            style={{ flex: 1, minWidth: 220 }}
+          >
+            <Select
+              options={employees.data?.map((item) => {
+                return {
+                  value: item.id,
+                  label: item.firstName + " " + item.lastName,
+                };
+              })}
+              showSearch
+              filterOption={(input, option) =>
+                (option?.label ?? "")
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
+              }
+            />
+          </Form.Item>
+        </Flex>
+        <Flex wrap="wrap" gap={10}>
+          <Form.Item
+            name="createdDate"
+            label="Ngày tạo"
+            style={{ flex: 1, minWidth: 220 }}
+          >
+            <DatePicker.RangePicker
+              showTime={{ format: timeFormat }}
+              format={dateFormat}
+              name="createdDate"
+              style={{ width: "100%" }}
+            />
+          </Form.Item>
+          <Form.Item
+            name="shippedDate"
+            label="Ngày giao hàng"
+            style={{ flex: 1, minWidth: 220 }}
+          >
+            <DatePicker.RangePicker
+              showTime={{ format: timeFormat }}
+              format={dateFormat}
+              name="shippedDate"
+              style={{ width: "100%" }}
+            />
+          </Form.Item>
+        </Flex>
+        <Flex wrap="wrap" gap={10}>
+          <Form.Item
+            name="paymentType"
+            label="Phương thức thanh toán"
+            rules={[
+              {
+                type: "enum",
+                enum: ["CASH", "MOMO", "ZALOPAY", "PAYOS"],
+                message: "Phương thức thanh toán không hợp lệ",
+              },
+            ]}
+            style={{ flex: 1, minWidth: 220 }}
+          >
+            <Radio.Group
+              optionType="button"
+              options={[
+                { value: "CASH", label: "Tiền mặt" },
+                { value: "MOMO", label: "Momo" },
+                { value: "ZALOPAY", label: "ZaloPay" },
+                { value: "PAYOS", label: "Chuyển khoản" },
+              ]}
+              style={{ width: "100%" }}
+            />
+          </Form.Item>
+          <Form.Item
+            name="status"
+            label="Trạng thái"
+            rules={[
+              {
+                type: "enum",
+                enum: ["WAITING", "COMPLETED", "CANCELED", "DELIVERING"],
+                message: "Trạng thái không hợp lệ",
+              },
+            ]}
+            style={{ flex: 1, minWidth: 220 }}
+          >
+            <Radio.Group
+              optionType="button"
+              options={[
+                { value: "WAITING", label: "Đang chờ" },
+                { value: "COMPLETED", label: "Hoàn thành" },
+                { value: "DELIVERING", label: "Đang giao" },
+                { value: "CANCELED", label: "Đã hủy", style: { color: "red" } },
+              ]}
+              style={{ width: "100%" }}
+            />
+          </Form.Item>
+        </Flex>
+        <Flex wrap="wrap" gap={10}>
+          <Form.Item
+            name="shippingAddress"
+            label="Địa chỉ giao hàng"
+            rules={[{ type: "string" }]}
+            style={{ flex: 1, minWidth: 220 }}
+          >
+            <TextArea name="shippingAddress" autoSize></TextArea>
+          </Form.Item>
+          <Form.Item
+            name="shippingCity"
+            label="Thành phố giao hàng"
+            rules={[{ type: "string" }]}
+            style={{ flex: 1, minWidth: 220 }}
+          >
+            <Input name="shippingCity" type="text"></Input>
+          </Form.Item>
+          {buttons}
+        </Flex>
+      </Form>
+    </Flex>
+  );
+};
+
 interface OrderType extends addschemaInput {
   key: React.Key;
   id: number;
@@ -854,6 +1010,7 @@ const Orderant = () => {
       subjects="orders"
       currentform={<OrderForm />}
       defaultColumns={defaultColumns}
+      searchform={<OrderSearchForm />}
     />
   ) : (
     <Spin />

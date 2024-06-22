@@ -39,7 +39,7 @@ export default function AddSubject({ subject, currentform, title }: Props) {
         size="large"
         items={[
           {
-            key: "add",
+            key: "add" + subject,
             label: <p style={{ fontWeight: "bold" }}>{title}</p>,
             children: (
               <>

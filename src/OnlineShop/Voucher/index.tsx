@@ -2,7 +2,7 @@ import React from "react";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import { DatePicker, Form, Input, Select } from "antd";
+import { DatePicker, Flex, Form, Input, InputNumber, Select } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import TextArea from "antd/es/input/TextArea";
 import SubjectTemplate from "../Components/SubjectTemplate";
@@ -59,18 +59,23 @@ const VoucherForm = ({
         name="discountPercentage"
         label="% giảm giá"
         rules={[
-          // { type: "number", message: "discountPercentage không hợp lệ" },
-          { required: true, message: "discountPercentage không được bỏ trống" },
+          { type: "number", message: "% giảm giá không hợp lệ" },
+          { required: true, message: "% giảm giá không được bỏ trống" },
         ]}
       >
-        <Input name="discountPercentage" type="number"></Input>
+        <InputNumber
+          name="discountPercentage"
+          type="number"
+          min={0}
+          max={100}
+        ></InputNumber>
       </Form.Item>
       <Form.Item
         name="startDate"
         label="Ngày hiệu lực"
         rules={[
-          { type: "date", message: "startDate không hợp lệ" },
-          { required: true, message: "startDate is required" },
+          { type: "date", message: "Ngày hiệu lực không hợp lệ" },
+          { required: true, message: "Ngày hiệu lực is required" },
         ]}
       >
         <DatePicker format={"YYYY-MM-DD"} name="startDate" />
@@ -79,8 +84,8 @@ const VoucherForm = ({
         name="expiryDate"
         label="Hạn sử dụng"
         rules={[
-          { type: "date", message: "expiryDate không hợp lệ" },
-          { required: true, message: "expiryDate is required" },
+          { type: "date", message: "Hạn sử dụng không hợp lệ" },
+          { required: true, message: "Hạn sử dụng is required" },
         ]}
         initialValue={
           initialValues && initialValues.expiryDate
@@ -94,16 +99,18 @@ const VoucherForm = ({
         name="maxUsageCount"
         label="Số lần sử dụng"
         rules={[
-          // { type: "string", message: "Số lần sử dụng không hợp lệ" },
+          { type: "number", message: "Số lần sử dụng không hợp lệ" },
           { required: true, message: "Số lần sử dụng không được bỏ trống" },
         ]}
       >
-        <Input name="maxUsageCount" type="number"></Input>
+        <InputNumber type="number" min={0}></InputNumber>
       </Form.Item>
       <Form.Item
         name="voucherType"
         label="Loại voucher"
-        rules={[{ required: true, message: "Loại voucherkhông được bỏ trống" }]}
+        rules={[
+          { required: true, message: "Loại voucher không được bỏ trống" },
+        ]}
       >
         <Select
           options={[
@@ -115,6 +122,85 @@ const VoucherForm = ({
     </Form>
   );
 };
+
+const VoucherSearchForm = ({
+  form,
+  onFinish,
+  buttons,
+}: {
+  form?: any;
+  onFinish?: (data: any) => void;
+  buttons?: React.ReactElement;
+}) => {
+  return (
+    <Form form={form} onFinish={onFinish}>
+      <Flex wrap="wrap" gap={10}>
+        <Form.Item
+          name="voucherCode"
+          label="Mã giảm giá"
+          rules={[
+            { type: "string" },
+            { max: 100, message: "Tên mã giảm giá không được quá dài" },
+          ]}
+          style={{ flex: 1, minWidth: 220 }}
+        >
+          <Input name="name" type="text"></Input>
+        </Form.Item>
+        <Form.Item label="% giảm giá" style={{ flex: 1, minWidth: 220 }}>
+          <Flex gap={5}>
+            <Form.Item name="discountPercentageFrom">
+              <InputNumber addonAfter="%" min={0} max={100}></InputNumber>
+            </Form.Item>
+            {" - "}
+            <Form.Item name="discountPercentageTo">
+              <InputNumber addonAfter="%" min={0} max={100}></InputNumber>
+            </Form.Item>
+          </Flex>
+        </Form.Item>
+        <Form.Item label="Số lần sử dụng" style={{ flex: 1, minWidth: 300 }}>
+          <Flex gap={5} style={{ width: "100%" }} wrap="wrap">
+            <Form.Item
+              name="maxUsageCountFrom"
+              style={{ flex: 1, minWidth: 50 }}
+            >
+              <InputNumber min={0} style={{ width: "100%" }}></InputNumber>
+            </Form.Item>
+            {" - "}
+            <Form.Item name="maxUsageCountTo" style={{ flex: 1, minWidth: 50 }}>
+              <InputNumber min={0} style={{ width: "100%" }}></InputNumber>
+            </Form.Item>
+          </Flex>
+        </Form.Item>
+      </Flex>
+      <Flex wrap="wrap" gap={10}>
+        <Form.Item
+          name="startDate"
+          label="Ngày hiệu lực"
+          style={{ flex: 1, minWidth: 220 }}
+        >
+          <DatePicker.RangePicker
+            format={"YYYY-MM-DD"}
+            name="startDate"
+            style={{ width: "100%" }}
+          />
+        </Form.Item>
+        <Form.Item
+          name="expiryDate"
+          label="Hạn sử dụng"
+          style={{ flex: 1, minWidth: 220 }}
+        >
+          <DatePicker.RangePicker
+            format={"YYYY-MM-DD"}
+            name="expiryDate"
+            style={{ width: "100%" }}
+          />
+        </Form.Item>
+        {buttons}
+      </Flex>
+    </Form>
+  );
+};
+
 interface VoucherType extends addschemaInput {
   key: React.Key;
   id: number;
@@ -182,6 +268,7 @@ const Voucherant = () => {
       subjects="vouchers"
       currentform={<VoucherForm />}
       defaultColumns={defaultColumns}
+      searchform={<VoucherSearchForm />}
     />
   );
 };

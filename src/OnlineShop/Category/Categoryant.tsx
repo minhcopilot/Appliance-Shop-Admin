@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input } from "antd";
+import { Button, Flex, Form, Input } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import TextArea from "antd/es/input/TextArea";
 // import useTableColumn from "../hooks/useTableColumns";
@@ -50,6 +50,43 @@ const CategoryForm = ({
   );
 };
 
+const CategorySearchForm = ({
+  form,
+  onFinish,
+  buttons,
+}: {
+  form?: any;
+  onFinish?: (data: any) => void;
+  buttons?: React.ReactElement;
+}) => {
+  return (
+    <Form form={form} onFinish={onFinish}>
+      <Flex wrap="wrap" gap={10}>
+        <Form.Item
+          name="name"
+          label="Tên danh mục"
+          rules={[
+            { type: "string" },
+            { max: 50, message: "Tên danh mục quá dài" },
+          ]}
+          style={{ flex: 1, minWidth: 220 }}
+        >
+          <Input name="name" type="text"></Input>
+        </Form.Item>
+        <Form.Item
+          name="description"
+          label="Mô tả"
+          rules={[{ type: "string" }, { max: 500, message: "Mô tả quá dài" }]}
+          style={{ flex: 1, minWidth: 220 }}
+        >
+          <TextArea name="description" autoSize></TextArea>
+        </Form.Item>
+        {buttons}
+      </Flex>
+    </Form>
+  );
+};
+
 interface CategoryType extends addschemaInput {
   key: React.Key;
   id: number;
@@ -76,6 +113,7 @@ const Categoryant = () => {
       subjects="categories"
       defaultColumns={defaultColumns}
       currentform={<CategoryForm />}
+      searchform={<CategorySearchForm />}
     />
   );
 };
