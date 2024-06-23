@@ -66,9 +66,9 @@ export default function ChatContent({ chatId }: Props) {
               tooltip="Xem tin nhắn mới nhất"
               style={{
                 position: "absolute",
-                right: 24,
+                right: 35,
                 bottom: 80,
-                opacity: 0.5,
+                opacity: 0.7,
               }}
             />
             {chatContent.isSuccess &&
@@ -78,7 +78,10 @@ export default function ChatContent({ chatId }: Props) {
                   message={message}
                 />
               ))}
-            <div ref={latestMessage} />
+            <div
+              ref={latestMessage}
+              className="h-[1px] block grow-1 shrink-0"
+            />
           </Flex>
         </Skeleton>
         {chatId !== 0 && <SendForm chatId={chatId} />}

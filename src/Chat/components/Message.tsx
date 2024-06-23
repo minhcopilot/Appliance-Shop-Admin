@@ -27,9 +27,13 @@ export default function Message({ message }: { message: MessageProps }) {
         placement={placement}
         style={{ margin: 10 }}
       >
-        <Card size="small">
-          <div
-            style={{ marginLeft: 90, marginRight: 80 }}
+        <Card size="small" style={{ wordBreak: "break-word" }}>
+          <p
+            style={
+              message.sender === "customer"
+                ? { marginLeft: 90 }
+                : { marginRight: 80 }
+            }
             dir={message.sender === "employee" ? "rtl" : ""}
           >
             {message.type === "text" && message.content}
@@ -41,7 +45,7 @@ export default function Message({ message }: { message: MessageProps }) {
                 Go to {message.type}
               </Button>
             )}
-          </div>
+          </p>
         </Card>
       </Badge.Ribbon>
     </>
