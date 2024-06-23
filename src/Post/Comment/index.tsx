@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Radio } from "antd";
+import { Flex, Form, Input, Radio, Select } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import SubjectTemplate from "../Components/SubjectTemplate";
 import useGetSubjects, { useGetSubject } from "../hooks/useGet";
@@ -27,8 +27,6 @@ export const CommentForm = ({
   onFinish?: (data: any) => void;
   initialValues?: addschemaInput;
 }) => {
-  const postCategory = useGetSubjects("categories");
-  const currentId = useCurrentId((state) => state.currentId);
   return (
     <Form
       form={form}
@@ -87,6 +85,99 @@ export const CommentForm = ({
   );
 };
 
+export const CommentSearchForm = ({
+  form,
+  onFinish,
+  buttons,
+}: {
+  form?: any;
+  onFinish?: (data: any) => void;
+  buttons?: React.ReactElement;
+}) => {
+  const postList = useGetSubjects("posts/all");
+  return (
+    <>
+      {postList.isSuccess && (
+        <Form form={form} onFinish={onFinish}>
+          <Flex wrap="wrap" gap={10}>
+            <Form.Item
+              name="status"
+              label="Trạng thái"
+              rules={[
+                {
+                  type: "enum",
+                  enum: ["approved", "pending", "spam"],
+                  message: "Trạng thái không hợp lệ",
+                },
+              ]}
+              style={{ flex: 1, minWidth: 220 }}
+            >
+              <Select
+                allowClear
+                options={[
+                  { value: "approved", label: "Đã duyệt" },
+                  { value: "pending", label: "Đang chờ" },
+                  { value: "spam", label: "Spam" },
+                ]}
+              />
+            </Form.Item>
+            <Form.Item
+              name="postId"
+              label="Bài viết"
+              rules={[{ type: "string" }]}
+              style={{ flex: 1, minWidth: 220 }}
+            >
+              <Select
+                allowClear
+                options={postList.data?.map((item) => {
+                  console.log(item);
+                  return { value: item.id, label: item.title };
+                })}
+                showSearch
+                filterOption={(input, option) =>
+                  (option?.label ?? "")
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
+              />
+            </Form.Item>
+          </Flex>
+          <Flex wrap="wrap" gap={10}>
+            <Form.Item
+              name="author"
+              label="Tác giả"
+              rules={[
+                { type: "string" },
+                { max: 100, message: "Tên tác giả không được quá dài" },
+              ]}
+              style={{ flex: 1, minWidth: 220 }}
+            >
+              <Input name="author" type="text"></Input>
+            </Form.Item>
+            <Form.Item
+              name="email"
+              label="Email"
+              rules={[{ max: 100, message: "Email không được quá dài" }]}
+              style={{ flex: 1, minWidth: 220 }}
+            >
+              <Input name="email" type="text"></Input>
+            </Form.Item>
+            <Form.Item
+              name="content"
+              label="Nội dung"
+              rules={[{ type: "string" }]}
+              style={{ flex: 1, minWidth: 220 }}
+            >
+              <Input type="text" />
+            </Form.Item>
+            {buttons}
+          </Flex>
+        </Form>
+      )}
+    </>
+  );
+};
+
 interface CommentType extends addschemaInput {
   key: React.Key;
   id: number;
@@ -107,6 +198,15 @@ const statusFilter = [
   },
 ];
 
+export const limitWord = (str: string, limit: number) => {
+  const words = str.split(" ");
+  if (words.length > limit) {
+    return words.slice(0, limit).join(" ") + "...";
+  } else {
+    return str;
+  }
+};
+
 export const commentColumns: ColumnsType<CommentType> = [
   {
     title: "Trạng thái",
@@ -114,6 +214,22 @@ export const commentColumns: ColumnsType<CommentType> = [
     key: "status",
     filters: statusFilter,
     onFilter: (value, record) => record.status === value,
+    render: (text: any, record: CommentType, index: number) => {
+      if (record.status === "approved") {
+        return <span style={{ color: "green" }}>Đã duyệt</span>;
+      } else if (record.status === "pending") {
+        return <span style={{ color: "blue" }}>Đang chờ</span>;
+      } else {
+        return <span style={{ color: "red" }}>Spam</span>;
+      }
+    },
+  },
+  {
+    title: "Bài viết",
+    key: "postId",
+    render: (record) => {
+      return limitWord(record.post.title, 10);
+    },
   },
   {
     title: "Tác giả",
@@ -146,6 +262,7 @@ const Comment = () => {
         subject={subjects}
         subjectColumn={subjectColumn}
         title="Danh sách bình luận"
+        searchform={<CommentSearchForm />}
       />
       {loggedInUser && (
         <>

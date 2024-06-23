@@ -1,5 +1,14 @@
 import React from "react";
-import { Button, Form, Input, InputNumber, Radio, Select, Upload } from "antd";
+import {
+  Button,
+  Flex,
+  Form,
+  Input,
+  InputNumber,
+  Radio,
+  Select,
+  Upload,
+} from "antd";
 import type { ColumnsType } from "antd/es/table";
 import SubjectTemplate from "../Components/SubjectTemplate";
 import useGetSubjects, { useGetSubject } from "../hooks/useGet";
@@ -11,6 +20,7 @@ import { categorySchemaInput } from "../Category";
 import { useParams } from "react-router-dom";
 import axiosClient from "../config/axiosClient";
 import useAuth from "../../OnlineShop/hooks/useAuth";
+import { limitWord } from "../Comment";
 // type Props = {};
 
 interface addschemaInput {
@@ -252,6 +262,191 @@ export const PostForm = ({
   );
 };
 
+export const PostSearchForm = ({
+  form,
+  onFinish,
+  buttons,
+}: {
+  form?: any;
+  onFinish?: (data: any) => void;
+  buttons?: React.ReactElement;
+}) => {
+  const postCategory = useGetSubjects("categories");
+  return (
+    <Form form={form} onFinish={onFinish}>
+      <Flex wrap="wrap" gap={10}>
+        <Form.Item
+          name="type"
+          label="Loại bài viết"
+          rules={[
+            {
+              type: "enum",
+              enum: ["post", "page"],
+              message: "Loại bài viết không hợp lệ",
+            },
+          ]}
+          style={{ flex: 1, minWidth: 220 }}
+        >
+          <Select
+            allowClear
+            options={[
+              { value: "post", label: "Bài viết" },
+              { value: "page", label: "Trang" },
+            ]}
+          />
+        </Form.Item>
+        <Form.Item
+          name="status"
+          label="Trạng thái"
+          rules={[
+            {
+              type: "enum",
+              enum: ["draft", "published", "deleted"],
+              message: "Trạng thái không hợp lệ",
+            },
+          ]}
+          style={{ flex: 1, minWidth: 220 }}
+        >
+          <Select
+            allowClear
+            options={[
+              { value: "draft", label: "Nháp" },
+              { value: "published", label: "Đã đăng" },
+              { value: "deleted", label: "Đã xóa" },
+            ]}
+          />
+        </Form.Item>
+        <Form.Item
+          name="commentStatus"
+          label="Trạng thái bình luận"
+          rules={[
+            {
+              type: "enum",
+              enum: ["open", "closed"],
+              message: "Trạng thái bình luận không hợp lệ",
+            },
+          ]}
+          style={{ flex: 1, minWidth: 220 }}
+        >
+          <Select
+            allowClear
+            options={[
+              { value: "open", label: "Mở" },
+              { value: "closed", label: "Đóng" },
+            ]}
+          />
+        </Form.Item>
+      </Flex>
+      <Flex wrap="wrap" gap={10}>
+        <Form.Item
+          name="postCategoryId"
+          label="Danh mục bài viết"
+          rules={[{ type: "string" }]}
+          style={{ flex: 1, minWidth: 220 }}
+        >
+          <Select
+            allowClear
+            options={postCategory.data?.map((item) => {
+              return { value: item.id, label: item.title };
+            })}
+            showSearch
+            filterOption={(input, option) =>
+              (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+            }
+          />
+        </Form.Item>
+        <Form.Item
+          name="url"
+          label="URL"
+          rules={[{ type: "string" }, { max: 500, message: "URL quá dài" }]}
+          style={{ flex: 1, minWidth: 220 }}
+        >
+          <Input name="url" type="text"></Input>
+        </Form.Item>
+
+        <Form.Item label="Số lượt thích" style={{ flex: 1, minWidth: 300 }}>
+          <Flex gap={5} style={{ width: "100%" }} wrap="wrap">
+            <Form.Item
+              name="likeFrom"
+              rules={[
+                { type: "number", message: "Số lượt thích không hợp lệ" },
+                { type: "integer", message: "Số lượt thích không hợp lệ" },
+              ]}
+              style={{ flex: 1, minWidth: 50 }}
+            >
+              <InputNumber
+                min={0}
+                step={1}
+                style={{ width: "100%" }}
+              ></InputNumber>
+            </Form.Item>
+            {" - "}
+            <Form.Item
+              name="likeTo"
+              rules={[
+                { type: "number", message: "Số lượt thích không hợp lệ" },
+                { type: "integer", message: "Số lượt thích không hợp lệ" },
+              ]}
+              style={{ flex: 1, minWidth: 50 }}
+            >
+              <InputNumber
+                min={0}
+                step={1}
+                style={{ width: "100%" }}
+              ></InputNumber>
+            </Form.Item>
+          </Flex>
+        </Form.Item>
+      </Flex>
+
+      <Flex wrap="wrap" gap={10}>
+        <Form.Item
+          name="title"
+          label="Tiêu đề bài viết"
+          rules={[{ type: "string" }, { max: 100, message: "Tiêu đề quá dài" }]}
+          style={{ flex: 1, minWidth: 220 }}
+        >
+          <Input name="title" type="text"></Input>
+        </Form.Item>
+        <Form.Item label="Lượt xem" style={{ flex: 1, minWidth: 300 }}>
+          <Flex gap={5} style={{ width: "100%" }} wrap="wrap">
+            <Form.Item
+              name="viewFrom"
+              rules={[
+                { type: "number", message: "Số lượt xem không hợp lệ" },
+                { type: "integer", message: "Số lượt xem không hợp lệ" },
+              ]}
+              style={{ flex: 1, minWidth: 50 }}
+            >
+              <InputNumber
+                min={0}
+                step={1}
+                style={{ width: "100%" }}
+              ></InputNumber>
+            </Form.Item>
+            {" - "}
+            <Form.Item
+              name="viewTo"
+              rules={[
+                { type: "number", message: "Số lượt xem không hợp lệ" },
+                { type: "integer", message: "Số lượt xem không hợp lệ" },
+              ]}
+              style={{ flex: 1, minWidth: 50 }}
+            >
+              <InputNumber
+                min={0}
+                step={1}
+                style={{ width: "100%" }}
+              ></InputNumber>
+            </Form.Item>
+          </Flex>
+        </Form.Item>
+        {buttons}
+      </Flex>
+    </Form>
+  );
+};
+
 interface PostType extends addschemaInput {
   key: React.Key;
   id: number;
@@ -296,13 +491,18 @@ export const postColumns: ColumnsType<PostType> = [
     title: "Loại bài viết",
     dataIndex: "type",
     key: "type",
+    render: (text: any, record: PostType, index: number) => {
+      return <>{record.type === "post" ? "Bài viết" : "Trang"}</>;
+    },
     filters: typeFilter,
     onFilter: (value, record) => record.type === value,
   },
   {
     title: "Tiêu đề bài viết",
-    dataIndex: "title",
     key: "title",
+    render: (record) => {
+      return limitWord(record.title, 10);
+    },
   },
   {
     title: "Danh mục bài viết",
@@ -379,6 +579,7 @@ const Post = () => {
       }
       defaultColumns={postColumns}
       currentform={<PostForm />}
+      searchform={<PostSearchForm />}
     />
   );
 };

@@ -707,8 +707,7 @@ const OrderSearchForm = ({
             ]}
             style={{ flex: 1, minWidth: 220 }}
           >
-            <Radio.Group
-              optionType="button"
+            <Select
               options={[
                 { value: "CASH", label: "Tiền mặt" },
                 { value: "MOMO", label: "Momo" },
@@ -730,8 +729,7 @@ const OrderSearchForm = ({
             ]}
             style={{ flex: 1, minWidth: 220 }}
           >
-            <Radio.Group
-              optionType="button"
+            <Select
               options={[
                 { value: "WAITING", label: "Đang chờ" },
                 { value: "COMPLETED", label: "Hoàn thành" },
