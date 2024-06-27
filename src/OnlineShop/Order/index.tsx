@@ -920,7 +920,7 @@ const Orderant = () => {
               ? "Đang chờ"
               : record.status === "COMPLETED"
               ? "Hoàn thành"
-              : record.status === "CANCELED"
+              : record.status === "CANCELLED"
               ? "Đã hủy"
               : "Đang giao"}
           </>
