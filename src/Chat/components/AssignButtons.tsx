@@ -30,7 +30,7 @@ export const AssignButtons = ({ notifKey, id }: Props) => {
         onClick={() => {
           acceptAssign(id);
         }}
-        loading={acceptLoading ? true : false}
+        loading={acceptLoading === id ? true : false}
       >
         Đồng ý
       </Button>

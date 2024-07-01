@@ -15,7 +15,7 @@ const useTableColumn = (subject: string, column: ColumnsType<any>) => {
     dataIndex: "id",
     key: "id",
     align: "right",
-    defaultSortOrder: "descend",
+    defaultSortOrder: "ascend",
     sorter: (a, b) => a.id - b.id,
     width: 80,
     responsive: ["md"],
